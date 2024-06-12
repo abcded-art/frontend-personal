@@ -1,0 +1,56 @@
+[
+    {
+        "site_name": "cjonstyle",
+        "products": [
+            {
+                "p_id": "1",
+                "p_name": "남성 니트 3종",
+                "p_price": "65,000원",
+                "live_time": "오전 10시",
+                "now_live_yn": "Y",   
+                "img_url": "https://thumb.cjonstyle.net/unsafe/fit-in/236x236/itemimage.cjonstyle.net/goods_images/20/542/2033496542L.jpg?timestamp=20240530115951",
+                "p_url": "/pd/aaa/1111",
+                "live_start_time": "10:15",
+                "live_end_time": "10:50"
+            },
+            {
+                "p_id": "2",
+                "p_name": "여성 BB크림 2종",
+                "p_price": "99,000원",
+                "live_time": "오전 9시",
+                "now_live_yn": "N",
+                "img_url": "https://thumb.cjonstyle.net/unsafe/fit-in/236x236/itemimage.cjonstyle.net/goods_images/20/270/2029650270L.jpg?timestamp=20240405143019",
+                "p_url": "/pd/bbb/1111",
+                "live_start_time": "09:55",
+                "live_end_time": "10:25"
+            }
+        ]
+    },
+    {
+        "site_name": "hmall",
+        "products": [
+            {
+                "p_id": "1",
+                "p_name": "남성 바지 3종",
+                "p_price": "65,000원",
+                "live_time": "오전 10시",
+                "now_live_yn": "Y",
+                "img_url": "/img/aaa.png",
+                "p_url": "/pd/aaa/1111",
+                "live_start_time": "10:15",
+                "live_end_time": "10:50"
+            },
+            {
+                "p_id": "2",
+                "p_name": "여성 팔찌 2종",
+                "p_price": "99,000원",
+                "live_time": "오전 10시",
+                "now_live_yn": "N",
+                "img_url": "/img/bbb.png",
+                "p_url": "/pd/bbb/1111",
+                "live_start_time": "10:15",
+                "live_end_time": "10:50"
+            }
+        ]
+    }
+]
