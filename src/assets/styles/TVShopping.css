@@ -1,5 +1,197 @@
 .Main{
-    height: 50%;
+    display: flex;
+    flex-direction: column;
     padding-left: 10%;
     padding-right: 10%;
+    max-height: 75vh;
+}
+
+.mallSelectionButtons{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    height: 2.8em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+.mallLogoContainer {
+    position: relative;
+    transition: opacity 1s ease-in-out; /* Add transition for opacity */
+}
+
+.fixMallLogoSize{
+    width: 100%;
+    height: 100%;
+}
+
+.mallLogo{
+    width: auto;
+    height: 80%;
+    cursor: pointer;
+}
+
+.radioMallLogo{
+    width: 40%;
+    height: auto;
+    cursor: pointer;
+}
+
+.radioToggle {
+    position: absolute;
+    background: rgba(192, 192, 192, 0.7);
+    border: 1px solid #ccc;
+    padding: 10px;
+    z-index: 10;
+    border-radius: 10px;
+    transform: translateX(-10%);
+    width: 20em;
+    opacity: 10;
+    transition: opacity 1s ease-in-out;
+}
+
+.radio-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.radio-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.radio-item input[type="radio"] {
+    display: none;
+}
+
+.radio-item + .radio-item {
+    margin-top: 15px;
+}
+
+.radio-item label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background: #1d1d42;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 400;
+    white-space: nowrap;
+    position: relative;
+    transition: 0.4s ease-in-out 0s;
+    width: 100%;
+    box-sizing: border-box;
+    height: 2.8em;
+}
+
+.radio-item label img{
+    margin-left: 2em;
+}
+
+.radio-item label:after,
+.radio-item label:before {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+}
+
+.radio-item label:after {
+    height: 19px;
+    width: 19px;
+    border: 2px solid #524eee;
+    left: 10px;
+    top: calc(50% - 9.5px);
+}
+
+.radio-item label:before {
+    background: #524eee;
+    height: 20px;
+    width: 20px;
+    left: 12px;
+    top: calc(50%-5px);
+    transform: scale(5);
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.4s ease-in-out 0s;
+}
+
+.radio-item [type="radio"]:checked ~ label {
+    border-color: #524eee;
+}
+
+.radio-item [type="radio"]:checked ~ label::before {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+}
+
+.mallsContainer{
+    border-top: 2px solid rgba(197,79,216, 0.2);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 20px;
+    max-height: calc(100vh-40px);
+    overflow-y: auto;
+}
+
+.mallSelection{
+    padding: 10px;
+    width: 33%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.product {
+    padding: 10px 0;
+    position: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* border: 1px solid salmon; */
+    width: 60%;
+}
+
+.product .productImageAlign{
+    width: 100%;
+    /* border: 1px dotted lightblue; */
+    display: flex;
+    justify-content: center;
+}
+
+.product .productImageFix {
+    width: 74%;
+    aspect-ratio: 1 / 1;
+    /* border: 1px solid black; */
+}
+
+.product img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.productName{
+    font-size: 1.2em;
+    margin-top:1em;
+    /* border: 2px solid blueviolet; */
+}
+.productPrice{
+    font-size: 1.5em;
+    font-weight: bold;
+    /* border: 2px solid greenyellow; */
+}
+
+.customLink{
+    text-decoration: none; /* Removes the underline */
+    color: inherit; /* Inherits the color from the parent element */
+    font-family: inherit; /* Inherits the font-family from the parent element */
+    font-size: inherit; /* Inherits the font-size from the parent element */
 }

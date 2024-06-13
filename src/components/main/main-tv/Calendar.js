@@ -1,4 +1,4 @@
-import react, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import '../../../assets/styles/Calendar.css';
 
 function Calendar() {
@@ -74,9 +74,9 @@ function Calendar() {
             <div className="calendar-header">
                 <div className="calendar-months">{ currentMonthElements }</div>
                 <div className="calendar-dates">
-                    <a href="#" onClick={handlePrevClick}>&lt;</a>
+                    <div onClick={handlePrevClick} className="handleClick">&lt;</div>
                     <div className="dates">{ dateElements }</div>
-                    <a href="#" onClick={handleNextClick}>&gt;</a>
+                    <div onClick={handleNextClick} className="handleClick">&gt;</div>
                 </div>
             </div>
             <div className="divider"></div>

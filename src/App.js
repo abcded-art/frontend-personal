@@ -1,16 +1,20 @@
 /* eslint-disable */
 import React, { useState } from 'react';
 import './App.css';
-import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/common/Header.js';
 import Main from './components/main/Main.js';
 
 function App() {
   return (
-    <div className="App">
-      <Header />
-      <Main />
-    </div>
+    <Router>
+      <div className="App">
+        <Header />
+        <Routes>
+          <Route path="/*" element={<Main />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

@@ -33,7 +33,9 @@ function Header() {
         <div className={`Header ${isDarkMode ? 'dark-mode' : ''}`}>
             <Navbar collapseOnSelect expand="lg" className='custom-navbar'>
                 <Container>
-                    <Navbar.Brand href="/">QuickCatch</Navbar.Brand>
+                    <Navbar.Brand href="/" className={isDarkMode ? "dark-mode" : ""}>
+                    QuickCatch
+                    </Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Form className="d-flex">
@@ -41,7 +43,7 @@ function Header() {
                         </Form>
                         <Nav>
                             <Nav.Link href="#deets">로그인</Nav.Link>
-                            <Nav.Link href="#light-dark" onClick={toggleDarkMode}>
+                            <Nav.Link onClick={toggleDarkMode}>
                                 {isDarkMode ? <FaMoon className="light-dark-icon" /> : <FaSun className="light-dark-icon" />}
                             </Nav.Link>
                         </Nav>

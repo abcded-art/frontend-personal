@@ -2,3 +2,5 @@ node_modules
 build
 .dockerignore
 Dockerfile
+**/.DS_Store
+**/._*

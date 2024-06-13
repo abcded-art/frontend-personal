@@ -1,0 +1,25 @@
+{
+    "site_name": "hmall",
+    "products": [
+        {
+            "p_id": "hmall_1",
+            "p_name": "남성 바지 3종",
+            "p_price": "65000",
+            "now_live_yn": "Y",
+            "img_url": "https://thumb.cjonstyle.net/unsafe/fit-in/300x300/itemimage.cjonstyle.net/goods_images/20/875/2027599875L.jpg?timestamp=20240402085825",
+            "p_url": "/pd/aaa/1111",
+            "live_start_time": "10:15",
+            "live_end_time": "10:50"
+        },
+        {
+            "p_id": "hmall_2",
+            "p_name": "여성 팔찌 2종",
+            "p_price": "99000",
+            "now_live_yn": "N",
+            "img_url": "https://thumb.cjonstyle.net/unsafe/fit-in/300x300/itemimage.cjonstyle.net/goods_images/20/995/2028726995L.jpg?timestamp=20240326134208",
+            "p_url": "/pd/bbb/1111",
+            "live_start_time": "10:15",
+            "live_end_time": "10:50"
+        }
+    ]
+}
