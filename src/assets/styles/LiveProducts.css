@@ -1,0 +1,34 @@
+.products{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    border: 6px solid black;
+    height: 80%;
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+.mainLiveProducts{
+    flex: 1;
+    overflow: auto;
+    border: 2px dotted cyan;
+}
+
+.liveVideoFrame{
+    border: 2px dotted peru;
+}
+
+.liveVideo{
+    aspect-ratio: 0.5/1;
+
+}
+
+.liveProductInfo{
+
+}
+
+.relatedProducts{
+    flex: 1;
+    overflow: auto;
+}

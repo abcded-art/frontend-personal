@@ -1,0 +1,37 @@
+{
+    "message": "success",
+    "compare_list": [
+        {
+            "p_id": "1",
+            "site_name": "hmall",
+            "p_name": "Peach",
+            "p_price": "65000",
+            "img_url": "https://blog.sakura.co/wp-content/uploads/2022/03/shutterstock_675217411-1.png",
+            "sales_url": "https://www.hmall.com/pd/pda/itemPtc?ReferCode=m20"
+        },
+        {
+            "p_id": "2",
+            "site_name": "hmall",
+            "p_name": "여성 BB크림 2종",
+            "p_price": "99000",
+            "img_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr4Fo2rTO4AovAp8Qpz4bg9p_UkHTmEkNXIQ&s",
+            "sales_url": "https://www.hmall.com/pd/pda/itemPtc?ReferCode=m20"
+        },
+        {
+            "p_id": "3",
+            "site_name": "hmall",
+            "p_name": "Apple",
+            "p_price": "30000",
+            "img_url": "https://domf5oio6qrcr.cloudfront.net/medialibrary/6372/202ebeef-6657-44ec-8fff-28352e1f5999.jpg",
+            "sales_url": "https://www.hmall.com/pd/pda/itemPtc?ReferCode=m20"
+        },
+        {
+            "p_id": "4",
+            "site_name": "hmall",
+            "p_name": "Banana",
+            "p_price": "65000",
+            "img_url": "https://www.foodie.com/img/gallery/what-is-durian-and-how-do-you-eat-it/intro-1703105258.jpg",
+            "sales_url": "https://www.hmall.com/pd/pda/itemPtc?ReferCode=m20"
+        }
+    ]
+}

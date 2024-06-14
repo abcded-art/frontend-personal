@@ -1,0 +1,96 @@
+/* 기본 라이트 모드 스타일 */
+@import url('https://fonts.googleapis.com/css2?family=Gwendolyn:wght@400;700&display=swap');
+.Header {
+    padding-left: 2em;
+    padding-right: 2em;
+    background: linear-gradient(to bottom right, #F1EAFF, #D0A2F8);
+  }
+  
+  .custom-navbar {
+    height: 10vh; /* 전체 높이의 10%로 설정 */
+  }
+  
+  .navbar-brand {
+    width: 5em;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    font-family: "Gwendolyn", cursive;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 3em;
+    background: linear-gradient(to bottom right, red, blue);
+    -webkit-background-clip: text;
+            background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .navbar-brand.dark-mode{
+    width: 5em;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    font-family: "Gwendolyn", cursive;
+    font-weight: 700;
+    font-style: normal;
+    background: linear-gradient(to bottom right, rgb(255, 243, 254), rgb(184, 184, 255));
+    -webkit-background-clip: text;
+            background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .navbar-collapse{
+    display: flex;
+    justify-content: right;
+  }
+  
+  .form-control {
+    width: 200px;
+    margin-right: 1em;
+  }
+  
+  .light-dark-icon {
+    font-size: 1.5em;
+    cursor: pointer;
+  }
+
+  .light-dark-icon.dark-mode {
+    font-size: 1.5em;
+    cursor: pointer;
+    color: #F1EAFF
+  }
+  
+/* 다크 모드 스타일 */
+body.dark-mode {
+    background-color: #000000;
+    color: #F1EAFF;
+  }
+  
+  .Header.dark-mode {
+    background: linear-gradient(to bottom right, #73297F, #4C1B53);
+    color: #F1EAFF;
+  }
+  
+  .Header.dark-mode .navbar-brand {
+    color: #F1EAFF;
+  }
+  
+  .Header.dark-mode .nav-link {
+    color: #F1EAFF;
+  }
+  
+  .Header.dark-mode .form-control {
+    background-color: #333;
+    color: #F1EAFF;
+  }
+  
+  .Header.dark-mode .light-dark-icon {
+    color: #F1EAFF;
+  }
+  
+  
+  @media (max-width: 767px) {
+    .form-control {
+      width: 100px;
+    }
+  }
