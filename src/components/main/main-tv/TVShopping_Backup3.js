@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import '../../../assets/styles/TVShopping.css';
 import cjonstyleImage from '../../../assets/images/Malls/CJOnStyle.png';
 import hyundaiImage from '../../../assets/images/Malls/Hyundai.png';
@@ -26,39 +25,42 @@ function TVShopping() {
         hmall: { products: [] },
         lotteimall: { products: [] }
     });
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [ cjonstyleRes, gsshopRes, hmallRes, lotteimallRes ] = await Promise.all([
-                    axios.get('http://43.203.249.162:8000/api/live/mainlist?site_name=cjonstyle&date=2024-06-11'),
-                    axios.get('http://43.203.249.162:8000/api/live/mainlist?site_name=gsshop&date=2024-06-11'),
-                    axios.get('http://43.203.249.162:8000/api/live/mainlist?site_name=hmall&date=2024-06-11'),
-                    axios.get('http://43.203.249.162:8000/api/live/mainlist?site_name=lotteimall&date=2024-06-11'),
+                const date = '2024-06-11'; // Replace with dynamic date if needed
+                const responses = await Promise.all([
+                    fetch(`http://43.203.249.162:8000/api/live/mainlist?site_name=cjonstyle&date=${date}`),
+                    fetch(`http://43.203.249.162:8000/api/live/mainlist?site_name=gsshop&date=${date}`),
+                    fetch(`http://43.203.249.162:8000/api/live/mainlist?site_name=hmall&date=${date}`),
+                    fetch(`http://43.203.249.162:8000/api/live/mainlist?site_name=lotteimall&date=${date}`)
                 ]);
 
+                const data = await Promise.all(responses && responses.map(res => res.json()));
+
                 setLiveData({
-                    cjonstyle: cjonstyleRes.data.result || { products: [] },
-                    gsshop: gsshopRes.data.result || { products: [] },
-                    hmall: hmallRes.data.result || { products: []},
-                    lotteimall: lotteimallRes.data.result || { products: [] }
+                    cjonstyle: data[0].result,
+                    gsshop: data[1].result,
+                    hmall: data[2].result,
+                    lotteimall: data[3].result
                 });
-                setLoading(false);
-                console.log(liveData);
+                console.log("This is the result:");
+                console.log(responses);
             } catch (error) {
-                console.error("Failed to fetch data", error);
-                setLiveData({
-                    cjonstyle: { products: [] },
-                    gsshop: { products: [] },
-                    hmall: { products: [] },
-                    lotteimall: { products: [] }
-                });
-                setLoading(false);
+                console.error("Error fetching data: ", error);
             }
         };
+
         fetchData();
     }, []);
+
+    // Call from the backend
+    // cjonstyle = 'http://43.203.249.162:8000/api/live/mainlist?site_name=cjonstyle&date=2024-06-11'
+    // gsshop = 'http://43.203.249.162:8000/api/live/mainlist?site_name=gsshop&date=2024-06-11'
+    // hmall = 'http://43.203.249.162:8000/api/live/mainlist?site_name=hmall&date=2024-06-11'
+    // lotteimall = 'http://43.203.249.162:8000/api/live/mainlist?site_name=lotteimall&date=2024-06-11'
+                
 
     const handleMallClick = (index) => {
         setIsSelecting(index);
@@ -76,15 +78,13 @@ function TVShopping() {
         setTempSelection(newSelection);
     };
 
-    if (loading) {
-        return <div> Loading.... </div>
-    }
+
 
     return (
         <div className='Main'>
             <div className='mallSelectionButtons'>
                 {
-                    selectedMalls.map((mallIndex, position) => (
+                    selectedMalls && selectedMalls.map((mallIndex, position) => (
                         <div key={position} className='mallLogoContainer'>
                             <div onClick={() => handleMallClick(position)} className='fixMallLogoSize'>
                                 <img
@@ -97,7 +97,7 @@ function TVShopping() {
                                 <div className={`radioToggle ${isSelecting === position ? 'show' : ''}`} >
                                     <section className="radio-section">
                                         <div className="radio-list">
-                                            {mallNames.map((mallName, i) => (
+                                            {mallNames && mallNames.map((mallName, i) => (
                                                 <div key={i} className="radio-item">
                                                     <input
                                                         type='radio'
@@ -126,11 +126,11 @@ function TVShopping() {
                 }
             </div>
             <div className='mallsContainer'>
-                { selectedMalls.map((mallIndex, position) => {
+                {selectedMalls && selectedMalls.map((mallIndex, position) => {
                     const site = liveData[mallNames[mallIndex]];
                     return (
-                        <div key={ position } className='mallSelection'>
-                            { site.products && site?.products.map((product, iter) => (
+                        <div key={position} className='mallSelection'>
+                            {site.products && site.products.map((product, iter) => (
                                 <div key={iter} className="product">
                                     <Link to={`/product/${product.p_id}`} className='customLink'>
                                         <div className='productImageAlign'>
