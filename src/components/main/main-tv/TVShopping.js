@@ -38,14 +38,24 @@ function TVShopping() {
                     axios.get('http://43.203.249.162:8000/api/live/mainlist?site_name=lotteimall&date=2024-06-11'),
                 ]);
 
-                setLiveData({
-                    cjonstyle: cjonstyleRes.data.result || { products: [] },
-                    gsshop: gsshopRes.data.result || { products: [] },
-                    hmall: hmallRes.data.result || { products: []},
-                    lotteimall: lotteimallRes.data.result || { products: [] }
-                });
+                console.log("Here are the result of the axios results");
+                console.log(cjonstyleRes);
+                console.log(gsshopRes);
+                console.log(hmallRes);
+                console.log(lotteimallRes);
+                
+                const newLiveData = {
+                    cjonstyle: cjonstyleRes.data.result ? { products:cjonstyleRes.data.result.product_list } : { products: [] },
+                    gsshop: gsshopRes.data.result ? { products:gsshopRes.data.result.product_list } : { products: [] },
+                    hmall: hmallRes.data.result ? { products:hmallRes.data.result.product_list} : { products: [] },
+                    lotteimall: lotteimallRes.data.result ? { products:lotteimallRes.data.result.product_list } : { products: [] }
+                }
+
+                console.log("Here are the new live data");
+                console.log(newLiveData);
+
+                setLiveData(newLiveData);
                 setLoading(false);
-                console.log(liveData);
             } catch (error) {
                 console.error("Failed to fetch data", error);
                 setLiveData({
