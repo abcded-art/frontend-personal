@@ -10,25 +10,13 @@
 }
 
 .mainLiveProducts{
-    flex: 1;
-    overflow: auto;
-    border: 2px dotted cyan;
-}
-
-.liveVideoFrame{
-    border: 2px dotted peru;
-}
-
-.liveVideo{
-    aspect-ratio: 0.5/1;
-
-}
-
-.liveProductInfo{
-
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    border: 4px solid green;
 }
 
 .relatedProducts{
-    flex: 1;
-    overflow: auto;
+    display: flex;
+    border: 4px solid blue;
 }

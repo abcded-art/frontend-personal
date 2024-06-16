@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, Routes, Route, useLocation } from 'react-router-dom';
 import SearchBar from '../common/SearchBar';
 import TVShopping from './main-tv/TVShopping';
 import SpecialOffers from './main-hotdeal/SpecialOffers';
 import Calendar from './main-tv/Calendar.js';
-import LiveProduct from '../product/live-product.js';
+import LiveProduct from '../product/LiveProducts.js';
 import CryingDocker from '../../assets/images/crying_docker.png';
 
 function Main(){
     const navigate = useNavigate();
     const location = useLocation();
     const [selectedTab, setSelectedTab] = useState('TV쇼핑');
+    const [selectedDate, setSelectedDate] = useState(new Date());
 
     useEffect(() => {
         if (location.pathname.includes('특가')) {
@@ -25,6 +26,19 @@ function Main(){
         navigate('/');
     };
 
+    const handleMiddleDateChange = (date) => {
+        setSelectedDate(date);
+    };
+
+    const scrollToCurrentHour = useCallback(() => {
+        const now = new Date();
+        const currentHour = now.getHours().toString().padStart(2, '0');
+        const currentHourElement = document.getElementById(`hour-${currentHour}`);
+        if (currentHourElement) {
+            currentHourElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }, []);
+
     return (
         <>
             <SearchBar selectedTab={selectedTab} setSelectedTab={handleTabClick} />
@@ -32,8 +46,8 @@ function Main(){
                 <Route path="/" element={
                     selectedTab === 'TV쇼핑' ? (
                         <div>
-                            <Calendar />
-                            <TVShopping />
+                            <Calendar onMiddleDateChange={handleMiddleDateChange} />
+                            <TVShopping selectedDate={selectedDate} onScrollToCurrentHour={scrollToCurrentHour} />
                         </div>
                     ) : (
                     selectedTab === '특가' && <SpecialOffers />

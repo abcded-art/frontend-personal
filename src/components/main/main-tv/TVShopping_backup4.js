@@ -16,7 +16,7 @@ const mallImages = {
 
 const mallNames = ["cjonstyle", "gsshop", "hmall", "lotteimall"];
 
-function TVShopping( {selectedDate, onScrollToCurrentHour } ) {
+function TVShopping() {
     const [selectedMalls, setSelectedMalls] = useState([0, 1, 2]);
     const [isSelecting, setIsSelecting] = useState(-1);
     const [tempSelection, setTempSelection] = useState([0, 1, 2]);
@@ -31,51 +31,44 @@ function TVShopping( {selectedDate, onScrollToCurrentHour } ) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const dateStr = selectedDate.toISOString().split('T')[0];
-                const [cjonstyleRes, gsshopRes, hmallRes, lotteimallRes] = await Promise.all([
-                    axios.get(`http://43.203.249.162:8000/api/live/mainlist?site_name=cjonstyle&date=${dateStr}`),
-                    axios.get(`http://43.203.249.162:8000/api/live/mainlist?site_name=gsshop&date=${dateStr}`),
-                    axios.get(`http://43.203.249.162:8000/api/live/mainlist?site_name=hmall&date=${dateStr}`),
-                    axios.get(`http://43.203.249.162:8000/api/live/mainlist?site_name=lotteimall&date=${dateStr}`),
+                const [ cjonstyleRes, gsshopRes, hmallRes, lotteimallRes ] = await Promise.all([
+                    axios.get('http://43.203.249.162:8000/api/live/mainlist?site_name=cjonstyle&date=2024-06-11'),
+                    axios.get('http://43.203.249.162:8000/api/live/mainlist?site_name=gsshop&date=2024-06-11'),
+                    axios.get('http://43.203.249.162:8000/api/live/mainlist?site_name=hmall&date=2024-06-11'),
+                    axios.get('http://43.203.249.162:8000/api/live/mainlist?site_name=lotteimall&date=2024-06-11'),
                 ]);
 
-                const groupByHour = (productList) => {
-                    const grouped = {};
-                    productList.forEach(product => {
-                        const hour = product.start_time.split(':')[0];
-                        if (!grouped[hour]) grouped[hour] = [];
-                        grouped[hour].push(product);
-                    });
-                    return grouped;
-                };
-
+                console.log("Here are the result of the axios results");
+                console.log(cjonstyleRes);
+                console.log(gsshopRes);
+                console.log(hmallRes);
+                console.log(lotteimallRes);
+                
                 const newLiveData = {
-                    cjonstyle: cjonstyleRes.data.result ? { products: groupByHour(cjonstyleRes.data.result.product_list) } : { products: {} },
-                    gsshop: gsshopRes.data.result ? { products: groupByHour(gsshopRes.data.result.product_list) } : { products: {} },
-                    hmall: hmallRes.data.result ? { products: groupByHour(hmallRes.data.result.product_list) } : { products: {} },
-                    lotteimall: lotteimallRes.data.result ? { products: groupByHour(lotteimallRes.data.result.product_list) } : { products: {} }
-                };
+                    cjonstyle: cjonstyleRes.data.result ? { products:cjonstyleRes.data.result.product_list } : { products: [] },
+                    gsshop: gsshopRes.data.result ? { products:gsshopRes.data.result.product_list } : { products: [] },
+                    hmall: hmallRes.data.result ? { products:hmallRes.data.result.product_list} : { products: [] },
+                    lotteimall: lotteimallRes.data.result ? { products:lotteimallRes.data.result.product_list } : { products: [] }
+                }
+
+                console.log("Here are the new live data");
+                console.log(newLiveData);
 
                 setLiveData(newLiveData);
                 setLoading(false);
-
-                const today = new Date().toISOString().split('T')[0];
-                if (dateStr === today) {
-                    onScrollToCurrentHour();
-                }
             } catch (error) {
                 console.error("Failed to fetch data", error);
                 setLiveData({
-                    cjonstyle: { products: {} },
-                    gsshop: { products: {} },
-                    hmall: { products: {} },
-                    lotteimall: { products: {} }
+                    cjonstyle: { products: [] },
+                    gsshop: { products: [] },
+                    hmall: { products: [] },
+                    lotteimall: { products: [] }
                 });
                 setLoading(false);
             }
         };
         fetchData();
-    }, [selectedDate, onScrollToCurrentHour]);
+    }, []);
 
     const handleMallClick = (index) => {
         setIsSelecting(index);
@@ -91,53 +84,6 @@ function TVShopping( {selectedDate, onScrollToCurrentHour } ) {
         const newSelection = [...tempSelection];
         newSelection[position] = mallIndex;
         setTempSelection(newSelection);
-    };
-
-    const renderTimeBar = () => {
-        const hours = Array.from({ length: 24 }, (_, i) => (i < 10 ? `0${i}` : `${i}`));
-        const now = new Date();
-        const currentHour = now.getHours().toString().padStart(2, '0');
-    
-        return hours.map(hour => (
-            <div key={hour} className={`hourGroup ${hour === currentHour ? 'currentHour' : ''}`} id={`hour-${hour}`}>
-                <div className='hourLabel'>{`${hour}:00`}</div>
-                <div className='hourContent'>
-                    {selectedMalls.map((mallIndex, position) => {
-                        const site = liveData[mallNames[mallIndex]].products;
-                        const productsInHour = site[hour] || [];
-                        
-                        // Sorting products: first by 'now_live_yn' and then by 'start_time'
-                        const sortedProducts = [...productsInHour].sort((a, b) => {
-                            if (a.now_live_yn === b.now_live_yn) {
-                                return a.start_time.localeCompare(b.start_time);
-                            }
-                            return a.now_live_yn === "Y" ? -1 : 1;
-                        });
-    
-                        return (
-                            <div key={position} className="mallSelection">
-                                {sortedProducts.map((product, iter) => (
-                                    <div key={iter} className="product">
-                                        <Link to={`/product/${product.p_id}`} className='customLink'>
-                                            <div className='productImageAlign'>
-                                                <div className='productImageFix' style={{ position: 'relative' }}>
-                                                    <img src={product.img_url} alt={product.p_name} />
-                                                    {product.now_live_yn === "Y" && (
-                                                        <div className='liveSign'>LIVE</div>
-                                                    )}
-                                                </div>
-                                            </div>
-                                            <p className='productName'>{product.p_name}</p>
-                                            <p className='productPrice'>{product.p_price}</p>
-                                        </Link>
-                                    </div>
-                                ))}
-                            </div>
-                        );
-                    })}
-                </div>
-            </div>
-        ));
     };
 
     if (loading) {
@@ -190,7 +136,26 @@ function TVShopping( {selectedDate, onScrollToCurrentHour } ) {
                 }
             </div>
             <div className='mallsContainer'>
-                {renderTimeBar()}
+                { selectedMalls.map((mallIndex, position) => {
+                    const site = liveData[mallNames[mallIndex]];
+                    return (
+                        <div key={ position } className='mallSelection'>
+                            { site.products && site?.products.map((product, iter) => (
+                                <div key={iter} className="product">
+                                    <Link to={`/product/${product.p_id}`} className='customLink'>
+                                        <div className='productImageAlign'>
+                                            <div className='productImageFix'>
+                                                <img src={product.img_url} alt={product.p_name} />
+                                            </div>
+                                        </div>
+                                        <p className='productName'>{product.p_name}</p>
+                                        <p className='productPrice'>{product.p_price}</p>
+                                    </Link>
+                                </div>
+                            ))}
+                        </div>
+                    );
+                })}
             </div>
         </div>
     );
