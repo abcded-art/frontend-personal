@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import LiveVideo from './lives/LiveVideo.js';
 import axios from 'axios';
-import '../../assets/styles/LiveProducts.css';
+import styles from '../../assets/styles/LiveProducts.css';
 import cjonstyleImage from '../../assets/images/Malls/CJOnStyle.png'
 import hyundaiImage from '../../assets/images/Malls/Hyundai.png'
 import gsshopImage from '../../assets/images/Malls/GSShop.png'
@@ -17,9 +17,11 @@ const mallImages = {
 
 function LiveProduct() {
     const { id } = useParams();
-    const [product, setProduct] = useState([]);
+    const [product, setProduct] = useState([null]);
     const [similarProducts, setSimilarProducts] = useState([]);
+    const [displayedProducts, setDisplayedProducts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [showMore, setShowMore] = useState(false);
 
     const liveVideoUrls = {
         cjonstyle: "https://live-ch1.cjonstyle.net/cjmalllive/_definst_/stream2/playlist.m3u8",
@@ -36,26 +38,41 @@ function LiveProduct() {
                 const productResponse = await axios.get(`http://43.203.249.162:8000/api/live/details?product_id=${id}`);
                 console.log("Product Details Response: ", productResponse.data);
                 setProduct(productResponse.data.details);
-                
-                const similarResponse = await axios.get(`http://43.203.249.162:8000/api/compare/details?product_id=${id}`);
-                console.log("Similar products response: ", similarResponse.data);
-                setSimilarProducts(similarResponse.data.result.product_list);
-
-                setLoading(false);
             } catch (error) {
                 console.error("Failed to fetch product details", error);
-                setLoading(true);
+                setProduct(null);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        const fetchSimilarProducts = async () => {
+            try {
+                const similarResponse = await axios.get(`http://43.203.249.162:8000/api/compare/details?product_id=${id}`);
+                console.log("Similar products response: ", similarResponse);
+                setSimilarProducts(similarResponse.data.result.product_list);
+                setDisplayedProducts(similarResponse.data.result.product_list.slice(0, 5));
+            } catch (error) {
+                console.error("Failed to fetch similar products", error);
+                setSimilarProducts([]);
             }
         };
 
         fetchProductDetails();
+        fetchSimilarProducts();
     }, [id]);
 
-    if(loading){
+    const handleShowMore = () => {
+        const currentCount = displayedProducts.length;
+        const nextCount = currentCount + 5;
+        setDisplayedProducts(similarProducts.slice(0, nextCount));
+    };
+
+    if (loading) {
         return <h1> Loading ... </h1>;
     }
 
-    if(!product) {
+    if (!product) {
         return <h1> Product not found </h1>;
     }
 
@@ -63,11 +80,10 @@ function LiveProduct() {
 
     return (
         <>
-            <h1>{id}</h1>
             <div className='products'>
                 <div className="mainLiveProducts">
                     <div className="liveVideoFrame">
-                        {product.now_live_yn === "y" ? (
+                        {product.now_live_yn === "Y" ? (
                             <LiveVideo src={liveVideoUrl} className="liveVideo" />
                         ) : (
                             <img src={product.img_url} alt={product.p_name} className="productImage" />
@@ -77,34 +93,56 @@ function LiveProduct() {
                         <div className="liveProduct-first-row">
                             <img src={mallImages[product.site_name]} alt={product.site_name} className="shoppingMallLogoImage" />
                             <div className="liveProduct-nowStart-or-willStart">
-                                {product.now_live_yn === "y" ? "Now Live" : ""}
+                                {product.now_live_yn === "Y" ? "Now Live" : ""}
                             </div>
                         </div>
                         <div className="liveProduct-second-row">
                             <div className="productName">{product.p_name}</div>
                         </div>
                         <div className="liveProduct-last-row">
-                            <div className="liveProduct-price">{product.p_price}</div>
-                            <a href={product.purchase_link} className="liveProduct-link">Purchase</a>
+                            <div className="liveProduct-price">{product.p_price ? product.p_price.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ` 원` : `상담문의`}</div>
+                            <a href={product.redirect_url} className="liveProduct-link">구매하러 가기</a>
                         </div>
                     </div>
                 </div>
                 <div className="relatedProducts">
-                    <h4>가격 비교</h4>
-                    {similarProducts.map((prod, idx) => (
-                        <div className="product" key={idx}>
-                            <div className="productImage">
-                                <img src={prod.img_url} alt={prod.s_name} />
-                                <p>{prod.s_name}</p>
-                                <p>{prod.s_price}</p>
-                                <a href={prod.redirect_url} className="purchase-link">Buy</a>
-                            </div>
-                        </div>
-                    ))}
+                    <h4 className='priceCompare'>가격 비교</h4>
+                    <div className='productBucket'>
+                        {displayedProducts.length > 0 ? (
+                            displayedProducts.map((prod, idx) => (
+                                <a href={prod.redirect_url} className='similarProduct' key={idx}>
+                                    <div className='similarProductComponent'>
+                                        <img src={prod.img_url} alt={prod.s_name} className="relatedProductImage" />
+                                        <div className='relatedProductName'>{prod.s_name}</div>
+                                        <div className='relatedProductPrice'>{prod.s_price ? prod.s_price.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ` 원` : `구매문의`}</div>
+                                    </div>
+                                </a>
+                            ))
+                        ) : (
+                            <div className="noSimilarProducts">비교 상품 없음</div>
+                        )}
+                    </div>
+                    {similarProducts.length > displayedProducts.length && (
+                        <button onClick={handleShowMore} className='showMoreButton'>
+                            더보기
+                        </button>
+                    )}
                 </div>
+                <div className="reviews">
+                    <h4 className='priceCompare'>상품 리뷰</h4>
+                </div>
+                <div className="productDetails">
+                    <h4 className='priceCompare'>상품 상세 정보</h4>
+                    { product.img_url_details.length > 0 ? (
+                        product.img_url_details.map((url, index) => (
+                            <img key={index} className='productDetailInfo' src={url} alt={`${id}-${index}`}/>
+                        ))
+                    ) : (<h4 className="noDetailedProducts">상세 정보 없음</h4>)
 
+                    }
+                    
+                </div>
             </div>
-
         </>
     );
 }

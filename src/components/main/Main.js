@@ -55,7 +55,7 @@ function Main(){
                 } />
                 <Route path="product/:id" element={<LiveProduct />} />
                 <Route path="*" element={<>
-                        <h3>페이지가 없어요 ㅠㅠ</h3>
+                        <h3>없는 페이지에요 :(</h3>
                         <img src={CryingDocker} alt="docker"/>
                     </>} />
             </Routes>

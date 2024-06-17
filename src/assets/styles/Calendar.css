@@ -38,9 +38,14 @@
   .date-link {
     flex: 1;
     text-align: center;
-    transition: background-color 0.3s;
+    transition: background-color 1s;
+    border-radius: 0.5em;
     cursor: pointer;
     position: relative;
+  }
+
+  .date-link:hover{
+    background-color: rgba(197,79,216, 0.4);
   }
   
   .date-link.middle {

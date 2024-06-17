@@ -27,11 +27,12 @@ function TVShopping( {selectedDate, onScrollToCurrentHour } ) {
         lotteimall: { products: [] }
     });
     const [loading, setLoading] = useState(true);
+    const today = new Date().toISOString().split('T')[0];
+    const dateStr = selectedDate.toISOString().split('T')[0];
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const dateStr = selectedDate.toISOString().split('T')[0];
                 const [cjonstyleRes, gsshopRes, hmallRes, lotteimallRes] = await Promise.all([
                     axios.get(`http://43.203.249.162:8000/api/live/mainlist?site_name=cjonstyle&date=${dateStr}`),
                     axios.get(`http://43.203.249.162:8000/api/live/mainlist?site_name=gsshop&date=${dateStr}`),
@@ -59,7 +60,6 @@ function TVShopping( {selectedDate, onScrollToCurrentHour } ) {
                 setLiveData(newLiveData);
                 setLoading(false);
 
-                const today = new Date().toISOString().split('T')[0];
                 if (dateStr === today) {
                     onScrollToCurrentHour();
                 }
@@ -122,13 +122,13 @@ function TVShopping( {selectedDate, onScrollToCurrentHour } ) {
                                             <div className='productImageAlign'>
                                                 <div className='productImageFix' style={{ position: 'relative' }}>
                                                     <img src={product.img_url} alt={product.p_name} />
-                                                    {product.now_live_yn === "Y" && (
+                                                    {dateStr === today && product.now_live_yn === "Y" && (
                                                         <div className='liveSign'>LIVE</div>
                                                     )}
                                                 </div>
                                             </div>
                                             <p className='productName'>{product.p_name}</p>
-                                            <p className='productPrice'>{product.p_price}</p>
+                                            <p className='productPrice'>{ product.p_price ? product.p_price.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ` 원`: `상담문의`} </p>
                                         </Link>
                                     </div>
                                 ))}
@@ -169,7 +169,7 @@ function TVShopping( {selectedDate, onScrollToCurrentHour } ) {
                                                         name={`mall-${position}`}
                                                         value={i}
                                                         checked={tempSelection[position] === i}
-                                                        onChange={() => handleRadioChange(i, position)}
+                                                        onChange={ () => handleRadioChange(i, position) }
                                                     />
                                                     <label htmlFor={`${position}-${i}`}>
                                                         <img
