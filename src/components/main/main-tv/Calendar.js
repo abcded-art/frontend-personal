@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import '../../../assets/styles/Calendar.css';
 
-function Calendar() {
+function Calendar({ onMiddleDateChange }) {
     const today = new Date();
     today.setDate(today.getDate() - 3);
     const [currentStartDate, setCurrentStartDate] = useState(new Date(today));
@@ -27,10 +27,13 @@ function Calendar() {
             const isToday = dateString === todayString;
             const isMiddle = i === 3;
 
-            if( i === 0 || date.getDate() === 1){
-                monthElements.push(<div key={`month-${i}`} className="month-label">{month}</div>);
+            if (isMiddle) {
+                onMiddleDateChange(date);
             }
-            else{
+
+            if (i === 0 || date.getDate() === 1) {
+                monthElements.push(<div key={`month-${i}`} className="month-label">{month}</div>);
+            } else {
                 monthElements.push(<div key={`month-${i}`} className="month-label" ></div>);
             }
             dateElements.push(

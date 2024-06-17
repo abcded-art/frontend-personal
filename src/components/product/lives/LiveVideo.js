@@ -1,4 +1,3 @@
-// File: LiveVideo.js
 import React, { useEffect, useRef } from 'react';
 import Hls from 'hls.js';
 
@@ -27,7 +26,7 @@ const LiveVideo = ({ src, poster }) => {
       ref={videoRef}
       controls
       poster={poster}
-      style={{ width: 'auto', height: 'auto' }}
+      className="liveVideo"
     >
       Your browser does not support the video tag.
     </video>
