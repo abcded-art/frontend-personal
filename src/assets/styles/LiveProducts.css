@@ -33,6 +33,7 @@
 
 .productImage{
     object-fit: scale-down;
+    border-radius: 1em;
     width: 50%;
 }
 
@@ -99,7 +100,7 @@
 }
 
 .liveProduct-last-row{
-    padding-top: 5em;
+    padding-top:2.5em;
     display: flex;
     justify-content: space-between;
 }
@@ -137,7 +138,7 @@
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
-    height: 5em;
+    height: 4.7em;
 }
 
 .relatedProductPrice{
@@ -211,6 +212,7 @@
 .relatedProductImage{
     width: 90%;
     text-align: center;
+    border-radius: 1em;
     transition: 1s;
 }
 
@@ -233,6 +235,16 @@
 
 .showMoreButton:hover {
     background-color: rgba(197,79,216, 0.9);
+}
+
+/* Dark Mode */
+.dark-mode .showMoreButton {
+    background-color: rgba(30, 30, 30, 0.9);
+    color: white;
+}
+
+.dark-mode .showMoreButton:hover {
+    background-color: rgba(70, 70, 70, 0.9);
 }
 
 .reviews{

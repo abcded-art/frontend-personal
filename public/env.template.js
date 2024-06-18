@@ -1,0 +1,4 @@
+window.env = {
+    BACKEND_ADDR: "$BACKEND_ADDR",
+    BACKEND_PORT: "$BACKEND_PORT"
+};

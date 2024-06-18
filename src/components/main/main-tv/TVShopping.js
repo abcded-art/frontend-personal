@@ -1,3 +1,5 @@
+import config from '../../../config.js';
+
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -33,11 +35,13 @@ function TVShopping( {selectedDate, onScrollToCurrentHour } ) {
     useEffect(() => {
         const fetchData = async () => {
             try {
+                const { backendAddr, backendPort } = config;
+
                 const [cjonstyleRes, gsshopRes, hmallRes, lotteimallRes] = await Promise.all([
-                    axios.get(`http://43.203.249.162:8000/api/live/mainlist?site_name=cjonstyle&date=${dateStr}`),
-                    axios.get(`http://43.203.249.162:8000/api/live/mainlist?site_name=gsshop&date=${dateStr}`),
-                    axios.get(`http://43.203.249.162:8000/api/live/mainlist?site_name=hmall&date=${dateStr}`),
-                    axios.get(`http://43.203.249.162:8000/api/live/mainlist?site_name=lotteimall&date=${dateStr}`),
+                    axios.get(`http://${backendAddr}:${backendPort}/api/live/mainlist?site_name=cjonstyle&date=${dateStr}`),
+                    axios.get(`http://${backendAddr}:${backendPort}/api/live/mainlist?site_name=gsshop&date=${dateStr}`),
+                    axios.get(`http://${backendAddr}:${backendPort}/api/live/mainlist?site_name=hmall&date=${dateStr}`),
+                    axios.get(`http://${backendAddr}:${backendPort}/api/live/mainlist?site_name=lotteimall&date=${dateStr}`),
                 ]);
 
                 const groupByHour = (productList) => {
@@ -123,7 +127,7 @@ function TVShopping( {selectedDate, onScrollToCurrentHour } ) {
                                                 <div className='productImageFix' style={{ position: 'relative' }}>
                                                     <img src={product.img_url} alt={product.p_name} />
                                                     {dateStr === today && product.now_live_yn === "Y" && (
-                                                        <div className='liveSign'>LIVE</div>
+                                                        <div className='liveSign'>Live</div>
                                                     )}
                                                 </div>
                                             </div>
@@ -182,7 +186,7 @@ function TVShopping( {selectedDate, onScrollToCurrentHour } ) {
                                             ))}
                                         </div>
                                     </section>
-                                    <button onClick={handleConfirmSelection} className='confirmButton'>Confirm</button>
+                                    <button onClick={handleConfirmSelection} className='confirmButton'>확인</button>
                                 </div>
                             )}
                         </div>

@@ -1,3 +1,9 @@
+# Docker ENV 이름
+
+백엔드 주소: BACKEND_ADDR=""
+
+백엔드 포트: BACKEND_PORT=""
+
 # Github 커밋 방법
 
 ### 우선 github에서 pull하기
@@ -15,6 +21,22 @@ git checkout -b dev
 ### 원격 저장소를 dev로 설정하여 Push하기
 
 git push origin dev
+
+# 도커
+
+### 멀티플랫폼 도커 이미지 빌드 방법
+
+docker buildx create --name [builder instance name] --driver [driver name] --use
+
+[ex]
+ docker buildx create --name multi-arch-builder --driver docker-container --use
+multi-arch-builder
+
+docker buildx build --platform linux/amd64,linux/arm64 -t hellokyumin/quickcatch:v2.0 --push .
+
+
+
+
 
 # Getting Started with Create React App
 

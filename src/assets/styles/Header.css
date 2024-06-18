@@ -4,6 +4,7 @@
     padding-left: 2em;
     padding-right: 2em;
     background: linear-gradient(to bottom right, #F1EAFF, #D0A2F8);
+    transition: background 1s ease, color 1s ease;
   }
   
   .custom-navbar {
@@ -23,6 +24,7 @@
     -webkit-background-clip: text;
             background-clip: text;
     -webkit-text-fill-color: transparent;
+    transition: background 1s ease, color 1s ease;
   }
 
   .navbar-brand.dark-mode{
@@ -37,6 +39,7 @@
     -webkit-background-clip: text;
             background-clip: text;
     -webkit-text-fill-color: transparent;
+    transition: background 1s ease, color 1s ease;
   }
 
   .navbar-collapse{
@@ -47,45 +50,58 @@
   .form-control {
     width: 200px;
     margin-right: 1em;
+    transition: background-color 1s ease, color 1s ease;
   }
   
   .light-dark-icon {
     font-size: 1.5em;
     cursor: pointer;
+    transition: background 1s ease, color 1s ease;
   }
 
   .light-dark-icon.dark-mode {
     font-size: 1.5em;
     cursor: pointer;
-    color: #F1EAFF
+    color: #F1EAFF;
+    transition: background 1s ease, color 1s ease;
   }
-  
+
+body{
+  transition: background 1s ease, color 1s ease;
+}
+
 /* 다크 모드 스타일 */
 body.dark-mode {
     background-color: #000000;
     color: #F1EAFF;
+    transition: background-color 1s ease, color 1s ease;
   }
   
   .Header.dark-mode {
     background: linear-gradient(to bottom right, #73297F, #4C1B53);
     color: #F1EAFF;
+    transition: background 1s ease, color 1s ease;
   }
   
   .Header.dark-mode .navbar-brand {
     color: #F1EAFF;
+    transition: background 1s ease, color 1s ease;
   }
   
   .Header.dark-mode .nav-link {
     color: #F1EAFF;
+    transition: background 1s ease, color 1s ease;
   }
   
   .Header.dark-mode .form-control {
     background-color: #333;
     color: #F1EAFF;
+    transition: background-color 1s ease, color 1s ease;
   }
   
   .Header.dark-mode .light-dark-icon {
     color: #F1EAFF;
+    transition: background 1s ease, color 1s ease;
   }
   
   
