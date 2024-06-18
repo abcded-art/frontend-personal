@@ -1,8 +1,10 @@
+import config from '../../config';
+
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import LiveVideo from './lives/LiveVideo.js';
 import axios from 'axios';
-import styles from '../../assets/styles/LiveProducts.css';
+import '../../assets/styles/LiveProducts.css';
 import cjonstyleImage from '../../assets/images/Malls/CJOnStyle.png'
 import hyundaiImage from '../../assets/images/Malls/Hyundai.png'
 import gsshopImage from '../../assets/images/Malls/GSShop.png'
@@ -21,7 +23,6 @@ function LiveProduct() {
     const [similarProducts, setSimilarProducts] = useState([]);
     const [displayedProducts, setDisplayedProducts] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [showMore, setShowMore] = useState(false);
 
     const liveVideoUrls = {
         cjonstyle: "https://live-ch1.cjonstyle.net/cjmalllive/_definst_/stream2/playlist.m3u8",
@@ -35,7 +36,8 @@ function LiveProduct() {
     useEffect(() => {
         const fetchProductDetails = async () => {
             try {
-                const productResponse = await axios.get(`http://43.203.249.162:8000/api/live/details?product_id=${id}`);
+                const { backendAddr, backendPort } = config;
+                const productResponse = await axios.get(`http://${backendAddr}:${backendPort}/api/live/details?product_id=${id}`);
                 console.log("Product Details Response: ", productResponse.data);
                 setProduct(productResponse.data.details);
             } catch (error) {
@@ -48,10 +50,14 @@ function LiveProduct() {
 
         const fetchSimilarProducts = async () => {
             try {
-                const similarResponse = await axios.get(`http://43.203.249.162:8000/api/compare/details?product_id=${id}`);
+                const { backendAddr, backendPort } = config;
+                const similarResponse = await axios.get(`http://${backendAddr}:${backendPort}/api/compare/details?product_id=${id}`);
                 console.log("Similar products response: ", similarResponse);
-                setSimilarProducts(similarResponse.data.result.product_list);
-                setDisplayedProducts(similarResponse.data.result.product_list.slice(0, 5));
+                const sortedProducts = similarResponse.data.result.product_list.sort((a,b) => a.s_price - b.s_price);
+                setSimilarProducts(sortedProducts);
+                setDisplayedProducts(sortedProducts.slice(0,5));
+                // setSimilarProducts(similarResponse.data.result.product_list);
+                // setDisplayedProducts(similarResponse.data.result.product_list.slice(0, 5));
             } catch (error) {
                 console.error("Failed to fetch similar products", error);
                 setSimilarProducts([]);
@@ -101,7 +107,7 @@ function LiveProduct() {
                         </div>
                         <div className="liveProduct-last-row">
                             <div className="liveProduct-price">{product.p_price ? product.p_price.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ` 원` : `상담문의`}</div>
-                            <a href={product.redirect_url} className="liveProduct-link">구매하러 가기</a>
+                            <a href={product.redirect_url} className="liveProduct-link" target='_blank' rel="noopener noreferrer">구매하러 가기</a>
                         </div>
                     </div>
                 </div>
@@ -110,7 +116,7 @@ function LiveProduct() {
                     <div className='productBucket'>
                         {displayedProducts.length > 0 ? (
                             displayedProducts.map((prod, idx) => (
-                                <a href={prod.redirect_url} className='similarProduct' key={idx}>
+                                <a href={prod.redirect_url} className='similarProduct' key={idx} target='_blank' rel="noopener noreferrer">
                                     <div className='similarProductComponent'>
                                         <img src={prod.img_url} alt={prod.s_name} className="relatedProductImage" />
                                         <div className='relatedProductName'>{prod.s_name}</div>
