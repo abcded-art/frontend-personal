@@ -1,8 +1,8 @@
 # Docker ENV 이름
 
-백엔드 주소: REACT_APP_BACKEND_ADDR=""
+백엔드 주소: BACKEND_ADDR=""
 
-백엔드 포트: REACT_APP_BACKEND_PORT=""
+백엔드 포트: BACKEND_PORT=""
 
 # Github 커밋 방법
 

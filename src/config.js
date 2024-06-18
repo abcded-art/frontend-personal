@@ -3,9 +3,17 @@
 //     backendPort: "8000",
 // };
 
+// const config = {
+//     backendAddr: window.env.BACKEND_ADDR,
+//     backendPort: window.env.BACKEND_PORT,
+// };
+
 const config = {
-    backendAddr: process.env.REACT_APP_BACKEND_ADDR,
-    backendPort: process.env.REACT_APP_BACKEND_PORT,
-};
+    backendAddr: window.env ? window.env.BACKEND_ADDR : '',
+    backendPort: window.env ? window.env.BACKEND_PORT : '',
+}
+
+console.log("Backend Address: ", config.backendAddr);
+console.log("Backend Port: ", config.backendPort);
 
 export default config;
