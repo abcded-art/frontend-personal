@@ -1,64 +1,58 @@
-name: Check and Update Docker Hub Image Version
+name: quickcatch-frontend-ci
 
 on:
   push:
     branches:
-      - 'main'   # main 브랜치에 푸시될 때 실행
-    tags:
-      - '**'      # 모든 태그가 푸시될 때 실행
-  workflow_dispatch: # 수동으로 워크플로우를 트리거할 수 있도록 설정
+      - main
 
 jobs:
-  update-image:
-    runs-on: ubuntu-latest # 최신 우분투 환경에서 실행
+  build-and-push:
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        # 저장소의 코드를 체크아웃하여 워크플로우가 실행되는 환경에 복사
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
-      - name: Get latest Docker image version from Docker Hub
-        id: get_version
-        run: |
-          IMAGE_NAME="minho7336/qkc-app-fro" # Docker Hub에서 확인할 이미지 이름 설정
-          RESPONSE=$(curl -s "https://hub.docker.com/v2/repositories/$IMAGE_NAME/tags/?page_size=1")
-          # Docker Hub API를 호출하여 이미지의 최신 태그 정보를 가져옴
-          LATEST_VERSION=$(echo $RESPONSE | jq -r '.results[0].name')
-          # 최신 태그 정보를 JSON 응답에서 추출
-          echo "Latest version on Docker Hub is $LATEST_VERSION"
-          # 최신 버전을 출력
-          echo "::set-output name=latest_version::$LATEST_VERSION"
-          # 최신 버전을 GitHub Actions 출력값으로 설정
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
 
-      - name: Docker meta
-        id: docker_meta
-        uses: crazy-max/ghaction-docker-meta@v1
-        with:
-          images: minho7336/qkc-app-fro
-          tag-semver: |
-            {{ steps.get_version.outputs.latest_version }}
-        # Docker 메타 데이터를 설정하고, 최신 버전 태그를 사용
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_HUB_USERNAME }}
+        password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-        # 다중 아키텍처 빌드를 위한 QEMU를 설정
+    - name: Get latest Docker image version
+      id: get-latest-version
+      run: |
+        LATEST_TAG=$(curl -s https://hub.docker.com/v2/repositories/minho7336/qkc-app-fro/tags?page_size=1 | jq -r '.results[0].name')
+        if [ -z "$LATEST_TAG" ]; then
+          echo "No existing tags found. Setting latest tag to 0.0.0"
+          LATEST_TAG="0.0.0"
+        fi
+        echo "Latest tag: $LATEST_TAG"
+        echo "::set-output name=latest-tag::$LATEST_TAG"
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-        # Docker Buildx를 설정하여 다중 아키텍처 빌드를 지원
+    - name: Increment version
+      id: increment-version
+      run: |
+        LATEST_TAG=${{ steps.get-latest-version.outputs.latest-tag }}
+        MAJOR=$(echo $LATEST_TAG | cut -d. -f1)
+        MINOR=$(echo $LATEST_TAG | cut -d. -f2)
+        PATCH=$(echo $LATEST_TAG | cut -d. -f3)
+        if [ -z "$PATCH" ]; then
+          PATCH=0
+        fi
+        NEW_PATCH=$((PATCH + 1))
+        NEW_TAG="$MAJOR.$MINOR.$NEW_PATCH"
+        if [ "$LATEST_TAG" = "0.0.0" ]; then
+          NEW_TAG="1.0.0"
+        fi
+        echo "New tag: $NEW_TAG"
+        echo "::set-output name=new-tag::$NEW_TAG"
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_TOKEN }}
-        # Docker Hub에 로그인하여 인증을 설정
+    - name: Build Docker image
+      run: docker build . -t minho7336/qkc-app-fro:${{ steps.increment-version.outputs.new-tag }}
 
-      - name: Build and push Docker Image
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          push: true
-          tags: ${{ steps.docker_meta.outputs.tags }}
-          labels: ${{ steps.docker_meta.outputs.labels }}
-        # 도커 이미지를 빌드하고, 설정된 태그와 레이블로 Docker Hub에 푸시
+    - name: Push Docker image
+      run: docker push minho7336/qkc-app-fro:${{ steps.increment-version.outputs.new-tag }}
