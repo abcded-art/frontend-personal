@@ -15,6 +15,7 @@ FROM nginx:alpine
 COPY --from=build /app/build /usr/share/nginx/html
 COPY public/env.template.js /usr/share/nginx/html/env.template.js
 COPY entrypoint.sh /entrypoint.sh
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 RUN chmod +x /entrypoint.sh
 
