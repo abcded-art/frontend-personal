@@ -34,7 +34,7 @@ function Header() {
             <Navbar collapseOnSelect expand="lg" className='custom-navbar'>
                 <Container>
                     <Navbar.Brand href="/" className={isDarkMode ? "dark-mode" : ""}>
-                    SlowCatch!
+                    QuickCatch~~!
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
