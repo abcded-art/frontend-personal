@@ -112,12 +112,11 @@
 }
 
 .radio-item label:before {
-    /* background: rgba(208, 162, 247, 0.9); */
     background: rgba(41, 14, 46, 0.9);
     height: 20px;
     width: 20px;
-    left: 0.5em;
-    top: calc(10%-5px);
+    left: 10px;
+    top: calc(10%-10px);
     transform: scale(3);
     opacity: 0;
     visibility: hidden;
