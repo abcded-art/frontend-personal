@@ -29,7 +29,7 @@ function TVShopping( {selectedDate, onScrollToCurrentHour } ) {
         lotteimall: { products: [] }
     });
     const [loading, setLoading] = useState(true);
-    const today = new Date().toISOString().split('T')[0];
+    const today = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Seoul' }).split('T')[0];
     const dateStr = selectedDate.toISOString().split('T')[0];
 
     console.log("Here is the debug of the date strings");
