@@ -32,6 +32,10 @@ function TVShopping( {selectedDate, onScrollToCurrentHour } ) {
     const today = new Date().toISOString().split('T')[0];
     const dateStr = selectedDate.toISOString().split('T')[0];
 
+    console.log("Here is the debug of the date strings");
+    console.log(selectedDate);
+    console.log(dateStr);
+
     useEffect(() => {
         const fetchData = async () => {
             try {
