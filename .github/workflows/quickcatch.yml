@@ -23,7 +23,7 @@ jobs:
       id: get-latest-version 
       run: |
         # Harbor API를 호출하여 최신 태그를 가져옴
-        LATEST_TAG=$(curl -s -u admin:Harbor12345 --cacert /home/student/harbor/ca.crt "https://192.168.56.104:443/api/v2.0/projects/{your_project_name}/repositories/qkc-app-fro/artifacts?with_tag=true" | jq -r '.[0].tags[0].name')
+        LATEST_TAG=$(curl -s -u admin:Harbor12345 --cacert /home/student/harbor/ca.crt "https://192.168.56.104:443/api/v2.0/projects/qkc/repositories/qkc-app-fro/artifacts?with_tag=true" | jq -r '.[0].tags[0].name')
         if [ -z "$LATEST_TAG" ]; then
           echo "No existing tags found. Setting latest tag to 0.0"
           LATEST_TAG="0.0"  # 기존 태그가 없으면 기본 값을 0.0으로 설정
