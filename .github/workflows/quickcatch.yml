@@ -7,8 +7,8 @@ on:
 
 jobs:
   build-and-push:
-    runs-on: ubuntu-latest  # job이 실행될 가상 환경의 운영체제
-
+    runs-on: self-hosted  # self-hosted runner에서 실행
+    
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2  # runner에 저장소 코드를 다운하고 특정 브랜치로 checkout 하는 jobs 실행
