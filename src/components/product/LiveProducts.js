@@ -27,7 +27,7 @@ function LiveProduct() {
     const liveVideoUrls = {
         cjonstyle: "https://live-ch1.cjonstyle.net/cjmalllive/_definst_/stream2/playlist.m3u8",
         gsshop: "https://gstv-gsshop.gsshop.com/gsshop_hd/_definst_/gsshop_hd.stream/chunklist.m3u8",
-        hmall: "https://dtvstreaming.hyundaihmall.com/newcjp3/_definst_/newcjpstream.smil/chunklist_b3000000.m3u8",
+        hmall: "https://cdnlive.hmall.com/live/hmall.stream/chunklist.m3u8",
         lotteimall: "https://mohlslive.lotteimall.com/live/livestream/chunklist.m3u8",
     };
 
