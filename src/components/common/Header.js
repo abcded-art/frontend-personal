@@ -22,10 +22,27 @@ function Header() {
     // const toggleDarkMode = () => {
     //     setIsDarkMode(!isDarkMode);
     // };
-    const [isDarkMode, setIsDarkMode] = useState(false);
+    const [isDarkMode, setIsDarkMode] = useState(() => {
+        const savedMode = localStorage.getItem('darkMode');
+        return savedMode ? JSON.parse(savedMode) : false;
+    });
+
+    useEffect(() => {
+        // Apply the dark mode class to the body
+        if (isDarkMode){
+            document.body.classList.add('dark-mode');
+        } else{
+            document.body.classList.remove('dark-mode');
+        }
+    }, [isDarkMode]);
 
     const toggleDarkMode = () => {
-        setIsDarkMode(!isDarkMode);
+        setIsDarkMode((prevMode) => {
+            const newMode = !prevMode;
+            // Save the new preference to local storage
+            localStorage.setItem('darkMode', JSON.stringify(newMode));
+            return newMode;
+        });
         document.body.classList.toggle('dark-mode', !isDarkMode);
     };
 
@@ -34,7 +51,7 @@ function Header() {
             <Navbar collapseOnSelect expand="lg" className='custom-navbar'>
                 <Container>
                     <Navbar.Brand href="/" className={isDarkMode ? "dark-mode" : ""}>
-                    SlowCatch
+                        QuickCatch
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
@@ -42,7 +59,6 @@ function Header() {
                             <FormControl type="search" placeholder="Search" className="me-2" aria-label="Search" />
                         </Form>
                         <Nav>
-                            <Nav.Link href="#deets">로그인</Nav.Link>
                             <Nav.Link onClick={toggleDarkMode}>
                                 {isDarkMode ? <FaMoon className="light-dark-icon" /> : <FaSun className="light-dark-icon" />}
                             </Nav.Link>
