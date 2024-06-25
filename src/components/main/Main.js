@@ -3,11 +3,13 @@ import { useNavigate, Routes, Route, useLocation } from 'react-router-dom';
 import TVShopping from './main-tv/TVShopping';
 import Calendar from './main-tv/Calendar.js';
 import LiveProduct from '../product/LiveProducts.js';
+import MallsMenu from './main-tv/MallsMenu.js';
 import CryingDocker from '../../assets/images/crying_docker.png';
 
 function Main(){
     const navigate = useNavigate();
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const [selectedMalls, setSelectedMalls] = useState(["cjonstyle", "gsshop", "hmall", "lotteimall"]);
 
     const handleMiddleDateChange = (date) => {
         setSelectedDate(date);
@@ -22,13 +24,20 @@ function Main(){
         }
     }, []);
 
+    const handleMenuSelection = (newSelection) => {
+        setSelectedMalls(newSelection);
+    };
+
     return (
         <>
             <Routes>
                 <Route path="/" element={
-                    <div>
-                        <Calendar onMiddleDateChange={handleMiddleDateChange} />
-                        <TVShopping selectedDate={selectedDate} onScrollToCurrentHour={scrollToCurrentHour} />
+                    <div className='mainContainer'>
+                        <MallsMenu onSelectionChange={handleMenuSelection} />
+                        <div className='contentContainer'>
+                            <Calendar onMiddleDateChange={handleMiddleDateChange} />
+                            <TVShopping selectedDate={selectedDate} onScrollToCurrentHour={scrollToCurrentHour} selectedMalls={selectedMalls}/>
+                        </div>
                     </div>
 
                 } />

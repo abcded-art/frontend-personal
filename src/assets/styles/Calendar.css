@@ -1,15 +1,15 @@
 .calendar {
-    padding-left: 10%;
-    padding-right: 10%;
+    padding-left: 20%;
+    padding-right: 20%;
+    height: 5vh;
   }
   
   .calendar-header {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 0.8em;
     width: 100%;
-    height: 7vh;
+    height: 100%;
   }
   
   .calendar-months {
@@ -49,7 +49,7 @@
   }
   
   .date-link.middle {
-    font-weight: bold;
+    font-weight: 800;
   }
   
   .date-link.today {

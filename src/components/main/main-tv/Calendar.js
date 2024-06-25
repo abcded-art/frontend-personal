@@ -14,15 +14,15 @@ function Calendar({ onMiddleDateChange }) {
         }
 
         const dateElements = [];
-        const monthElements = [];
+        // const monthElements = [];
         const todayString = new Date().toDateString();
-        const monthNames = ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
+        // const monthNames = ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
 
         for (let i = 0; i < 7; i++) {
             const date = new Date(startDate);
             date.setDate(startDate.getDate() + i);
             const day = date.getDate();
-            const month = monthNames[date.getMonth()];
+            // const month = monthNames[date.getMonth()];
             const dateString = date.toDateString();
             const isToday = dateString === todayString;
             const isMiddle = i === 3;
@@ -31,11 +31,11 @@ function Calendar({ onMiddleDateChange }) {
                 onMiddleDateChange(date);
             }
 
-            if (i === 0 || date.getDate() === 1) {
-                monthElements.push(<div key={`month-${i}`} className="month-label">{month}</div>);
-            } else {
-                monthElements.push(<div key={`month-${i}`} className="month-label" ></div>);
-            }
+            // if (i === 0 || date.getDate() === 1) {
+            //     monthElements.push(<div key={`month-${i}`} className="month-label">{month}</div>);
+            // } else {
+            //     monthElements.push(<div key={`month-${i}`} className="month-label" ></div>);
+            // }
             dateElements.push(
                 <div
                     key={i}
@@ -46,7 +46,7 @@ function Calendar({ onMiddleDateChange }) {
                 </div>
             );
         }
-        setCurrentMonthElements(monthElements);
+        // setCurrentMonthElements(monthElements);
         setDateElements(dateElements);
     };
 
@@ -75,7 +75,7 @@ function Calendar({ onMiddleDateChange }) {
     return (
         <div className="calendar">
             <div className="calendar-header">
-                <div className="calendar-months">{ currentMonthElements }</div>
+                {/* <div className="calendar-months">{ currentMonthElements }</div> */}
                 <div className="calendar-dates">
                     <div onClick={handlePrevClick} className="handleClick">&lt;</div>
                     <div className="dates">{ dateElements }</div>

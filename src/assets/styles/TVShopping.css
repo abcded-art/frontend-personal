@@ -1,137 +1,10 @@
 .Main{
     display: flex;
     flex-direction: column;
-    padding-left: 10%;
-    padding-right: 10%;
-    max-height: 75vh;
-    
-}
-
-.mallSelectionButtons{
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-    height: 1.7em;
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
-}
-
-.mallLogoContainer {
-    display: flex;
-    justify-content: center;
-    position: relative;
-    width: 33.333333%;
-}
-
-.fixMallLogoSize{
-    width: 70%;
-    height: 100%;
-}
-
-.mallLogo{
-    width: auto;
-    height: 100%;
-    cursor: pointer;
-    object-fit: contain;
-}
-
-.radioMallLogo{
-    width: 40%;
-    height: auto;
-    cursor: pointer;
-}
-
-.radioToggle {
-    position: absolute;
-    background: rgba(229, 212, 255, 0.7);
-    border: 1px solid #ccc;
-    padding: 10px;
-    z-index: 10;
-    border-radius: 10px;
-    transform: translateX(-5%);
-    width: 20em;
-    opacity: 10;
-    transition: opacity 1s ease-in-out;
-}
-
-.radio-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.radio-list {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.radio-item input[type="radio"] {
-    display: none;
-}
-
-.radio-item + .radio-item {
-    margin-top: 15px;
-}
-
-.radio-item label {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 20px;
-    background: transparent;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 18px;
-    font-weight: 400;
-    white-space: nowrap;
-    position: relative;
-    transition: 0.4s ease-in-out 0s;
-    width: 100%;
-    box-sizing: border-box;
-    height: 2.8em;
-}
-
-.radio-item label img{
-    margin-left: 2em;
-}
-
-.radio-item label:after,
-.radio-item label:before {
-    content: "";
-    position: absolute;
-    border-radius: 50%;
-}
-
-.radio-item label:after {
-    height: 19px;
-    width: 19px;
-    border: 2px solid rgba(41, 14, 46, 0.4);
-    left: 10px;
-    top: calc(50% - 9.5px);
-}
-
-.radio-item label:before {
-    background: rgba(41, 14, 46, 0.9);
-    height: 20px;
-    width: 20px;
-    left: 10px;
-    top: calc(10%+10px);
-    transform: scale(3);
-    opacity: 0;
-    visibility: hidden;
-    transition: 0.4s ease-in-out 0s;
-}
-
-.radio-item [type="radio"]:checked ~ label {
-    border-color: #524eee;
-    background: rgba(115, 41, 127, 0.8);
-}
-
-.radio-item [type="radio"]:checked ~ label::before {
-    opacity: 1;
-    visibility: visible;
-    transform: scale(1);
+    padding-left: 20%;
+    padding-right: 20%;
+    max-height: 85vh;
+    border: 4px solid black;
 }
 
 .hourGroup {
@@ -142,6 +15,7 @@
 .hourLabel {
     font-size: 1.2em;
     border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
     padding-top: 0.2em;
     padding-bottom: 0.5em;
     padding-left: 1em;
@@ -152,27 +26,11 @@
 
 .hourContent{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    align-items: center;
     overflow-x: auto;
     gap: 10px;
-}
-
-.confirmButton{
-    background-color: transparent;
-    border: transparent;
-    font-size:1.5em;
-    font-weight: 700;
-    transition: 1s;
-    border-radius: 5em;
-    padding-left: 2.5em;
-    padding-right: 2.5em;
-    padding-top: 0.2em;
-    padding-bottom: 0.2em;
-    margin-top: 0.5em;
-}
-
-.confirmButton:hover{
-    background-color: rgba(115, 41, 127, 0.8);
+    border: 3px dotted blue;
 }
 
 .mallsContainer{
@@ -196,30 +54,33 @@
 }
 
 .product {
-    padding: 10px 0;
-    position: flex;
-    flex-direction: column;
+    display: flex;
+    flex-direction: row; 
     align-items: center;
-    justify-content: center;
-    /* border: 1px solid salmon; */
-    width: 60%;
+    justify-content: space-between;
+    border: 2px solid salmon;
+    width: 100%;
+    height: 20em;
 }
 
-.product .productImageAlign{
-    width: 100%;
-    /* border: 1px dotted lightblue; */
+.productImageAlign{
     display: flex;
     justify-content: center;
+    align-items: center;
+    border: 3px dotted lightblue;
+    width: 40%;
+    height: 100%;
 }
 
-.product .productImageFix {
-    width: 74%;
+.productImageFix {
+    position: relative;
+    width: 64%;
     aspect-ratio: 1 / 1;
     transition: 1s;
 }
 
-.product .productImageFix:hover{
-    width: 85%;
+.productImageFix:hover{
+    width: 100%;
     aspect-ratio: 1 / 1;
 }
 
@@ -230,9 +91,16 @@
     border-radius: 1em;
 }
 
+.productInfoBox{
+    border: 3px solid black;
+    width: 60%;
+    height: 100%;
+}
+
 .productName{
+    border: 2px solid violet;
     font-size: 1.2em;
-    margin-top:1em;
+    margin-top: 1em;
     white-space: normal;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -243,6 +111,7 @@
     padding-right: 1.5em;
 }
 .productPrice{
+    border: 2px solid silver;
     font-size: 1.5em;
     font-weight: bold;
     /* border: 2px solid greenyellow; */

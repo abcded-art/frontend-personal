@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Nav, Navbar, NavDropdown, Form, FormControl } from 'react-bootstrap';
 import { FaSun, FaMoon } from 'react-icons/fa';
 import '../../assets/styles/Header.css';
