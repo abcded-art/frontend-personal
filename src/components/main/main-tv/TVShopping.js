@@ -96,12 +96,17 @@ function TVShopping({ selectedDate, onScrollToCurrentHour, selectedMalls }) {
                                     <div className='productFirstRow'>
                                         <Link to={`/product/${product.p_id}`} className='customLink productName'>{product.p_name}</Link>
                                         <div className='productFirstRow-logo-price'>
-                                            <img
+                                            <div className='logoContainer'>
+                                                <img
                                                 src={mallImages[product.site_name]}
                                                 alt={product.site_name}
-                                                className='checkboxMallLogo'
-                                            />
+                                                className='productMallLogo'
+                                                />
+                                            </div>
                                             <p className='productPrice'>{product.p_price ? product.p_price.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ` 원` : `상담문의`}</p>
+                                        </div>
+                                        <div className='high-low'>
+                                            hi
                                         </div>
                                     </div>
                                     <div className='productSecondRow'>

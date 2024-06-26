@@ -31,28 +31,30 @@ const MallsMenu = ({ onSelectionChange }) => {
     };
 
     return (
-        <div className='fixContainer'>
-            <div className='menuContainer'>
-                <div className="checkbox-list">
-                    {mallNames.map((mallName, i) => (
-                        <div key={i} className="checkbox-item">
-                            <input
-                                type='checkbox'
-                                id={`mall-${i}`}
-                                name='mall'
-                                value={mallName}
-                                checked={selectedMalls.includes(mallName)}
-                                onChange={() => handleCheckboxChange(mallName)}
-                            />
-                            <label htmlFor={`mall-${i}`}>
-                                <img
-                                    src={mallImages[mallName]}
-                                    alt={mallName}
-                                    className='checkboxMallLogo'
+        <div className='outerContainer'>
+            <div className='fixContainer'>
+                <div className='menuContainer'>
+                    <div className="checkbox-list">
+                        {mallNames.map((mallName, i) => (
+                            <div key={i} className="checkbox-item">
+                                <input
+                                    type='checkbox'
+                                    id={`mall-${i}`}
+                                    name='mall'
+                                    value={mallName}
+                                    checked={selectedMalls.includes(mallName)}
+                                    onChange={() => handleCheckboxChange(mallName)}
                                 />
-                            </label>
-                        </div>
-                    ))}
+                                <label htmlFor={`mall-${i}`}>
+                                    <img
+                                        src={mallImages[mallName]}
+                                        alt={mallName}
+                                        className='checkboxMallLogo'
+                                    />
+                                </label>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>
