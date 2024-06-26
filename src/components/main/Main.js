@@ -5,6 +5,7 @@ import Calendar from './main-tv/Calendar.js';
 import LiveProduct from '../product/LiveProducts.js';
 import MallsMenu from './main-tv/MallsMenu.js';
 import CryingDocker from '../../assets/images/crying_docker.png';
+import '../../assets/styles/Main.css';
 
 function Main(){
     const navigate = useNavigate();
@@ -34,8 +35,8 @@ function Main(){
                 <Route path="/" element={
                     <div className='mainContainer'>
                         <MallsMenu onSelectionChange={handleMenuSelection} />
+                        <Calendar onMiddleDateChange={handleMiddleDateChange} />
                         <div className='contentContainer'>
-                            <Calendar onMiddleDateChange={handleMiddleDateChange} />
                             <TVShopping selectedDate={selectedDate} onScrollToCurrentHour={scrollToCurrentHour} selectedMalls={selectedMalls}/>
                         </div>
                     </div>

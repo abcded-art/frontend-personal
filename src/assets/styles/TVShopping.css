@@ -1,10 +1,8 @@
 .Main{
     display: flex;
     flex-direction: column;
-    padding-left: 20%;
-    padding-right: 20%;
-    max-height: 85vh;
     border: 4px solid black;
+    
 }
 
 .hourGroup {
@@ -55,6 +53,7 @@
 
 .product {
     display: flex;
+    position: relative;
     flex-direction: row; 
     align-items: center;
     justify-content: space-between;
@@ -63,11 +62,28 @@
     height: 20em;
 }
 
+.divForAlertAlign{
+    position: absolute;
+    top: 0.5em;
+    left: 0.5em;
+    z-index: 1000;
+    border: 4px dotted blue;
+}
+
+.alert{
+    cursor: pointer;
+    transition: 1s;
+}
+
+.alert:hover {
+    transform: scale(1.8);
+}
 .productImageAlign{
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 3px dotted lightblue;
+    flex-direction: column;
+    border: 3px dotted rgb(30, 208, 74);
     width: 40%;
     height: 100%;
 }
@@ -76,12 +92,20 @@
     position: relative;
     width: 64%;
     aspect-ratio: 1 / 1;
-    transition: 1s;
+    transition: transform 0.5s;
+    transform-origin: center;
 }
 
 .productImageFix:hover{
-    width: 100%;
+    transform: scale(1.1);
     aspect-ratio: 1 / 1;
+}
+
+.customLink{
+    text-decoration: none; /* Removes the underline */
+    color: inherit; /* Inherits the color from the parent element */
+    font-family: inherit; /* Inherits the font-family from the parent element */
+    font-size: inherit; /* Inherits the font-size from the parent element */
 }
 
 .product img {
@@ -97,6 +121,17 @@
     height: 100%;
 }
 
+.productFirstRow{
+    border: 4px solid lightcoral;
+    height: 3em;
+}
+
+.productSecondRow{
+    border: 5px solid darkred;
+    display: flex;
+    justify-content: space-between;
+}
+
 .productName{
     border: 2px solid violet;
     font-size: 1.2em;
@@ -107,21 +142,14 @@
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
-    height: 4.7em;
     padding-right: 1.5em;
+    width: 60%;
 }
 .productPrice{
     border: 2px solid silver;
     font-size: 1.5em;
     font-weight: bold;
-    /* border: 2px solid greenyellow; */
-}
-
-.customLink{
-    text-decoration: none; /* Removes the underline */
-    color: inherit; /* Inherits the color from the parent element */
-    font-family: inherit; /* Inherits the font-family from the parent element */
-    font-size: inherit; /* Inherits the font-size from the parent element */
+    width: 40%;
 }
 
 .liveSign {

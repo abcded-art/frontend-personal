@@ -30,9 +30,7 @@ function LiveProduct() {
         hmall: "https://cdnlive.hmall.com/live/hmall.stream/chunklist.m3u8",
         lotteimall: "https://mohlslive.lotteimall.com/live/livestream/chunklist.m3u8",
     };
-
-    const posterUrl = '//thumb.cjonstyle.net/unsafe/410x230/itemimage.cjonstyle.net/goods_images/20/901/2032168901L.jpg?timestamp=20240507110833';
-
+    
     useEffect(() => {
         const fetchProductDetails = async () => {
             try {

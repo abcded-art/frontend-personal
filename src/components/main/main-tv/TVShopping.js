@@ -1,12 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../../../assets/styles/TVShopping.css';
+import SetAlert from './SetAlert';
 import cjonstyleRes from '../../../sampleDatas/cjonstyle.json';
 import gsshopRes from '../../../sampleDatas/gsshop.json';
 import hmallRes from '../../../sampleDatas/hmall.json';
 import lotteimallRes from '../../../sampleDatas/lotteimall.json';
+import cjonstyleImage from '../../../assets/images/Malls/CJOnStyle.png';
+import hyundaiImage from '../../../assets/images/Malls/Hyundai.png';
+import gsshopImage from '../../../assets/images/Malls/GSShop.png';
+import lotteImage from '../../../assets/images/Malls/Lotte.png';
+
+const mallImages = {
+    cjonstyle: cjonstyleImage,
+    gsshop: gsshopImage,
+    hmall: hyundaiImage,
+    lotteimall: lotteImage,
+};
 
 const mallNames = ["cjonstyle", "gsshop", "hmall", "lotteimall"];
+
 const allData = {
     cjonstyle: cjonstyleRes.result.products,
     gsshop: gsshopRes.result.products,
@@ -14,9 +27,10 @@ const allData = {
     lotteimall: lotteimallRes.result.products
 };
 
-function TVShopping({ selectedDate, onScrollToCurrentHour, selectedMalls }) {
+function TVShopping({ selectedDate, onScrollToCurrentHour, selectedMalls }) {$
     const [liveData, setLiveData] = useState({});
     const [loading, setLoading] = useState(true);
+    const [showAlert, setShowAlert] = useState(false);
     const today = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Seoul' }).split('T')[0];
     const dateStr = selectedDate.toLocaleDateString('en-CA', { timeZone: 'Asia/Seoul' }).split('T')[0];
 
@@ -61,24 +75,48 @@ function TVShopping({ selectedDate, onScrollToCurrentHour, selectedMalls }) {
             <div key={hour} className={`hourGroup ${hour === currentHour ? 'currentHour' : ''}`} id={`hour-${hour}`}>
                 <div className='hourLabel'>{`${hour}:00`}</div>
                 <div className='hourContent'>
-                    {(liveData[hour] || []).map((product, index) => (
-                        <div key={index} className="product">
-                            <div className='productImageAlign'>
-                                <Link to={`/product/${product.p_id}`} className='customLink'>
-                                        <div className='productImageFix'>
+                    {(liveData[hour] || []).map((product, index) => {
+                        const liveStartTime = new Date(`${dateStr}T${product.live_start_time}:00`);
+                        const isBeforeLive = now < liveStartTime;
+                        return (
+                            <div key={index} className="product">
+                                {isBeforeLive && (
+                                    <div className='divForAlertAlign'>
+                                        <div className='alert' onClick={() => setShowAlert(true)}>
+                                            🔔
+                                        </div>
+                                    </div>
+                                )}
+                                <div className='productImageAlign'>
+                                    <div className='productImageFix'>
+                                        <Link to={`/product/${product.p_id}`} className='customLink'>
                                             <img src={product.img_url} alt={product.p_name} />
                                             {dateStr === today && product.now_live_yn === "Y" && (
                                                 <div className='liveSign'>Live</div>
                                             )}
-                                        </div>
-                                </Link>
+                                        </Link>
+                                    </div>
+                                </div>
+                                <div className='productInfoBox'>
+                                    <div className='productFirstRow'>
+                                        <img
+                                            src={mallImages[mallNames]}
+                                            alt={mallNames}
+                                            className='checkboxMallLogo'
+                                        />
+                                    </div>
+                                    <div className='productSecondRow'>
+                                        <Link to={`/product/${product.p_id}`} className='customLink productName'>{product.p_name}</Link>
+                                        <p className='productPrice'>{product.p_price ? product.p_price.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ` 원` : `상담문의`}</p>
+                                    </div>
+                                    <div className='productThirdRow'>
+
+                                    </div>
+
+                                </div>
                             </div>
-                            <div className='productInfoBox'>
-                                <p className='productName'>{product.p_name}</p>
-                                <p className='productPrice'>{product.p_price ? product.p_price.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ` 원` : `상담문의`}</p>
-                            </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             </div>
         ));
@@ -93,6 +131,7 @@ function TVShopping({ selectedDate, onScrollToCurrentHour, selectedMalls }) {
             <div className='mallsContainer'>
                 {renderTimeBar()}
             </div>
+            <SetAlert show={showAlert} onClose={() => setShowAlert(false)} />
         </div>
     );
 }

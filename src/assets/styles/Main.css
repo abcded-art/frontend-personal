@@ -1,0 +1,16 @@
+.mainContainer{
+    display: flex;
+    flex-direction: column;
+    height: 85vh;
+}
+
+.headerContainer{
+    flex: 0 0 auto;
+}
+
+.contentContainer{
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding-left: 20%;
+    padding-right: 20%;
+}

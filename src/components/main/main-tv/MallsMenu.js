@@ -50,7 +50,6 @@ const MallsMenu = ({ onSelectionChange }) => {
                                     alt={mallName}
                                     className='checkboxMallLogo'
                                 />
-                                {mallName}
                             </label>
                         </div>
                     ))}
