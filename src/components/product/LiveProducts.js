@@ -1,25 +1,23 @@
-import config from '../../config';
-
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import LiveVideo from './lives/LiveVideo.js';
 import axios from 'axios';
 import '../../assets/styles/LiveProducts.css';
-import cjonstyleImage from '../../assets/images/Malls/CJOnStyle.png'
-import hyundaiImage from '../../assets/images/Malls/Hyundai.png'
-import gsshopImage from '../../assets/images/Malls/GSShop.png'
-import lotteImage from '../../assets/images/Malls/Lotte.png'
+import LiveVideo from './lives/LiveVideo.js';
+import cjonstyleImage from '../../assets/images/Malls/CJOnStyle.png';
+import hyundaiImage from '../../assets/images/Malls/Hyundai.png';
+import gsshopImage from '../../assets/images/Malls/GSShop.png';
+import lotteImage from '../../assets/images/Malls/Lotte.png';
 
 const mallImages = {
     cjonstyle: cjonstyleImage,
     gsshop: gsshopImage,
     hmall: hyundaiImage,
     lotteimall: lotteImage,
-}
+};
 
 function LiveProduct() {
     const { id } = useParams();
-    const [product, setProduct] = useState([null]);
+    const [product, setProduct] = useState(null);
     const [similarProducts, setSimilarProducts] = useState([]);
     const [displayedProducts, setDisplayedProducts] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -34,8 +32,8 @@ function LiveProduct() {
     useEffect(() => {
         const fetchProductDetails = async () => {
             try {
-                const { backendAddr, backendPort } = config;
-                const productResponse = await axios.get(`http://${backendAddr}:${backendPort}/api/live/details?product_id=${id}`);
+                const apiUrl = `http://192.168.0.10:8000/api/live/details?product_id=${id}`;
+                const productResponse = await axios.get(apiUrl);
                 console.log("Product Details Response: ", productResponse.data);
                 setProduct(productResponse.data.details);
             } catch (error) {
@@ -48,14 +46,12 @@ function LiveProduct() {
 
         const fetchSimilarProducts = async () => {
             try {
-                const { backendAddr, backendPort } = config;
-                const similarResponse = await axios.get(`http://${backendAddr}:${backendPort}/api/compare/details?product_id=${id}`);
-                console.log("Similar products response: ", similarResponse);
+                const apiUrl = `http://192.168.0.10:8000/api/compare/details?product_id=${id}`;
+                const similarResponse = await axios.get(apiUrl);
+                console.log("Similar products response: ", similarResponse.data);
                 const sortedProducts = similarResponse.data.result.product_list.sort((a,b) => a.s_price - b.s_price);
                 setSimilarProducts(sortedProducts);
-                setDisplayedProducts(sortedProducts.slice(0,5));
-                // setSimilarProducts(similarResponse.data.result.product_list);
-                // setDisplayedProducts(similarResponse.data.result.product_list.slice(0, 5));
+                setDisplayedProducts(sortedProducts.slice(0, 5));
             } catch (error) {
                 console.error("Failed to fetch similar products", error);
                 setSimilarProducts([]);
@@ -139,12 +135,10 @@ function LiveProduct() {
                     <h4 className='priceCompare'>상품 상세 정보</h4>
                     { product.img_url_details.length > 0 ? (
                         product.img_url_details.map((url, index) => (
-                            <img key={index} className='productDetailInfo' src={url} alt={`${id}-${index}`}/>
+                            <img key={index} className='productDetailInfo' src={url} alt={`${id}-${index}`} />
                         ))
                     ) : (<h4 className="noDetailedProducts">상세 정보 없음</h4>)
-
                     }
-                    
                 </div>
             </div>
         </>
