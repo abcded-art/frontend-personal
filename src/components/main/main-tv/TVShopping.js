@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import '../../../assets/styles/TVShopping.css';
 import SetAlert from './SetAlert';
-import cjonstyleRes from '../../../sampleDatas/cjonstyle.json';
-import gsshopRes from '../../../sampleDatas/gsshop.json';
-import hmallRes from '../../../sampleDatas/hmall.json';
-import lotteimallRes from '../../../sampleDatas/lotteimall.json';
 import cjonstyleImage from '../../../assets/images/Malls/CJOnStyle.png';
 import hyundaiImage from '../../../assets/images/Malls/Hyundai.png';
 import gsshopImage from '../../../assets/images/Malls/GSShop.png';
@@ -20,14 +17,7 @@ const mallImages = {
 
 const mallNames = ["cjonstyle", "gsshop", "hmall", "lotteimall"];
 
-const allData = {
-    cjonstyle: cjonstyleRes.result.products,
-    gsshop: gsshopRes.result.products,
-    hmall: hmallRes.result.products,
-    lotteimall: lotteimallRes.result.products
-};
-
-function TVShopping({ selectedDate, onScrollToCurrentHour, selectedMalls }) {$
+function TVShopping({ selectedDate, onScrollToCurrentHour, selectedMalls }) {
     const [liveData, setLiveData] = useState({});
     const [loading, setLoading] = useState(true);
     const [showAlert, setShowAlert] = useState(false);
@@ -37,14 +27,19 @@ function TVShopping({ selectedDate, onScrollToCurrentHour, selectedMalls }) {$
     useEffect(() => {
         const fetchData = async () => {
             try {
+                const apiUrl = `http://192.168.0.10:8000/api/live/mainlist?date=${dateStr}&site_name=cjonstyle,gsshop,hmall,lotteimall`; // 필요에 따라 site_name을 동적으로 조정
+                const response = await axios.get(apiUrl);
+
+                const allData = response.data.result.product_list;
+
                 const filteredData = selectedMalls.reduce((acc, mall) => {
-                    return acc.concat(allData[mall]);
+                    return acc.concat(allData.filter(product => product.site_name === mall));
                 }, []);
 
                 const groupByHour = (productList) => {
                     const grouped = {};
                     productList.forEach(product => {
-                        const hour = product.live_start_time.split(':')[0];
+                        const hour = product.start_time.split(':')[0];
                         if (!grouped[hour]) grouped[hour] = [];
                         grouped[hour].push(product);
                     });
@@ -76,7 +71,7 @@ function TVShopping({ selectedDate, onScrollToCurrentHour, selectedMalls }) {$
                 <div className='hourLabel'>{`${hour}:00`}</div>
                 <div className='hourContent'>
                     {(liveData[hour] || []).map((product, index) => {
-                        const liveStartTime = new Date(`${dateStr}T${product.live_start_time}:00`);
+                        const liveStartTime = new Date(`${dateStr}T${product.start_time}:00`);
                         const isBeforeLive = now < liveStartTime;
                         return (
                             <div key={index} className="product">
@@ -99,17 +94,17 @@ function TVShopping({ selectedDate, onScrollToCurrentHour, selectedMalls }) {$
                                 </div>
                                 <div className='productInfoBox'>
                                     <div className='productFirstRow'>
-                                        <img
-                                            src={mallImages[mallNames]}
-                                            alt={mallNames}
-                                            className='checkboxMallLogo'
-                                        />
+                                        <Link to={`/product/${product.p_id}`} className='customLink productName'>{product.p_name}</Link>
+                                        <div className='productFirstRow-logo-price'>
+                                            <img
+                                                src={mallImages[product.site_name]}
+                                                alt={product.site_name}
+                                                className='checkboxMallLogo'
+                                            />
+                                            <p className='productPrice'>{product.p_price ? product.p_price.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ` 원` : `상담문의`}</p>
+                                        </div>
                                     </div>
                                     <div className='productSecondRow'>
-                                        <Link to={`/product/${product.p_id}`} className='customLink productName'>{product.p_name}</Link>
-                                        <p className='productPrice'>{product.p_price ? product.p_price.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ` 원` : `상담문의`}</p>
-                                    </div>
-                                    <div className='productThirdRow'>
 
                                     </div>
 
