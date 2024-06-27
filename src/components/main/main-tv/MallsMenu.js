@@ -20,7 +20,7 @@ const MallsMenu = ({ onSelectionChange }) => {
 
     useEffect(() => {
         onSelectionChange(selectedMalls);
-    }, []);
+    }, [selectedMalls]);
 
     const handleCheckboxChange = (mall) => {
         setSelectedMalls(prev => {
@@ -34,9 +34,9 @@ const MallsMenu = ({ onSelectionChange }) => {
         <div className='outerContainer'>
             <div className='fixContainer'>
                 <div className='menuContainer'>
-                    <div className="checkbox-list">
-                        {mallNames.map((mallName, i) => (
-                            <div key={i} className="checkbox-item">
+                    {mallNames.map((mallName, i) => (
+                        <div key={i} className={`checkbox-item-wrapper ${selectedMalls.includes(mallName) ? 'checked' : ''}`}>
+                            <div className="checkbox-item">
                                 <input
                                     type='checkbox'
                                     id={`mall-${i}`}
@@ -49,12 +49,12 @@ const MallsMenu = ({ onSelectionChange }) => {
                                     <img
                                         src={mallImages[mallName]}
                                         alt={mallName}
-                                        className='checkboxMallLogo'
+                                        className={`checkboxMallLogo ${mallName === 'gsshop' ? 'dark-mode-image' : ''}`}
                                     />
                                 </label>
                             </div>
-                        ))}
-                    </div>
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>

@@ -4,7 +4,7 @@
     left: 1em;
     width: 15%;
     padding: 1em;
-    background: rgba(255, 255, 255, 0.5); /* 배경을 투명하게 설정 */
+    background: rgba(255, 255, 255, 0); /* 배경을 투명하게 설정 */
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     z-index: 500;
@@ -29,16 +29,18 @@
 }
 
 .checkbox-item-wrapper {
-    opacity: 1; /* 기본적으로 불투명도 100% */
+    opacity: 1.0; /* 기본적으로 불투명도 100% */
     transition: opacity 0.4s ease-in-out;
     padding: 10px;
     border: 4px solid transparent;
     border-radius: 10px;
     margin-bottom: 10px;
+    transition: transform 0.4s ease-in-out;
+    cursor: pointer;
 }
 
 .checkbox-item-wrapper.checked {
-    border-color: #800080; /* 선택된 경우 보라색 테두리 */
+    border-color: #D0A2F8; /* 선택된 경우 보라색 테두리 */
 }
 
 .checkbox-item-wrapper:not(.checked) {
@@ -52,7 +54,6 @@
     padding: 10px; /* Reduced padding */
     background: transparent;
     border-radius: 8px;
-    cursor: pointer;
     font-size: 0; /* Remove text */
     font-weight: 400;
     white-space: nowrap;
@@ -70,6 +71,8 @@
     width: 80px; /* Increase the image size */
     height: auto;
     margin: 0; /* Remove margin */
+    transition: transform 0.3s ease-in-out; /* 이미지 확대 효과 추가 */
+    cursor: pointer;
 }
 
 .checkbox-item label {
@@ -77,4 +80,14 @@
     align-items: center;
     justify-content: center;
     width: 100%; /* Make label full width */
+    cursor: pointer;
+}
+
+/* 다크모드일 때 이미지 색상 반전 */
+body.dark-mode .dark-mode-image {
+    filter: invert(1);
+}
+
+.checkbox-item-wrapper:hover {
+    transform: scale(1.1); /* 1.2배 확대 */
 }
