@@ -4,6 +4,7 @@
     justify-content: flex-start;
     align-items: center;
     height: 85vh;
+    padding-top: 10vh;
     padding-left: 10%;
     padding-right: 10%;
     overflow-y: auto;

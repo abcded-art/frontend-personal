@@ -1,8 +1,8 @@
 /* eslint-disable */
 import React, { useState, useEffect } from 'react';
-import { Container, Nav, Navbar, NavDropdown, Form, FormControl } from 'react-bootstrap';
+import { Container, Nav, Navbar, Form, FormControl } from 'react-bootstrap';
 import { FaSun, FaMoon } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 import '../../assets/styles/Header.css';
 import quickCatchLogo from '../../assets/images/quickcatch_logo.png'
 
@@ -12,7 +12,7 @@ function Header() {
         return savedMode ? JSON.parse(savedMode) : false;
     });
 
-    const [ searchQuery, setSearchQuery ] = useState('');
+    const [searchQuery, setSearchQuery] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -32,6 +32,11 @@ function Header() {
         document.body.classList.toggle('dark-mode', !isDarkMode);
     };
 
+    const handleSearchSubmit = (e) => {
+        e.preventDefault();
+        navigate(`/search?q=${searchQuery}`);
+    };
+
     return (
         <div className={`Header ${isDarkMode ? 'dark-mode' : ''}`}>
             <Navbar collapseOnSelect expand="lg" className='custom-navbar'>
@@ -41,8 +46,15 @@ function Header() {
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
-                        <Form className="d-flex">
-                            <FormControl type="search" placeholder="Search" className="me-2" aria-label="Search" />
+                        <Form className="d-flex" onSubmit={handleSearchSubmit}>
+                            <FormControl 
+                                type="search" 
+                                placeholder="Search" 
+                                className="me-2" 
+                                aria-label="Search" 
+                                value={searchQuery} 
+                                onChange={(e) => setSearchQuery(e.target.value)} 
+                            />
                         </Form>
                         <Nav>
                             <Nav.Link onClick={toggleDarkMode}>

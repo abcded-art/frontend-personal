@@ -80,7 +80,6 @@ function TVShopping({ selectedDate, onScrollToCurrentHour, selectedMalls }) {
     const [showAlert, setShowAlert] = useState(false);
     const [isMallSelection, setIsMallSelection] = useState(false);
     const [howManyFetchDataCalled, setHowManyFetchDataCalled] = useState(0);
-    
     const today = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Seoul' }).split('T')[0];
     const dateStr = selectedDate.toLocaleDateString('en-CA', { timeZone: 'Asia/Seoul' }).split('T')[0];
 
@@ -90,7 +89,7 @@ function TVShopping({ selectedDate, onScrollToCurrentHour, selectedMalls }) {
 
     const fetchData = useCallback(async () => {
         if (selectedMalls.length === 0) {
-            console.warn("쇼핑사 선택이 안됐다.");
+            console.warn("No malls selected. Skipping API call.");
             setLiveData({});
             setLoading(false);
             return;
@@ -148,7 +147,7 @@ function TVShopping({ selectedDate, onScrollToCurrentHour, selectedMalls }) {
             onScrollToCurrentHour();
         }
         setIsMallSelection(false);
-    }, [selectedDate, dateStr, today]);
+    }, [selectedDate, dateStr, today, onScrollToCurrentHour]);
 
     const renderTimeBar = useMemo(() => {
         const hours = Array.from({ length: 24 }, (_, i) => (i < 10 ? `0${i}` : `${i}`));

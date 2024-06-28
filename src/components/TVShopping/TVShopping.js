@@ -15,124 +15,7 @@ const mallImages = {
     lotteimall: lotteImage,
 };
 
-function TVShopping({ selectedDate, onScrollToCurrentHour, selectedMalls }) {
-    const [liveData, setLiveData] = useState({});
-    const [loading, setLoading] = useState(true);
-    const [showAlert, setShowAlert] = useState(false);
-    const [isMallSelection, setIsMallSelection] = useState(false);
-    const today = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Seoul' }).split('T')[0];
-    const dateStr = selectedDate.toLocaleDateString('en-CA', { timeZone: 'Asia/Seoul' }).split('T')[0];
-
-    // Delete after
-    const backendAddr = process.env.REACT_APP_BACKEND_ADDR;
-    const backendPort = process.env.REACT_APP_BACKEND_PORT;
-
-    const fetchData = useCallback(async () => {
-        if (selectedMalls.length === 0) {
-            console.warn("No malls selected. Skipping API call.");
-            setLiveData({});
-            setLoading(false);
-            return;
-        }
-
-        const startTime = performance.now();
-        try {
-            const apiUrl = `http://${backendAddr}:${backendPort}/api/live/mainlist?date=${dateStr}&site_name=${selectedMalls.join(',')}`;
-            const response = await axios.get(apiUrl);
-
-            const allData = response.data.result.product_list;
-
-            const filteredData = selectedMalls.reduce((acc, mall) => {
-                return acc.concat(allData.filter(product => product.site_name === mall));
-            }, []);
-
-            const groupByHour = (productList) => {
-                const grouped = {};
-                productList.forEach(product => {
-                    const hour = product.start_time.split(':')[0];
-                    if (!grouped[hour]) grouped[hour] = [];
-                    grouped[hour].push(product);
-                });
-                return grouped;
-            };
-
-            const groupedData = groupByHour(filteredData);
-            setLiveData(groupedData);
-            setLoading(false);
-
-            if (dateStr === today && !isMallSelection) {
-                onScrollToCurrentHour();
-            }
-        } catch (error) {
-            console.error("Failed to fetch data", error);
-            setLoading(false);
-        } finally {
-            const endTime = performance.now();
-            console.log(`날짜 ${dateStr}의 쇼핑몰 ${selectedMalls} API 호출하는 데에 ${endTime-startTime}ms 걸렸습니다.`);
-        }
-    }, [selectedMalls, dateStr, today, onScrollToCurrentHour, isMallSelection]);
-
-    useEffect(() => {
-        fetchData();
-    }, [fetchData]);
-    
-    useEffect(() => {
-        setIsMallSelection(selectedMalls.length > 0);
-    }, [selectedMalls]);
-    
-    useEffect(() => {
-        if (dateStr === today) {
-            onScrollToCurrentHour();
-        }
-        setIsMallSelection(false);
-    }, [selectedDate, dateStr, today, onScrollToCurrentHour]);
-
-    const renderTimeBar = useMemo(() => {
-        const hours = Array.from({ length: 24 }, (_, i) => (i < 10 ? `0${i}` : `${i}`));
-        const now = new Date();
-        const currentHour = now.getHours().toString().padStart(2, '0');
-
-        return hours.map(hour => (
-            <div key={hour} className={`hourGroup ${hour === currentHour ? 'currentHour' : ''}`} id={`hour-${hour}`}>
-                <div className='hourLabel'>{`${hour}:00`}</div>
-                <div className='hourContent'>
-                    {(liveData[hour] || []).map((product, index) => {
-                        const liveStartTime = new Date(`${dateStr}T${product.start_time}:00`);
-                        const isBeforeLive = now < liveStartTime;
-                        const similarProducts = [...product.similar_product_list, ...Array(3 - product.similar_product_list.length).fill(null)];
-                        
-                        return (
-                            <ProductItem
-                                key={index}
-                                product={product}
-                                isBeforeLive={isBeforeLive}
-                                showAlert={() => setShowAlert(true)}
-                                dateStr={dateStr}
-                                today={today}
-                                similarProducts={similarProducts}
-                            />
-                        );
-                    })}
-                </div>
-            </div>
-        ));
-    }, [liveData, dateStr, today]);
-
-    if (loading) {
-        return <div>Loading....</div>;
-    }
-
-    return (
-        <div className='Main'>
-            <div className='mallsContainer'>
-                {renderTimeBar}
-            </div>
-            <SetAlert show={showAlert} onClose={() => setShowAlert(false)} />
-        </div>
-    );
-}
-
-const ProductItem = React.memo(({ product, isBeforeLive, showAlert, dateStr, today, similarProducts }) => { // Added similarProducts to props
+const ProductItem = React.memo(({ product, isBeforeLive, showAlert, dateStr, today, similarProducts }) => {
     return (
         <div className="product">
             {isBeforeLive && (
@@ -190,5 +73,154 @@ const ProductItem = React.memo(({ product, isBeforeLive, showAlert, dateStr, tod
         </div>
     );
 });
+
+function TVShopping({ selectedDate, onScrollToCurrentHour, selectedMalls }) {
+    const [liveData, setLiveData] = useState({});
+    const [loading, setLoading] = useState(true);
+    const [showAlert, setShowAlert] = useState(false);
+    const [isMallSelection, setIsMallSelection] = useState(false);
+    const [allMallsData, setAllMallsData] = useState([]);
+    const today = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Seoul' }).split('T')[0];
+    const dateStr = selectedDate.toLocaleDateString('en-CA', { timeZone: 'Asia/Seoul' }).split('T')[0];
+
+    // Delete After
+    const backendAddr = process.env.REACT_APP_BACKEND_ADDR;
+    const backendPort = process.env.REACT_APP_BACKEND_PORT;
+
+    const [isDarkMode, setIsDarkMode] = useState(false);
+
+    const toggleDarkMode = () => {
+        setIsDarkMode(prevMode => !prevMode);
+        document.body.classList.toggle('dark-mode', !isDarkMode);
+    };
+
+    const fetchData = useCallback(async () => {
+        if (selectedMalls.length === 0) {
+            console.warn("쇼핑사 선택이 안됐다.");
+            setLiveData({});
+            setLoading(false);
+            return;
+        }
+
+        const startTime = performance.now();
+        try {
+            const apiUrl = `http://${backendAddr}:${backendPort}/api/live/mainlist?date=${dateStr}&site_name=cjonstyle,hmall,lotteimall,gsshop`;
+            const response = await axios.get(apiUrl);
+
+            const allData = response.data.result.product_list;
+            console.log(allData);
+
+            const groupByHour = (productList) => {
+                const grouped = {};
+                productList.forEach(product => {
+                    const hour = product.start_time.split(':')[0];
+                    if (!grouped[hour]) grouped[hour] = [];
+                    grouped[hour].push(product);
+                });
+                return grouped;
+            };
+
+            const groupedData = groupByHour(allData);
+            setLiveData(groupedData);
+            setAllMallsData(allData);
+            setLoading(false);
+
+            if (dateStr === today && !isMallSelection) {
+                onScrollToCurrentHour();
+            }
+        } catch (error) {
+            console.error("Failed to fetch data", error);
+            setLoading(false);
+        } finally {
+            const endTime = performance.now();
+            console.log(`FetchData: 날짜 ${dateStr}의 쇼핑몰 ${selectedMalls} API 호출하는 데에 ${endTime - startTime}ms 걸렸다.`);
+        }
+    }, [selectedMalls, dateStr, today, onScrollToCurrentHour, isMallSelection]);
+
+    useEffect(() => {
+        fetchData();
+    }, [dateStr]);
+
+    useEffect(() => {
+        setIsMallSelection(selectedMalls.length > 0);
+    }, [selectedMalls]);
+
+    useEffect(() => {
+        if (dateStr === today) {
+            onScrollToCurrentHour();
+        }
+        setIsMallSelection(false);
+    }, [selectedDate, dateStr, today]);
+
+    const scrollToCurrentHour = () => {
+        const now = new Date();
+        const currentHour = now.getHours().toString().padStart(2, '0');
+        const currentHourElement = document.getElementById(`hour-${currentHour}`);
+        
+        if (currentHourElement) {
+            currentHourElement.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
+    useEffect(() => {
+        if (dateStr === today) {
+            let attempts = 0;
+            const interval = setInterval(() => {
+                const currentHourElement = document.getElementById(`hour-${new Date().getHours().toString().padStart(2, '0')}`);
+                if (currentHourElement || attempts >= 20) {
+                    clearInterval(interval);
+                    if (currentHourElement) {
+                        currentHourElement.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+                attempts++;
+            }, 500);
+        }
+    }, [dateStr, liveData]);
+
+    const renderTimeBar = useMemo(() => {
+        const hours = Array.from({ length: 24 }, (_, i) => (i < 10 ? `0${i}` : `${i}`));
+        const now = new Date();
+        const currentHour = now.getHours().toString().padStart(2, '0');
+
+        return hours.map(hour => (
+            <div key={hour} className={`hourGroup ${hour === currentHour ? 'currentHour' : ''}`} id={`hour-${hour}`}>
+                <div className={`hourLabel ${isDarkMode ? 'dark-mode' : ''}`}>{`${hour}:00`}</div>
+                <div className={`hourContent ${isDarkMode ? 'dark-mode' : ''}`}>
+                    {(liveData[hour] || []).filter(product => selectedMalls.includes(product.site_name)).map((product, index) => {
+                        const liveStartTime = new Date(`${dateStr}T${product.start_time}:00`);
+                        const isBeforeLive = now < liveStartTime;
+                        const similarProducts = [...product.similar_product_list, ...Array(3 - product.similar_product_list.length).fill(null)];
+                        
+                        return (
+                            <ProductItem
+                                key={index}
+                                product={product}
+                                isBeforeLive={isBeforeLive}
+                                showAlert={() => setShowAlert(true)}
+                                dateStr={dateStr}
+                                today={today}
+                                similarProducts={similarProducts}
+                            />
+                        );
+                    })}
+                </div>
+            </div>
+        ));
+    }, [liveData, dateStr, today, selectedMalls]);
+
+    if (loading) {
+        return <div className='loadingMessage'>Loading....</div>;
+    }
+
+    return (
+        <div className='Main'>
+            <div className='mallsContainer'>
+                {renderTimeBar}
+            </div>
+            <SetAlert show={showAlert} onClose={() => setShowAlert(false)} />
+        </div>
+    );
+}
 
 export default TVShopping;

@@ -1,18 +1,31 @@
 .Main{
     display: flex;
     flex-direction: column;
+    width: 100vh;
+}
+
+.loadingMessage{
+    padding-top: 8vh;
+    font-size: 10em;
+    font-weight: 800;
+    text-align: center;
+    line-height: 52vh;
+    width: 100vh;
+    height: 82vh;
 }
 
 .hourGroup {
     display: flex;
     flex-direction: column;
     margin-bottom: 1em;
+    padding-top: 8vh;
 }
 
 .hourLabel {
     font-size: 1.2em;
-    border-top: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
+    border-radius: 0.75em;
+    /* border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc; */
     padding-top: 0.2em;
     padding-bottom: 0.5em;
     padding-left: 1em;
@@ -20,6 +33,11 @@
     font-size: 2em;
     font-weight: 600;
     margin-bottom: 1em;
+    background-color: rgba(197,79,216, 0.15);
+}
+
+.hourLabel.dark-mode {
+    background-color: rgba(197,79,216, 0.85);
 }
 
 .hourContent{
@@ -39,6 +57,26 @@
     overflow-y: auto;
 }
 
+/* Chrome, Safari 스타일링 */
+.mallsContainer::-webkit-scrollbar {
+    width: 12px;
+}
+
+.mallsContainer::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.mallsContainer::-webkit-scrollbar-thumb {
+    background-color: rgba(197, 79, 216, 0.6);
+    border-radius: 10px;
+    border: 3px solid rgba(0, 0, 0, 0.1);
+}
+
+.mallsContainer::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(197, 79, 216, 0.8);
+}
+
 .mallSelection{
     padding: 10px;
     width: 33%;
@@ -56,7 +94,8 @@
     padding-top: 0.5em;
     padding-bottom: 0.5em;
     justify-content: space-between;
-    border-bottom: 1px solid #ccc;
+    border-radius: 0.75em;
+    border-bottom: 1px solid rgba(197,79,216, 0.15);
     width: 100%;
     height: 14em;
 }

@@ -13,7 +13,7 @@ import SearchProduct from './product/SearchProduct.js';
 import CryingDocker from '../assets/images/crying_docker.png';
 import '../assets/styles/Main.css';
 
-function Main(){
+function Main() {
     const navigate = useNavigate();
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedMalls, setSelectedMalls] = useState(["cjonstyle", "gsshop", "hmall", "lotteimall"]);
@@ -38,7 +38,7 @@ function Main(){
     return (
         <>
             <Routes>
-                <Route path="/" element = {
+                <Route path="/" element={
                     <div className='mainPage'>
                         메인페이지임
                         <Link to={`/TVShopping`} className='linkToTVShopping'>쇼핑하러 가기</Link>
@@ -51,21 +51,21 @@ function Main(){
                         <Calendar onMiddleDateChange={handleMiddleDateChange} />
                         <HotProduct selectedDate={selectedDate} />
                         <div className='contentContainer'>
-                            <TVShopping selectedDate={selectedDate} onScrollToCurrentHour={scrollToCurrentHour} selectedMalls={selectedMalls}/>
+                            <TVShopping selectedDate={selectedDate} onScrollToCurrentHour={scrollToCurrentHour} selectedMalls={selectedMalls} />
                         </div>
                     </div>
 
                 } />
                 <Route path="product/:id" element={<LiveProduct />} />
-                <Route path="/search" element = {
+                <Route path="/search" element={
                     <div className='searchContainer'>
                         <SearchProduct />
                     </div>
-                }/>
+                } />
                 <Route path="*" element={<>
-                        <h3>없는 페이지에요 :(</h3>
-                        <img src={CryingDocker} alt="docker"/>
-                    </>} />
+                    <h3>없는 페이지에요 :(</h3>
+                    <img src={CryingDocker} alt="docker" />
+                </>} />
             </Routes>
         </>
     );

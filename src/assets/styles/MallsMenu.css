@@ -4,7 +4,7 @@
     left: 1em;
     width: 15%;
     padding: 1em;
-    background: rgba(255, 255, 255, 1); 
+    background: rgba(255, 255, 255, 0.1); 
     border-radius: 2em;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     z-index: 500;

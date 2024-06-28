@@ -30,7 +30,7 @@ function HotProduct({ selectedDate }) {
             console.error('핫딜상품에서 에러났다', error);
         } finally {
             const endTime = performance.now();
-            console.log(`핫프로덕트는 ${endTime - startTime}만큼의 시간이 걸렸다.`);
+            // console.log(`핫프로덕트는 ${endTime - startTime}만큼의 시간이 걸렸다.`);
         }
     }, [dateStr, backendAddr, backendPort]);
 

@@ -3,8 +3,15 @@
 .Header {
     padding-left: 2em;
     padding-right: 2em;
-    background: linear-gradient(to bottom right, #F1EAFF, #D0A2F8);
+    background: linear-gradient(to bottom right, rgba(241, 234, 255, 0.5)
+, rgba(208, 162, 248, 0.5));
     transition: background 1s ease, color 1s ease;
+    height: 10vh;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 20;
+    backdrop-filter: blur(20px);
   }
   
   .custom-navbar {
@@ -78,7 +85,8 @@ body.dark-mode {
   }
   
   .Header.dark-mode {
-    background: linear-gradient(to bottom right, #73297F, #4C1B53);
+    background: linear-gradient(to bottom right, rgba(115, 41, 127, 0.5)
+    , rgba(76, 27, 83, 0.5));
     color: #F1EAFF;
     transition: background 1s ease, color 1s ease;
   }

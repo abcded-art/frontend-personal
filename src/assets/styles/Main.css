@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     height: 90vh;
+    position: relative;
 }
 
 .headerContainer{
@@ -9,8 +10,19 @@
 }
 
 .contentContainer{
-    flex: 1 1 auto;
     overflow-y: auto;
     padding-left: 20%;
     padding-right: 20%;
+    position: absolute;
+    top: 10vh;
+    height: 90vh;
+}
+
+.mainPage {
+    padding-top: 10vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 5em;
+    font-size: 3em;
 }
