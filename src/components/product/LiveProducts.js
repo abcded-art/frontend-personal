@@ -19,8 +19,13 @@ function LiveProduct() {
     const { id } = useParams();
     const [product, setProduct] = useState(null);
     const [similarProducts, setSimilarProducts] = useState([]);
+    const [review, setReview] = useState(null);
     const [displayedProducts, setDisplayedProducts] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    // Delete after
+    // const backendAddr = process.env.REACT_APP_BACKEND_ADDR;
+    // const backendPort = process.env.REACT_APP_BACKEND_PORT;
 
     const liveVideoUrls = {
         cjonstyle: "https://live-ch1.cjonstyle.net/cjmalllive/_definst_/stream2/playlist.m3u8",
@@ -28,11 +33,11 @@ function LiveProduct() {
         hmall: "https://cdnlive.hmall.com/live/hmall.stream/chunklist.m3u8",
         lotteimall: "https://mohlslive.lotteimall.com/live/livestream/chunklist.m3u8",
     };
-    
+
     useEffect(() => {
         const fetchProductDetails = async () => {
             try {
-                const apiUrl = `http://192.168.0.10:8000/api/live/details?product_id=${id}`;
+                const apiUrl = `http://${backendAddr}:${backendPort}/api/live/details?product_id=${id}`;
                 const productResponse = await axios.get(apiUrl);
                 console.log("Product Details Response: ", productResponse.data);
                 setProduct(productResponse.data.details);
@@ -44,12 +49,26 @@ function LiveProduct() {
             }
         };
 
+        const fetchProductReview = async () => {
+            try {
+                const apiUrl = `http://${backendAddr}:${backendPort}/api/review?product_id=${id}`;
+                const productReview = await axios.get(apiUrl);
+                console.log("Product Review Response: ", productReview.data);
+                setReview(productReview.data.result.review_details);
+            } catch (error) {
+                console.error("Failed to fetch product review", error);
+                setReview(null);
+            } finally {
+                setLoading(false);
+            }
+        };
+
         const fetchSimilarProducts = async () => {
             try {
-                const apiUrl = `http://192.168.0.10:8000/api/compare/details?product_id=${id}`;
+                const apiUrl = `http://${backendAddr}:${backendPort}/api/compare/details?product_id=${id}`;
                 const similarResponse = await axios.get(apiUrl);
                 console.log("Similar products response: ", similarResponse.data);
-                const sortedProducts = similarResponse.data.result.product_list.sort((a,b) => a.s_price - b.s_price);
+                const sortedProducts = similarResponse.data.result.similar_products.sort((a,b) => a.s_price - b.s_price);
                 setSimilarProducts(sortedProducts);
                 setDisplayedProducts(sortedProducts.slice(0, 5));
             } catch (error) {
@@ -59,6 +78,7 @@ function LiveProduct() {
         };
 
         fetchProductDetails();
+        fetchProductReview();
         fetchSimilarProducts();
     }, [id]);
 
@@ -112,9 +132,9 @@ function LiveProduct() {
                             displayedProducts.map((prod, idx) => (
                                 <a href={prod.redirect_url} className='similarProduct' key={idx} target='_blank' rel="noopener noreferrer">
                                     <div className='similarProductComponent'>
-                                        <img src={prod.img_url} alt={prod.s_name} className="relatedProductImage" />
-                                        <div className='relatedProductName'>{prod.s_name}</div>
-                                        <div className='relatedProductPrice'>{prod.s_price ? prod.s_price.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ` 원` : `구매문의`}</div>
+                                        <img src={prod.image_url} alt={prod.product_name} className="relatedProductImage" />
+                                        <div className='relatedProductName'>{prod.seller}</div>
+                                        <div className='relatedProductPrice'>{prod.price ? prod.price.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ` 원` : `구매문의`}</div>
                                     </div>
                                 </a>
                             ))
@@ -130,6 +150,27 @@ function LiveProduct() {
                 </div>
                 <div className="reviews">
                     <h4 className='priceCompare'>상품 리뷰</h4>
+                    {review ? (
+                        <>
+                            <div className="reviewBar">
+                                <div className="positive" style={{ width: `${review.average_positive}%` }} data-tooltip={review.average_positive}></div>
+                                <div className="neutral" style={{ width: `${review.average_neutral}%` }} data-tooltip={review.average_positive}></div>
+                                <div className="negative" style={{ width: `${review.average_negative}%` }} data-tooltip={review.average_positive}></div>
+                            </div>
+                            <div className="reviewSummary">
+                                <div className="positiveReview">
+                                    <h5>긍정평가 요약</h5>
+                                    <p>{review.positive_review_summary}</p>
+                                </div>
+                                <div className="negativeReview">
+                                    <h5>부정평가 요약</h5>
+                                    <p>{review.negative_review_summary}</p>
+                                </div>
+                            </div>
+                        </>
+                    ) : (
+                        <div>해당 리뷰는 준비중 입니다</div>
+                    )}
                 </div>
                 <div className="productDetails">
                     <h4 className='priceCompare'>상품 상세 정보</h4>

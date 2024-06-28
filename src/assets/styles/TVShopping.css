@@ -31,12 +31,11 @@
 }
 
 .mallsContainer{
-    border-top: 2px solid rgba(197,79,216, 0.2);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     gap: 20px;
-    max-height: calc(100vh-40px);
+    max-height: calc(100vh-0em);
     overflow-y: auto;
 }
 
@@ -140,13 +139,14 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    height: 5em;
+    height: 30%;
 }
 
 .productName{
     font-size: 0.95em;
     overflow: auto;
     padding-right: 1.5em;
+    font-weight: 700;
     width: 71%;
     height: 100%;
     text-align: left;
@@ -169,7 +169,7 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    height: 35%;
+    height: 50%;
     overflow: hidden;
 }
 
@@ -184,7 +184,7 @@
     font-size: 1.3em;
     font-weight: bold;
     width: 100%;
-    height: 65%;
+    height: 50%;
     text-align: right;
 }
 
@@ -205,4 +205,74 @@
     font-weight: bold;
     border-top-left-radius: 1em;
     border-bottom-right-radius: 1em;
+}
+
+.productSecondRow {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    height: 70%;
+    flex-wrap: wrap;
+    padding-top: 0.1em;
+    padding-bottom: 0.2em;
+    padding-left: 2em;
+    padding-right: 2em;
+}
+
+.similarProduct {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 30%;
+    height: 100%;
+    position: relative;
+}
+
+.similarProductImageWrapper{
+    width: 100%;
+    height: 60%;
+    transition: 0.4s;
+    overflow: hidden;
+}
+
+.similarProductImageWrapper:hover{
+    opacity: 0.6;
+}
+
+.similarProductImage{
+    border-radius: 1.2em;
+}
+
+.similarProduct img {
+    width: 70%;
+    height: auto;
+    object-fit: contain;
+    margin-bottom: 1px;
+}
+
+.similarProduct .seller {
+    width: 100%;
+    font-size: 0.8em;
+    color: #666;
+    overflow-y: auto hidden;
+    padding-top: 0.6em;
+    height: 20%;
+    font-weight: 500;
+}
+
+.similarProduct .price {
+    font-size: 0.9em;
+    font-weight: 700;
+    height: 20%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.similarProduct .empty {
+    width: 100%;
+    height: auto;
+    margin-bottom: 5px;
+    visibility: hidden; /* Ensures nothing is displayed */
 }

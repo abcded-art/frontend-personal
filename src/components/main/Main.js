@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useNavigate, Routes, Route, useLocation } from 'react-router-dom';
 import TVShopping from './main-tv/TVShopping';
 import Calendar from './main-tv/Calendar.js';
 import LiveProduct from '../product/LiveProducts.js';
 import MallsMenu from './main-tv/MallsMenu.js';
+import HotProduct from './main-tv/HotProduct.js';
 import CryingDocker from '../../assets/images/crying_docker.png';
 import '../../assets/styles/Main.css';
 
@@ -36,6 +37,7 @@ function Main(){
                     <div className='mainContainer'>
                         <MallsMenu onSelectionChange={handleMenuSelection} />
                         <Calendar onMiddleDateChange={handleMiddleDateChange} />
+                        <HotProduct selectedDate={selectedDate} />
                         <div className='contentContainer'>
                             <TVShopping selectedDate={selectedDate} onScrollToCurrentHour={scrollToCurrentHour} selectedMalls={selectedMalls}/>
                         </div>

@@ -5,7 +5,6 @@ function Calendar({ onMiddleDateChange }) {
     const today = new Date();
     today.setDate(today.getDate() - 3);
     const [currentStartDate, setCurrentStartDate] = useState(new Date(today));
-    const [currentMonthElements, setCurrentMonthElements] = useState([]);
     const [dateElements, setDateElements] = useState([]);
 
     const updateDates = (startDate) => {
@@ -14,39 +13,33 @@ function Calendar({ onMiddleDateChange }) {
         }
 
         const dateElements = [];
-        // const monthElements = [];
         const todayString = new Date().toDateString();
-        // const monthNames = ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
+        const daysOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
 
         for (let i = 0; i < 7; i++) {
             const date = new Date(startDate);
             date.setDate(startDate.getDate() + i);
             const day = date.getDate();
-            // const month = monthNames[date.getMonth()];
             const dateString = date.toDateString();
             const isToday = dateString === todayString;
             const isMiddle = i === 3;
+            const dayOfWeek = daysOfWeek[date.getDay()];
 
             if (isMiddle) {
                 onMiddleDateChange(date);
             }
 
-            // if (i === 0 || date.getDate() === 1) {
-            //     monthElements.push(<div key={`month-${i}`} className="month-label">{month}</div>);
-            // } else {
-            //     monthElements.push(<div key={`month-${i}`} className="month-label" ></div>);
-            // }
             dateElements.push(
                 <div
                     key={i}
                     className={`date-link ${isToday ? 'today' : ''} ${isMiddle ? 'middle' : ''}`}
                     onClick={() => setCurrentStartDate(new Date(date.setDate(date.getDate() - 3)))}
                 >
-                    {day}일
+                    <div className="date-number">{day}</div>
+                    <div className="date-day">{isToday ? '오늘' : dayOfWeek}</div>
                 </div>
             );
         }
-        // setCurrentMonthElements(monthElements);
         setDateElements(dateElements);
     };
 
@@ -58,7 +51,7 @@ function Calendar({ onMiddleDateChange }) {
         e.preventDefault();
         setCurrentStartDate((prevDate) => {
             const newDate = new Date(prevDate);
-            newDate.setDate(prevDate.getDate() - 3);
+            newDate.setDate(prevDate.getDate() - 1);
             return newDate;
         });
     };
@@ -67,7 +60,7 @@ function Calendar({ onMiddleDateChange }) {
         e.preventDefault();
         setCurrentStartDate((prevDate) => {
             const newDate = new Date(prevDate);
-            newDate.setDate(prevDate.getDate() + 3);
+            newDate.setDate(prevDate.getDate() + 1);
             return newDate;
         });
     };
@@ -75,11 +68,12 @@ function Calendar({ onMiddleDateChange }) {
     return (
         <div className="calendar">
             <div className="calendar-header">
-                {/* <div className="calendar-months">{ currentMonthElements }</div> */}
                 <div className="calendar-dates">
-                    <div onClick={handlePrevClick} className="handleClick">&lt;</div>
-                    <div className="dates">{ dateElements }</div>
-                    <div onClick={handleNextClick} className="handleClick">&gt;</div>
+                    <div onClick={handlePrevClick} className="handleClick prev">&lt;</div>
+                    <div className="dates-container">
+                        <div className="dates">{ dateElements }</div>
+                    </div>
+                    <div onClick={handleNextClick} className="handleClick next">&gt;</div>
                 </div>
             </div>
             <div className="divider"></div>

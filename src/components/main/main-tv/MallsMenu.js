@@ -20,12 +20,11 @@ const MallsMenu = ({ onSelectionChange }) => {
 
     useEffect(() => {
         onSelectionChange(selectedMalls);
-    }, [selectedMalls]);
+    }, [selectedMalls, onSelectionChange]);
 
     const handleCheckboxChange = (mall) => {
         setSelectedMalls(prev => {
             const newSelection = prev.includes(mall) ? prev.filter(name => name !== mall) : [...prev, mall];
-            onSelectionChange(newSelection);
             return newSelection;
         });
     };
@@ -34,8 +33,9 @@ const MallsMenu = ({ onSelectionChange }) => {
         <div className='outerContainer'>
             <div className='fixContainer'>
                 <div className='menuContainer'>
+                    <div class='announceSelectMall'>쇼핑사 선택하기</div>
                     {mallNames.map((mallName, i) => (
-                        <div key={i} className={`checkbox-item-wrapper ${selectedMalls.includes(mallName) ? 'checked' : ''}`}>
+                        <div key={i} onClick={() => handleCheckboxChange(mallName)} className={`checkbox-item-wrapper ${selectedMalls.includes(mallName) ? 'checked' : ''}`}>
                             <div className="checkbox-item">
                                 <input
                                     type='checkbox'
@@ -49,7 +49,7 @@ const MallsMenu = ({ onSelectionChange }) => {
                                     <img
                                         src={mallImages[mallName]}
                                         alt={mallName}
-                                        className={`checkboxMallLogo ${mallName === 'gsshop' ? 'dark-mode-image' : ''}`}
+                                        className='checkboxMallLogo'
                                     />
                                 </label>
                             </div>

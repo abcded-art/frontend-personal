@@ -277,3 +277,124 @@
     text-align: left;
     padding-left: 1em;
 }
+
+.reviewSummary {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.reviewSummary h5 {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-size: 1.2em;
+    color: #4a4a4a;
+}
+
+.reviewSummary p {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1em;
+    color: #333;
+}
+
+.reviewSummary .positiveReview {
+    background-color: #e7f9e7;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.reviewSummary .negativeReview {
+    background-color: #f9e7e7;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.reviewSummary .neutralReview {
+    background-color: #f9f9e7;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.reviews {
+    display: flex;
+    flex-direction: column;
+    border-top: 1.2px solid rgba(197,79,216, 0.9);
+    padding-top: 1em;
+    width: 100%;
+    margin-bottom: 5em;
+}
+
+.reviewSummary {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.reviewSummary h5 {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-size: 1.2em;
+    color: #4a4a4a;
+}
+
+.reviewSummary p {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1em;
+    color: #333;
+}
+
+.reviewSummary .positiveReview {
+    background-color: #e7f9e7;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.reviewSummary .negativeReview {
+    background-color: #f9e7e7;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.reviewSummary .neutralReview {
+    background-color: #f9f9e7;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.reviewBar {
+    display: flex;
+    width: 80%;
+    height: 2em;
+    margin: 0 auto 20px auto; /* Centering the review bar */
+    border-radius: 1em;
+    overflow: hidden;
+}
+
+.reviewBar .positive,
+.reviewBar .neutral,
+.reviewBar .negative {
+    height: 2em;
+    flex-grow: 1;
+}
+
+.reviewBar .positive {
+    background-color: rgba(0, 123, 255, 0.5);
+}
+
+.reviewBar .neutral {
+    background-color: rgba(128, 128, 128, 0.5);
+}
+
+.reviewBar .negative {
+    background-color: rgba(255, 0, 0, 0.5);
+}
