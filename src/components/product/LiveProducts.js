@@ -24,8 +24,8 @@ function LiveProduct() {
     const [loading, setLoading] = useState(true);
 
     // Delete after
-    // const backendAddr = process.env.REACT_APP_BACKEND_ADDR;
-    // const backendPort = process.env.REACT_APP_BACKEND_PORT;
+    const backendAddr = process.env.REACT_APP_BACKEND_ADDR;
+    const backendPort = process.env.REACT_APP_BACKEND_PORT;
 
     const liveVideoUrls = {
         cjonstyle: "https://live-ch1.cjonstyle.net/cjmalllive/_definst_/stream2/playlist.m3u8",

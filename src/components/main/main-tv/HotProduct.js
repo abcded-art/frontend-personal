@@ -8,8 +8,8 @@ function HotProduct({selectedDate}) {
     const dateStr = selectedDate.toLocaleDateString('en-CA', { timeZone: 'Asia/Seoul' }).split('T')[0];
 
     // Delete after
-    // const backendAddr = process.env.REACT_APP_BACKEND_ADDR;
-    // const backendPort = process.env.REACT_APP_BACKEND_PORT;
+    const backendAddr = process.env.REACT_APP_BACKEND_ADDR;
+    const backendPort = process.env.REACT_APP_BACKEND_PORT;
 
     const [productImages, setProductImages] = useState([
         {
