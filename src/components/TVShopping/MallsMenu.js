@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import cjonstyleImage from '../../../assets/images/Malls/CJOnStyle.png';
-import hyundaiImage from '../../../assets/images/Malls/Hyundai.png';
-import gsshopImage from '../../../assets/images/Malls/GSShop.png';
-import lotteImage from '../../../assets/images/Malls/Lotte.png';
+import cjonstyleImage from '../../assets/images/Malls/CJOnStyle.png';
+import hyundaiImage from '../../assets/images/Malls/Hyundai.png';
+import gsshopImage from '../../assets/images/Malls/GSShop.png';
+import lotteImage from '../../assets/images/Malls/Lotte.png';
 
-import '../../../assets/styles/MallsMenu.css';
+import '../../assets/styles/MallsMenu.css';
 
 const mallImages = {
     cjonstyle: cjonstyleImage,

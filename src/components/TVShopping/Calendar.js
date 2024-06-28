@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import '../../../assets/styles/Calendar.css';
+import '../../assets/styles/Calendar.css';
 
 function Calendar({ onMiddleDateChange }) {
     const today = new Date();

@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import '../../../assets/styles/TVShopping.css';
+import '../../assets/styles/TVShopping.css';
 import SetAlert from './SetAlert';
-import cjonstyleImage from '../../../assets/images/Malls/CJOnStyle.png';
-import hyundaiImage from '../../../assets/images/Malls/Hyundai.png';
-import gsshopImage from '../../../assets/images/Malls/GSShop.png';
-import lotteImage from '../../../assets/images/Malls/Lotte.png';
+import cjonstyleImage from '../../assets/images/Malls/CJOnStyle.png';
+import hyundaiImage from '../../assets/images/Malls/Hyundai.png';
+import gsshopImage from '../../assets/images/Malls/GSShop.png';
+import lotteImage from '../../assets/images/Malls/Lotte.png';
 
 const mallImages = {
     cjonstyle: cjonstyleImage,

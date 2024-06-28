@@ -1,12 +1,17 @@
 import React, { useState, useCallback } from 'react';
 import { useNavigate, Routes, Route, useLocation } from 'react-router-dom';
-import TVShopping from './main-tv/TVShopping';
-import Calendar from './main-tv/Calendar.js';
-import LiveProduct from '../product/LiveProducts.js';
-import MallsMenu from './main-tv/MallsMenu.js';
-import HotProduct from './main-tv/HotProduct.js';
-import CryingDocker from '../../assets/images/crying_docker.png';
-import '../../assets/styles/Main.css';
+import { Link } from 'react-router-dom';
+
+import TVShopping from './TVShopping/TVShopping.js';
+import Calendar from './TVShopping/Calendar.js';
+import MallsMenu from './TVShopping/MallsMenu.js';
+import HotProduct from './TVShopping/HotProduct.js';
+
+import LiveProduct from './product/LiveProducts.js';
+import SearchProduct from './product/SearchProduct.js';
+
+import CryingDocker from '../assets/images/crying_docker.png';
+import '../assets/styles/Main.css';
 
 function Main(){
     const navigate = useNavigate();
@@ -33,8 +38,15 @@ function Main(){
     return (
         <>
             <Routes>
-                <Route path="/" element={
-                    <div className='mainContainer'>
+                <Route path="/" element = {
+                    <div className='mainPage'>
+                        메인페이지임
+                        <Link to={`/TVShopping`} className='linkToTVShopping'>쇼핑하러 가기</Link>
+                        <Link to={`/search`} className='linkToSearch'>검색화면으로 가기</Link>
+                    </div>
+                } />
+                <Route path="/TVShopping" element={
+                    <div className='tvShoppingContainer'>
                         <MallsMenu onSelectionChange={handleMenuSelection} />
                         <Calendar onMiddleDateChange={handleMiddleDateChange} />
                         <HotProduct selectedDate={selectedDate} />
@@ -45,6 +57,11 @@ function Main(){
 
                 } />
                 <Route path="product/:id" element={<LiveProduct />} />
+                <Route path="/search" element = {
+                    <div className='searchContainer'>
+                        <SearchProduct />
+                    </div>
+                }/>
                 <Route path="*" element={<>
                         <h3>없는 페이지에요 :(</h3>
                         <img src={CryingDocker} alt="docker"/>

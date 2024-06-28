@@ -380,15 +380,8 @@
     overflow: hidden;
 }
 
-.reviewBar .positive,
-.reviewBar .neutral,
-.reviewBar .negative {
-    height: 2em;
-    flex-grow: 1;
-}
-
 .reviewBar .positive {
-    background-color: rgba(0, 123, 255, 0.5);
+    background-color: rgba(0, 128, 255, 0.5);
 }
 
 .reviewBar .neutral {
@@ -398,3 +391,34 @@
 .reviewBar .negative {
     background-color: rgba(255, 0, 0, 0.5);
 }
+
+.reviewBar .positive,
+.reviewBar .neutral,
+.reviewBar .negative {
+    height: 2em;
+    flex-grow: 1;
+}
+
+.reviewBar .positive .tooltiptext,
+.reviewBar .neutral .tooltiptext,
+.reviewBar .negative .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    
+    /* Position the tooltip text - see examples below! */
+    position: relative;
+    z-index: 1;
+}
+
+.reviewBar .positive:hover .tooltiptext,
+.reviewBar .neutral:hover .tooltiptext,
+.reviewBar .negative:hover .tooltiptext {
+    visibility: visible;
+}
+
+

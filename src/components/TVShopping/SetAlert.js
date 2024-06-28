@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import '../../../assets/styles/SetAlert.css';
+import '../../assets/styles/SetAlert.css';
 
 function SetAlert({ show, onClose }) {
     const [alertType, setAlertType] = useState('');

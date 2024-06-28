@@ -153,9 +153,9 @@ function LiveProduct() {
                     {review ? (
                         <>
                             <div className="reviewBar">
-                                <div className="positive" style={{ width: `${review.average_positive}%` }} data-tooltip={review.average_positive}></div>
-                                <div className="neutral" style={{ width: `${review.average_neutral}%` }} data-tooltip={review.average_positive}></div>
-                                <div className="negative" style={{ width: `${review.average_negative}%` }} data-tooltip={review.average_positive}></div>
+                                <div className="positive" style={{ width: `${review.average_positive}%` }}><span class="tooltiptext">{review.average_positive}</span></div>
+                                <div className="neutral" style={{ width: `${review.average_neutral}%` }}><span class="tooltiptext">{review.average_neutral}</span></div>
+                                <div className="negative" style={{ width: `${review.average_negative}%` }}><span class="tooltiptext">{review.average_negative}</span></div>
                             </div>
                             <div className="reviewSummary">
                                 <div className="positiveReview">

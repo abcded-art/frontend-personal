@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Nav, Navbar, NavDropdown, Form, FormControl } from 'react-bootstrap';
 import { FaSun, FaMoon } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom'
 import '../../assets/styles/Header.css';
 import quickCatchLogo from '../../assets/images/quickcatch_logo.png'
 
@@ -11,8 +12,10 @@ function Header() {
         return savedMode ? JSON.parse(savedMode) : false;
     });
 
+    const [ searchQuery, setSearchQuery ] = useState('');
+    const navigate = useNavigate();
+
     useEffect(() => {
-        // Apply the dark mode class to the body
         if (isDarkMode){
             document.body.classList.add('dark-mode');
         } else{
@@ -23,7 +26,6 @@ function Header() {
     const toggleDarkMode = () => {
         setIsDarkMode((prevMode) => {
             const newMode = !prevMode;
-            // Save the new preference to local storage
             localStorage.setItem('darkMode', JSON.stringify(newMode));
             return newMode;
         });
@@ -35,7 +37,7 @@ function Header() {
             <Navbar collapseOnSelect expand="lg" className='custom-navbar'>
                 <Container>
                     <Navbar.Brand href="/" className={isDarkMode ? "dark-mode" : ""}>
-                        <img src={quickCatchLogo} alt="QuickCatch Logo" style={{ height: '80px' }} /> {/* 로고 이미지 추가 */}
+                        <img src={quickCatchLogo} alt="QuickCatch Logo" style={{ height: '80px' }} />
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
