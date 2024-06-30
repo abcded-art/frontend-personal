@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import '../../assets/styles/HotProduct.css';
+import { Link } from 'react-router-dom';
 
 function HotProduct({ selectedDate }) {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -24,7 +25,7 @@ function HotProduct({ selectedDate }) {
                 discount: product.price_difference,
                 p_name: product.p_name,
                 p_price: product.p_price,
-                link: `#${product.p_id}`,
+                link: product.p_id,
             })));
         } catch (error) {
             console.error('핫딜상품에서 에러났다', error);
@@ -45,17 +46,17 @@ function HotProduct({ selectedDate }) {
                 setCurrentIndex((prevIndex) => (prevIndex + 1) % productImages.length);
                 setIsAnimating(false);
             }, 500);
-        }, 5000);
+        }, 7000);
         return () => clearInterval(interval);
     }, [productImages.length]);
 
     const currentProduct = productImages[currentIndex] || {};
-
+    console.log(currentProduct);
     return (
         <div className='HotProductOuterContainer'>
-            <div className='todaysHotDealProduct'>오늘의 핫딜상품</div>
+            <div className='todaysHotDealProduct'>오늘의 특가 상품</div>
             {productImages.length > 0 ? (
-                <a href={currentProduct.link} className={`hotProductBox ${isAnimating ? 'swipe' : ''}`}>
+                <Link to={`/product/${currentProduct.link.replace('#', '')}`} className={`hotProductBox ${isAnimating ? 'swipe' : ''}`}>
                     <div className='hotProductFirstRow'>
                         <div className='hotProductImage'>
                             <img src={currentProduct.img_url} alt={currentProduct.p_name} />
@@ -71,12 +72,12 @@ function HotProduct({ selectedDate }) {
                     </div>
                     <div className='hotProductThirdRow'>
                         <div className='hotProductPrice'>
-                            {currentProduct.p_price} 원
+                            {currentProduct.p_price ? currentProduct.p_price.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + `원` : `상담문의`}
                         </div>
                     </div>
-                </a>
+                </Link>
             ) : (
-                <div>로딩중이다</div>
+                <div>...</div>
             )}
         </div>
     );

@@ -1,7 +1,8 @@
 .Main{
     display: flex;
     flex-direction: column;
-    width: 100vh;
+    width: 100%;
+    min-height: 100vh;
 }
 
 .loadingMessage{
@@ -12,6 +13,12 @@
     line-height: 52vh;
     width: 100vh;
     height: 82vh;
+}
+
+.emptyMessage{
+    padding-top: 18vh;
+    font-size: 3em;
+    text-align: center;
 }
 
 .hourGroup {
@@ -55,26 +62,6 @@
     gap: 20px;
     max-height: calc(100vh-0em);
     overflow-y: auto;
-}
-
-/* Chrome, Safari 스타일링 */
-.mallsContainer::-webkit-scrollbar {
-    width: 12px;
-}
-
-.mallsContainer::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-}
-
-.mallsContainer::-webkit-scrollbar-thumb {
-    background-color: rgba(197, 79, 216, 0.6);
-    border-radius: 10px;
-    border: 3px solid rgba(0, 0, 0, 0.1);
-}
-
-.mallsContainer::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(197, 79, 216, 0.8);
 }
 
 .mallSelection{
@@ -270,7 +257,6 @@
 
 .similarProductImageWrapper{
     width: 100%;
-    height: 60%;
     transition: 0.4s;
     overflow: hidden;
 }
@@ -314,4 +300,51 @@
     height: auto;
     margin-bottom: 5px;
     visibility: hidden; /* Ensures nothing is displayed */
+}
+
+.arrow{
+    font-size: 1.2em;
+}
+
+.arrowUp{
+    
+    color: rgba(255, 62, 62, 0.7);
+}
+
+.arrowDown{
+    color: rgba(111, 53, 236, 0.7);
+}
+
+.arrowEqual{
+    color: rgba(148, 148, 148, 0.7);
+}
+
+@media (max-width: 1200px) {
+    .similarProductImageWrapper{
+        width: 120%;
+    }
+}
+
+@media (max-width: 992px) {
+    .similarProductImageWrapper {
+        width: 150%;
+    }
+}
+
+@media (max-width: 768px) {
+    .similarProductImageWrapper {
+        width: 180%;
+    }
+    .productSecondRow{
+        padding-left:1em;
+    }
+}
+
+@media (max-width: 576px) {
+    .similarProductImageWrapper {
+        width: 200%;
+    }
+    .productSecondRow{
+        padding-left:0.2em;
+    }
 }

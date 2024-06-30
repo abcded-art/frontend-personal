@@ -73,6 +73,37 @@
     transition: background 1s ease, color 1s ease;
   }
 
+/* Styles for the shopping cart and search icons */
+.linkToTVShopping {
+  font-size: 1.5em;
+  color: inherit;
+  transition: color 1s ease;
+  margin-right: 1em;
+}
+
+.linkToSearch {
+  font-size: 1.5em;
+  color: inherit;
+  transition: color 1s ease;
+  margin-right: 1em;
+}
+
+.linkToTVShopping:hover, .linkToSearch:hover {
+  color: #5a5a5a; 
+}
+
+/* Dark mode specific styles for the icons */
+.Header.dark-mode .linkToTVShopping,
+.Header.dark-mode .linkToSearch {
+  color: #F1EAFF;
+  transition: color 1s ease;
+}
+
+.Header.dark-mode .linkToTVShopping:hover,
+.Header.dark-mode .linkToSearch:hover {
+  color: #e388fc; 
+}
+
 body{
   transition: background 1s ease, color 1s ease;
 }

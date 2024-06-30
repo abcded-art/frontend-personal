@@ -6,6 +6,8 @@ import TVShopping from './TVShopping/TVShopping.js';
 import Calendar from './TVShopping/Calendar.js';
 import MallsMenu from './TVShopping/MallsMenu.js';
 import HotProduct from './TVShopping/HotProduct.js';
+import Home from './home/Home.js';
+import HomeHotProduct from './home/HomeHotProduct.js';
 
 import LiveProduct from './product/LiveProducts.js';
 import SearchProduct from './product/SearchProduct.js';
@@ -36,13 +38,11 @@ function Main() {
     };
 
     return (
-        <>
+        <div className='mainContainer'>
             <Routes>
                 <Route path="/" element={
                     <div className='mainPage'>
-                        메인페이지임
-                        <Link to={`/TVShopping`} className='linkToTVShopping'>쇼핑하러 가기</Link>
-                        <Link to={`/search`} className='linkToSearch'>검색화면으로 가기</Link>
+                        <Home />
                     </div>
                 } />
                 <Route path="/TVShopping" element={
@@ -56,7 +56,7 @@ function Main() {
                     </div>
 
                 } />
-                <Route path="product/:id" element={<LiveProduct />} />
+                <Route path="/product/:id" element={<LiveProduct />} />
                 <Route path="/search" element={
                     <div className='searchContainer'>
                         <SearchProduct />
@@ -67,7 +67,7 @@ function Main() {
                     <img src={CryingDocker} alt="docker" />
                 </>} />
             </Routes>
-        </>
+        </div>
     );
 }
 

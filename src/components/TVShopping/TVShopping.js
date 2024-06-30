@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import '../../assets/styles/TVShopping.css';
 import SetAlert from './SetAlert';
+import { FaArrowUp, FaArrowDown, FaEquals } from 'react-icons/fa';
 import cjonstyleImage from '../../assets/images/Malls/CJOnStyle.png';
 import hyundaiImage from '../../assets/images/Malls/Hyundai.png';
 import gsshopImage from '../../assets/images/Malls/GSShop.png';
@@ -16,6 +17,9 @@ const mallImages = {
 };
 
 const ProductItem = React.memo(({ product, isBeforeLive, showAlert, dateStr, today, similarProducts }) => {
+    const productPrice = product.p_price ? parseInt(product.p_price.replace(/,/g, ''), 10) : null;
+    const similarProductPrice = similarProducts[0] && similarProducts[0].price ? parseInt(similarProducts[0].price.replace(/,/g, ''), 10) : null;
+    
     return (
         <div className="product">
             {isBeforeLive && (
@@ -49,7 +53,10 @@ const ProductItem = React.memo(({ product, isBeforeLive, showAlert, dateStr, tod
                         <p className='productPrice'>{product.p_price ? product.p_price.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ` 원` : `상담문의`}</p>
                     </div>
                     <div className='high-low'>
-                        hi
+                        {productPrice !== null && similarProductPrice !== null ? (
+                            productPrice > similarProductPrice ? <FaArrowUp className='arrow arrowUp'/> :
+                            productPrice < similarProductPrice ? <FaArrowDown className='arrow arrowDown'/> : <FaEquals className='arrow arrowEqual'/>
+                        ) : ''}
                     </div>
                 </div>
                 <div className='productSecondRow'>
@@ -58,7 +65,7 @@ const ProductItem = React.memo(({ product, isBeforeLive, showAlert, dateStr, tod
                             {similarProduct ? (
                                 <Link to={similarProduct.redirect_url} className='customLink'>
                                     <div className='similarProductImageWrapper'>
-                                        <img src={similarProduct.image_url} alt={similarProduct.product_name} className='similarProductImage'/>
+                                        <img src={similarProduct.image_url} alt={similarProduct.product_name} className='similarProductImage' />
                                     </div>
                                     <div className='seller'>{similarProduct.seller}</div>
                                     <div className='price'>{similarProduct.price ? similarProduct.price.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ` 원` : `상담문의`}</div>
@@ -156,7 +163,7 @@ function TVShopping({ selectedDate, onScrollToCurrentHour, selectedMalls }) {
         const now = new Date();
         const currentHour = now.getHours().toString().padStart(2, '0');
         const currentHourElement = document.getElementById(`hour-${currentHour}`);
-        
+
         if (currentHourElement) {
             currentHourElement.scrollIntoView({ behavior: 'smooth' });
         }
@@ -191,7 +198,7 @@ function TVShopping({ selectedDate, onScrollToCurrentHour, selectedMalls }) {
                         const liveStartTime = new Date(`${dateStr}T${product.start_time}:00`);
                         const isBeforeLive = now < liveStartTime;
                         const similarProducts = [...product.similar_product_list, ...Array(3 - product.similar_product_list.length).fill(null)];
-                        
+
                         return (
                             <ProductItem
                                 key={index}
@@ -216,7 +223,11 @@ function TVShopping({ selectedDate, onScrollToCurrentHour, selectedMalls }) {
     return (
         <div className='Main'>
             <div className='mallsContainer'>
-                {renderTimeBar}
+                {Object.keys(liveData).length === 0 ? (
+                    <div className='emptyMessage'>상품이 없습니다</div>
+                ) : (
+                    renderTimeBar
+                )}
             </div>
             <SetAlert show={showAlert} onClose={() => setShowAlert(false)} />
         </div>

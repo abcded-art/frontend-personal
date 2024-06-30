@@ -19,18 +19,10 @@
 
 .calendar-dates {
   display: flex;
-  justify-content: center; /* 날짜 요소를 중앙에 정렬 */
+  justify-content: space-between; /* 날짜 요소와 화살표 간 간격 조정 */
   align-items: center;
   width: 100%;
   height: 100%;
-  position: relative;
-}
-
-.dates-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.6em; /* 날짜 간격 조정 */
 }
 
 .dates {
@@ -72,31 +64,6 @@
   padding: 0 0.5em;
   font-size: 1.5em;
   user-select: none;
-  position: absolute;
-}
-
-.handleClick.prev {
-  left: 12em; /* 왼쪽 화살표를 왼쪽에 고정 */
-}
-
-.handleClick.next {
-  right: 12em; /* 오른쪽 화살표를 오른쪽에 고정 */
-}
-
-.month-label {
-  flex: 1;
-  text-align: center;
-  font-weight: bold;
-  font-size: 0.9em;
-  position: relative;
-  margin-top: 0.4em;
-}
-
-.divider {
-  height: 1px;
-  background-color: rgba(224, 224, 224, 0.2);
-  margin-top: 0.5em;
-  position: relative;
 }
 
 /* 날짜 숫자와 요일 스타일 */

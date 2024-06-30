@@ -70,13 +70,12 @@ function Calendar({ onMiddleDateChange }) {
             <div className="calendar-header">
                 <div className="calendar-dates">
                     <div onClick={handlePrevClick} className="handleClick prev">&lt;</div>
-                    <div className="dates-container">
-                        <div className="dates">{ dateElements }</div>
+                    <div className="dates">
+                        { dateElements }
                     </div>
                     <div onClick={handleNextClick} className="handleClick next">&gt;</div>
                 </div>
             </div>
-            <div className="divider"></div>
         </div>
     );
 }

@@ -1,8 +1,8 @@
 /* eslint-disable */
 import React, { useState, useEffect } from 'react';
 import { Container, Nav, Navbar, Form, FormControl } from 'react-bootstrap';
-import { FaSun, FaMoon } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import { FaSun, FaMoon, FaShoppingCart, FaSearch } from 'react-icons/fa';
+import { useNavigate, Link } from 'react-router-dom';
 import '../../assets/styles/Header.css';
 import quickCatchLogo from '../../assets/images/quickcatch_logo.png'
 
@@ -57,6 +57,12 @@ function Header() {
                             />
                         </Form>
                         <Nav>
+                            <Link to={`/TVShopping`} className='linkToTVShopping'>
+                                <FaShoppingCart />
+                            </Link>
+                            <Link to={`/search`} className='linkToSearch'>
+                                <FaSearch />
+                            </Link>
                             <Nav.Link onClick={toggleDarkMode}>
                                 {isDarkMode ? <FaMoon className="light-dark-icon" /> : <FaSun className="light-dark-icon" />}
                             </Nav.Link>
