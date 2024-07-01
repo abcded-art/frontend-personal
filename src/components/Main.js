@@ -7,8 +7,6 @@ import Calendar from './TVShopping/Calendar.js';
 import MallsMenu from './TVShopping/MallsMenu.js';
 import HotProduct from './TVShopping/HotProduct.js';
 import Home from './home/Home.js';
-import HomeHotProduct from './home/HomeHotProduct.js';
-
 import LiveProduct from './product/LiveProducts.js';
 import SearchProduct from './product/SearchProduct.js';
 
@@ -19,6 +17,7 @@ function Main() {
     const navigate = useNavigate();
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedMalls, setSelectedMalls] = useState(["cjonstyle", "gsshop", "hmall", "lotteimall"]);
+    const [showWith, setShowWith] = useState(false);
 
     const handleMiddleDateChange = (date) => {
         setSelectedDate(date);

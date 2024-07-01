@@ -1,12 +1,13 @@
+// [Header.js]
 /* eslint-disable */
 import React, { useState, useEffect } from 'react';
 import { Container, Nav, Navbar, Form, FormControl } from 'react-bootstrap';
 import { FaSun, FaMoon, FaShoppingCart, FaSearch } from 'react-icons/fa';
 import { useNavigate, Link } from 'react-router-dom';
 import '../../assets/styles/Header.css';
-import quickCatchLogo from '../../assets/images/quickcatch_logo.png'
+import quickCatchLogo from '../../assets/images/quickcatch_logo.png';
 
-function Header() {
+function Header({ onWithClick }) {
     const [isDarkMode, setIsDarkMode] = useState(() => {
         const savedMode = localStorage.getItem('darkMode');
         return savedMode ? JSON.parse(savedMode) : false;
@@ -16,9 +17,9 @@ function Header() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (isDarkMode){
+        if (isDarkMode) {
             document.body.classList.add('dark-mode');
-        } else{
+        } else {
             document.body.classList.remove('dark-mode');
         }
     }, [isDarkMode]);
@@ -63,6 +64,7 @@ function Header() {
                             <Link to={`/search`} className='linkToSearch'>
                                 <FaSearch />
                             </Link>
+                            <div className='withAWSCloudSchool' onClick={onWithClick}>with</div>
                             <Nav.Link onClick={toggleDarkMode}>
                                 {isDarkMode ? <FaMoon className="light-dark-icon" /> : <FaSun className="light-dark-icon" />}
                             </Nav.Link>
