@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { BiBell } from "react-icons/bi";
+import { GiTalk } from "react-icons/gi";
 import '../../assets/styles/TVShopping.css';
 import SetAlert from './SetAlert';
 import { FaArrowUp, FaArrowDown, FaEquals } from 'react-icons/fa';
@@ -17,19 +19,42 @@ const mallImages = {
 };
 
 const ProductItem = React.memo(({ product, isBeforeLive, showAlert, dateStr, today, similarProducts }) => {
+    const [productReviewExplainVisible, setProductReviewExplainVisible] = useState(false);
+
     const productPrice = product.p_price ? parseInt(product.p_price.replace(/,/g, ''), 10) : null;
     const similarProductPrice = similarProducts[0] && similarProducts[0].price ? parseInt(similarProducts[0].price.replace(/,/g, ''), 10) : null;
-    
+
+    const toggleProductReviewExplainVisible = () => {
+        setProductReviewExplainVisible(prev => !prev);
+    };
+
+    useEffect(() => {
+        let productReviewExplainTimeout;
+        if (productReviewExplainVisible) {
+            productReviewExplainTimeout = setTimeout(() => {
+                setProductReviewExplainVisible(false);
+            }, 3500);
+        }
+        return () => clearTimeout(productReviewExplainTimeout);
+    }, [productReviewExplainVisible]);
+
     return (
         <div className="product">
-            {isBeforeLive && (
-                <div className='divForAlertAlign'>
-                    <div className='alert' onClick={showAlert}>
-                        🔔
-                    </div>
-                </div>
-            )}
             <div className='productImageAlign'>
+                {isBeforeLive && (
+                    <div className='divForAlertAlign'>
+                        <div className={`productReviewExplain ${productReviewExplainVisible ? 'visible' : ''}`}>
+                            본 상품은 인공지능 리뷰 분석이 된 상품입니다.
+                            상품 상세 페이지에서 자세한 내용을 확인 할 수 있습니다.
+                        </div>
+                        {product.review_yn === 'Y' && (
+                            <GiTalk className='reviewAvailableBadge' onClick={toggleProductReviewExplainVisible} />
+                        )}
+                        <div className='alert'>
+                            <BiBell className='alertBell' onClick={showAlert} />
+                        </div>
+                    </div>
+                )}
                 <div className='productImageFix'>
                     <Link to={`/product/${product.p_id}`} className='customLink'>
                         <img src={product.img_url} alt={product.p_name} />
@@ -54,24 +79,26 @@ const ProductItem = React.memo(({ product, isBeforeLive, showAlert, dateStr, tod
                     </div>
                     <div className='high-low'>
                         {productPrice !== null && similarProductPrice !== null ? (
-                            productPrice > similarProductPrice ? <FaArrowUp className='arrow arrowUp'/> :
-                            productPrice < similarProductPrice ? <FaArrowDown className='arrow arrowDown'/> : <FaEquals className='arrow arrowEqual'/>
+                            productPrice > similarProductPrice ? <FaArrowUp className='arrow arrowUp' /> :
+                                productPrice < similarProductPrice ? <FaArrowDown className='arrow arrowDown' /> : <FaEquals className='arrow arrowEqual' />
                         ) : ''}
                     </div>
                 </div>
                 <div className='productSecondRow'>
                     {similarProducts.map((similarProduct, idx) => (
-                        <div key={idx} className='similarProduct'>
+                        <div key={idx} className='tvShopping__similarProduct'>
                             {similarProduct ? (
-                                <Link to={similarProduct.redirect_url} className='customLink'>
-                                    <div className='similarProductImageWrapper'>
-                                        <img src={similarProduct.image_url} alt={similarProduct.product_name} className='similarProductImage' />
+                                <Link to={similarProduct.redirect_url} className='tvShopping__similarProductLink'>
+                                    <div className='tvShopping__similarProductElementWrapper'>
+                                        <div className='tvShopping__similarProductImageWrapper'>
+                                            <img src={similarProduct.image_url} alt={similarProduct.product_name} className='tvShopping__similarProductImage' />
+                                        </div>
+                                        <div className='tvShopping__seller'>{similarProduct.seller}</div>
+                                        <div className='tvShopping__price'>{similarProduct.price ? similarProduct.price.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ` 원` : `상담문의`}</div>
                                     </div>
-                                    <div className='seller'>{similarProduct.seller}</div>
-                                    <div className='price'>{similarProduct.price ? similarProduct.price.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ` 원` : `상담문의`}</div>
                                 </Link>
                             ) : (
-                                <div className='empty'></div>
+                                <div className='tvShopping__empty'></div>
                             )}
                         </div>
                     ))}
@@ -89,6 +116,7 @@ function TVShopping({ selectedDate, onScrollToCurrentHour, selectedMalls }) {
     const [allMallsData, setAllMallsData] = useState([]);
     const today = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Seoul' }).split('T')[0];
     const dateStr = selectedDate.toLocaleDateString('en-CA', { timeZone: 'Asia/Seoul' }).split('T')[0];
+
 
     // Delete After
     const backendAddr = process.env.REACT_APP_BACKEND_ADDR;

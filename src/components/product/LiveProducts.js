@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { IoInformationCircleOutline } from "react-icons/io5";
 import axios from 'axios';
 import '../../assets/styles/LiveProducts.css';
 import LiveVideo from './lives/LiveVideo.js';
@@ -22,6 +23,8 @@ function LiveProduct() {
     const [review, setReview] = useState(null);
     const [displayedProducts, setDisplayedProducts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [firstDetailVisible, setFirstDetailVisible] = useState(false);
+    const [secondDetailVisible, setSecondDetailVisible] = useState(false);
 
     // Delete after
     const backendAddr = process.env.REACT_APP_BACKEND_ADDR;
@@ -68,7 +71,7 @@ function LiveProduct() {
                 const apiUrl = `http://${backendAddr}:${backendPort}/api/compare/details?product_id=${id}`;
                 const similarResponse = await axios.get(apiUrl);
                 console.log("Similar products response: ", similarResponse.data);
-                const sortedProducts = similarResponse.data.result.similar_products.sort((a,b) => a.s_price - b.s_price);
+                const sortedProducts = similarResponse.data.result.similar_products.sort((a, b) => a.s_price - b.s_price);
                 setSimilarProducts(sortedProducts);
                 setDisplayedProducts(sortedProducts.slice(0, 5));
             } catch (error) {
@@ -81,6 +84,34 @@ function LiveProduct() {
         fetchProductReview();
         fetchSimilarProducts();
     }, [id]);
+
+    useEffect(() => {
+        let firstDetailTimeout;
+        if (firstDetailVisible) {
+            firstDetailTimeout = setTimeout(() => {
+                setFirstDetailVisible(false);
+            }, 3500);
+        }
+        return () => clearTimeout(firstDetailTimeout);
+    }, [firstDetailVisible]);
+
+    useEffect(() => {
+        let secondDetailTimeout;
+        if (secondDetailVisible) {
+            secondDetailTimeout = setTimeout(() => {
+                setSecondDetailVisible(false);
+            }, 3500);
+        }
+        return () => clearTimeout(secondDetailTimeout);
+    }, [secondDetailVisible]);
+
+    const toggleFirstDetail = () => {
+        setFirstDetailVisible(!firstDetailVisible);
+    };
+
+    const toggleSecondDetail = () => {
+        setSecondDetailVisible(!secondDetailVisible);
+    };
 
     const handleShowMore = () => {
         const currentCount = displayedProducts.length;
@@ -97,6 +128,7 @@ function LiveProduct() {
     }
 
     const liveVideoUrl = liveVideoUrls[product.site_name];
+    console.log(review);
 
     return (
         <>
@@ -150,21 +182,38 @@ function LiveProduct() {
                 </div>
                 <div className="reviews">
                     <h4 className='priceCompare'>상품 리뷰</h4>
-                    {review ? (
+                    {review && review.total_reviews !== 0 ? (
                         <>
+                            <div className='reviewInfo'>
+                                <div className={`firstReviewInfoDetail ${firstDetailVisible ? 'visible' : ''}`}>
+                                    다음 리뷰 긍정 평가는 Amazon Comprehend의 감정 분석 기능을 이용한 기술 입니다.
+                                </div>
+                                <IoInformationCircleOutline className='firstReviewInfo' onClick={toggleFirstDetail} />
+                            </div>
                             <div className="reviewBar">
                                 <div className="positive" style={{ width: `${review.average_positive}%` }}><span className="tooltiptext">{review.average_positive}</span></div>
                                 <div className="neutral" style={{ width: `${review.average_neutral}%` }}><span className="tooltiptext">{review.average_neutral}</span></div>
                                 <div className="negative" style={{ width: `${review.average_negative}%` }}><span className="tooltiptext">{review.average_negative}</span></div>
                             </div>
-                            <div className="reviewSummary">
-                                <div className="positiveReview">
-                                    <h5>긍정평가 요약</h5>
-                                    <p>{review.positive_review_summary}</p>
+
+                            <div className='reviewInfo'>
+                                <div className={`secondReviewInfoDetail ${secondDetailVisible ? 'visible' : ''}`}>
+                                    다음 리뷰 요약은 OpenAI를 통해 요약된 내용입니다.
                                 </div>
-                                <div className="negativeReview">
-                                    <h5>부정평가 요약</h5>
-                                    <p>{review.negative_review_summary}</p>
+                                <IoInformationCircleOutline className='secondReviewInfo' onClick={toggleSecondDetail} />
+                            </div>
+                            <div className="reviewSummary">
+                                <div className='summaryFirstColumn'>
+                                    <img src='/positive_AI.png' alt='positive AI' className='positiveAIImg'></img>
+                                    <div className='positiveReviewTitle'>긍정평가 요약</div>
+                                </div>
+                                <div className='summarySecondColumn'>
+                                    <div className='positiveReviewSummary'>{review.positive_review_summary}</div>
+                                    <div className='negativeReviewSummary'>{review.negative_review_summary}</div>
+                                </div>
+                                <div className='summaryThirdColumn'>
+                                    <div className='negativeReviewTitle'>부정평가 요약</div>
+                                    <img src='/negative_AI.png' alt='negative AI' className='negativeAIImg'></img>
                                 </div>
                             </div>
                         </>
@@ -174,7 +223,7 @@ function LiveProduct() {
                 </div>
                 <div className="productDetails">
                     <h4 className='priceCompare'>상품 상세 정보</h4>
-                    { product.img_url_details.length > 0 ? (
+                    {product.img_url_details.length > 0 ? (
                         product.img_url_details.map((url, index) => (
                             <img key={index} className='productDetailInfo' src={url} alt={`${id}-${index}`} />
                         ))

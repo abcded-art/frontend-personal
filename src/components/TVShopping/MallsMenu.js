@@ -33,7 +33,7 @@ const MallsMenu = ({ onSelectionChange }) => {
         <div className='outerContainer'>
             <div className='fixContainer'>
                 <div className='menuContainer'>
-                    <div className='announceSelectMall'>쇼핑사 선택하기</div>
+                    <div className='announceSelectMall'>홈쇼핑 옵션</div>
                     {mallNames.map((mallName, i) => (
                         <div key={i} onClick={() => handleCheckboxChange(mallName)} className={`checkbox-item-wrapper ${selectedMalls.includes(mallName) ? 'checked' : ''}`}>
                             <div className="checkbox-item">

@@ -47,7 +47,7 @@ function Main() {
                 <Route path="/TVShopping" element={
                     <div className='tvShoppingContainer'>
                         <MallsMenu onSelectionChange={handleMenuSelection} />
-                        <Calendar onMiddleDateChange={handleMiddleDateChange} />
+                        <Calendar onMiddleDateChange={handleMiddleDateChange} className='calendar'/>
                         <HotProduct selectedDate={selectedDate} />
                         <div className='contentContainer'>
                             <TVShopping selectedDate={selectedDate} onScrollToCurrentHour={scrollToCurrentHour} selectedMalls={selectedMalls} />

@@ -43,7 +43,7 @@ function Header({ onWithClick }) {
             <Navbar collapseOnSelect expand="lg" className='custom-navbar'>
                 <Container>
                     <Navbar.Brand href="/" className={isDarkMode ? "dark-mode" : ""}>
-                        <img src={quickCatchLogo} alt="QuickCatch Logo" style={{ height: '80px' }} />
+                        <img src={quickCatchLogo} alt="QuickCatch Logo" style={{ height: '80px' }}/>
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">

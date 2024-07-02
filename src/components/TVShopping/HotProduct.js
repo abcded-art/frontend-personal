@@ -31,7 +31,7 @@ function HotProduct({ selectedDate }) {
             console.error('핫딜상품에서 에러났다', error);
         } finally {
             const endTime = performance.now();
-            // console.log(`핫프로덕트는 ${endTime - startTime}만큼의 시간이 걸렸다.`);
+            console.log(`핫프로덕트는 ${endTime - startTime}만큼의 시간이 걸렸다.`);
         }
     }, [dateStr, backendAddr, backendPort]);
 
@@ -56,7 +56,7 @@ function HotProduct({ selectedDate }) {
         <div className='HotProductOuterContainer'>
             <div className='todaysHotDealProduct'>오늘의 특가 상품</div>
             {productImages.length > 0 ? (
-                <Link to={`/product/${currentProduct.link.replace('#', '')}`} className={`hotProductBox ${isAnimating ? 'swipe' : ''}`}>
+                <Link to={`/product/${currentProduct.link}`} className={`hotProductBox ${isAnimating ? 'swipe' : ''}`}>
                     <div className='hotProductFirstRow'>
                         <div className='hotProductImage'>
                             <img src={currentProduct.img_url} alt={currentProduct.p_name} />

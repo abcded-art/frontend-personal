@@ -7,7 +7,7 @@
 
 .loadingMessage{
     padding-top: 8vh;
-    font-size: 10em;
+    font-size: 3.5em;
     font-weight: 800;
     text-align: center;
     line-height: 52vh;
@@ -31,8 +31,6 @@
 .hourLabel {
     font-size: 1.2em;
     border-radius: 0.75em;
-    /* border-top: 1px solid #ccc;
-    border-bottom: 1px solid #ccc; */
     padding-top: 0.2em;
     padding-bottom: 0.5em;
     padding-left: 1em;
@@ -89,17 +87,58 @@
 
 .divForAlertAlign{
     position: absolute;
-    top: 0em;
+    top: 0.5em;
     left: 0em;
-    z-index: 1000;
+    height: 90%;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.productReviewExplain{
+    opacity: 0;
+    border: 1px solid rgba(55,55,55,0.9);
+    position: absolute;
+    font-weight: 600;
+    background-color: rgba(255,255,255,0.85);
+    font-size: 0.85em;
+    width: 12em;
+    height: 8em;
+    z-index:1;
+    word-break:break-all;
+    padding-top: 0.5em;
+    padding-left: 0.2em;
+    padding-right: 0.2em;
+    transition: opacity 0.5s;
+    border-radius: 1em;
+    top: 1.5em;
+    left: 0.5em;
+}
+
+.productReviewExplain::after {
+    content: "";
+    position: absolute;
+    bottom: -1.4em;
+    left: 0.8em;
+    width: 0;
+    height: 0;
+    border-left: 0.4em solid transparent;
+    border-right: 0.4em solid transparent;
+    border-bottom: 0.7em solid rgba(255, 255, 255, 0.7);
+    border-top-color: rgba(255, 255, 255, 0.7);
+    border-top: 0.7em solid rgba(55, 55, 55, 0.9);
+    z-index: -1;
+}
+
+.productReviewExplain.visible{
+    opacity: 1;
 }
 
 .alert{
     cursor: pointer;
     transition: 1s;
-    scale: 0.6;
+    scale: 1;
     font-size: 1.5em;
     margin-left: 0;
     border: none;
@@ -108,14 +147,31 @@
 
 .alert:hover {
     transform: scale(1.1);
-    border: #ccc;
     opacity: 40%;
+    color:rgba(110, 113, 15, 0.9);
+}
+
+.reviewAvailableBadge{
+    position: absolute;
+    cursor: pointer;
+    bottom: 0.2em;
+    right: 0.4em;
+    width: 1em;
+    height: 1em;
+    color: rgba(225, 231, 32, 0.7);
+    transition: color 1s;
+    font-size: 2.3em;
+    font-weight: 900;
+}
+
+.reviewAvailableBadge:hover{
+    color: rgba(225, 227, 190, 0.7);
 }
 
 .productImageAlign{
     display: flex;
     justify-content: start;
-    align-items: center;
+    align-items: flex-end;
     flex-direction: column;
     width: 30%;
     height: 100%;
@@ -238,45 +294,46 @@
     justify-content: space-around;
     width: 100%;
     height: 70%;
-    flex-wrap: wrap;
     padding-top: 0.1em;
     padding-bottom: 0.2em;
     padding-left: 2em;
     padding-right: 2em;
 }
 
-.similarProduct {
+.tvShopping__similarProductLink{
+    text-decoration: none; /* Removes the underline */
+    color: inherit; /* Inherits the color from the parent element */
+    font-family: inherit; /* Inherits the font-family from the parent element */
+    font-size: inherit; /* Inherits the font-size from the parent element */
+}
+
+.tvShopping__similarProduct {
+    width: 30%;
+    height: 100%;
+}
+
+.tvShopping__similarProductElementWrapper{
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-align: center;
-    width: 30%;
-    height: 100%;
-    position: relative;
 }
 
-.similarProductImageWrapper{
-    width: 100%;
+.tvShopping__similarProductImageWrapper {
+    width: 60%;
+    height: 60%;
     transition: 0.4s;
     overflow: hidden;
 }
 
-.similarProductImageWrapper:hover{
+.tvShopping__similarProductImageWrapper:hover{
     opacity: 0.6;
 }
 
-.similarProductImage{
+.tvShopping__similarProductImage{
     border-radius: 1.2em;
 }
 
-.similarProduct img {
-    width: 70%;
-    height: auto;
-    object-fit: contain;
-    margin-bottom: 1px;
-}
-
-.similarProduct .seller {
+.tvShopping__seller {
     width: 100%;
     font-size: 0.8em;
     color: #666;
@@ -286,7 +343,7 @@
     font-weight: 500;
 }
 
-.similarProduct .price {
+.tvShopping__price {
     font-size: 0.9em;
     font-weight: 700;
     height: 20%;
@@ -295,7 +352,7 @@
     text-overflow: ellipsis;
 }
 
-.similarProduct .empty {
+.tvShopping__empty {
     width: 100%;
     height: auto;
     margin-bottom: 5px;
@@ -333,7 +390,7 @@
 
 @media (max-width: 768px) {
     .similarProductImageWrapper {
-        width: 180%;
+        width: 140%;
     }
     .productSecondRow{
         padding-left:1em;
@@ -342,7 +399,7 @@
 
 @media (max-width: 576px) {
     .similarProductImageWrapper {
-        width: 200%;
+        width: 130%;
     }
     .productSecondRow{
         padding-left:0.2em;

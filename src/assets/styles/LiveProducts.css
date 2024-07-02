@@ -280,48 +280,6 @@
     padding-left: 1em;
 }
 
-.reviewSummary {
-    margin-top: 20px;
-    padding: 20px;
-    border: 1px solid #e0e0e0;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.reviewSummary h5 {
-    margin-top: 10px;
-    margin-bottom: 5px;
-    font-size: 1.2em;
-    color: #4a4a4a;
-}
-
-.reviewSummary p {
-    margin-top: 0;
-    margin-bottom: 15px;
-    font-size: 1em;
-    color: #333;
-}
-
-.reviewSummary .positiveReview {
-    background-color: #e7f9e7;
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-}
-
-.reviewSummary .negativeReview {
-    background-color: #f9e7e7;
-    padding: 15px;
-    border-radius: 8px;
-}
-
-.reviewSummary .neutralReview {
-    background-color: #f9f9e7;
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-}
-
 .reviews {
     display: flex;
     flex-direction: column;
@@ -331,59 +289,63 @@
     margin-bottom: 5em;
 }
 
-.reviewSummary {
-    margin-top: 20px;
-    padding: 20px;
-    border: 1px solid #e0e0e0;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+/* 리뷰 인포 스타일링*/
+.reviewInfo {
+    width: 100%;
+    height: auto;
+    opacity: 0.7;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
 }
 
-.reviewSummary h5 {
-    margin-top: 10px;
-    margin-bottom: 5px;
-    font-size: 1.2em;
-    color: #4a4a4a;
+.firstReviewInfo,
+.secondReviewInfo{
+    cursor: pointer;
+    color: rgba(197,79,216, 0.9);
+    font-size: 2em;
 }
 
-.reviewSummary p {
-    margin-top: 0;
-    margin-bottom: 15px;
+.firstReviewInfoDetail,
+.secondReviewInfoDetail {
+    opacity: 0;
+    max-height: 0;
+    transition: 1s;
+    width: 80%;
+    padding-right: 1em;
     font-size: 1em;
-    color: #333;
+    text-align: right;
 }
 
-.reviewSummary .positiveReview {
-    background-color: #e7f9e7;
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 20px;
+.firstReviewInfoDetail.visible,
+.secondReviewInfoDetail.visible {
+    opacity: 1;
+    max-height: 10em;
+    border: rgba(197,79,216, 0.9) !important;
 }
 
-.reviewSummary .negativeReview {
-    background-color: #f9e7e7;
-    padding: 15px;
-    border-radius: 8px;
-}
-
-.reviewSummary .neutralReview {
-    background-color: #f9f9e7;
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-}
+/* 리뷰바 스타일링*/
 
 .reviewBar {
     display: flex;
     width: 80%;
-    height: 2em;
-    margin: 0 auto 20px auto; /* Centering the review bar */
+    height: 3em;
+    margin: 1.5em auto 2em auto;
     border-radius: 1em;
     overflow: hidden;
 }
 
+.reviewBar .positive,
+.reviewBar .neutral,
+.reviewBar .negative {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .reviewBar .positive {
-    background-color: rgba(0, 128, 255, 0.5);
+    background-color: rgba(137, 196, 255, 0.5);
 }
 
 .reviewBar .neutral {
@@ -391,14 +353,24 @@
 }
 
 .reviewBar .negative {
-    background-color: rgba(255, 0, 0, 0.5);
+    background-color: rgba(255, 130, 130, 0.5);
 }
 
 .reviewBar .positive,
 .reviewBar .neutral,
 .reviewBar .negative {
-    height: 2em;
-    flex-grow: 1;
+    height: 3em;
+    transition: 1s;
+}
+
+.reviewBar .positive:hover{
+    background-color: rgba(52, 153, 255, 0.5);
+}
+.reviewBar .neutral:hover{
+    background-color: rgba(68, 68, 68, 0.5);
+}
+.reviewBar .negative:hover {
+    background-color: rgba(255, 59, 59, 0.5);
 }
 
 .reviewBar .positive .tooltiptext,
@@ -406,14 +378,11 @@
 .reviewBar .negative .tooltiptext {
     visibility: hidden;
     width: 120px;
-    background-color: black;
-    color: #fff;
+    background-color: transparent;
     text-align: center;
-    padding: 5px 0;
-    border-radius: 6px;
-    
-    /* Position the tooltip text - see examples below! */
     position: relative;
+    color: transparent;
+    transition: 1s;
     z-index: 1;
 }
 
@@ -421,6 +390,100 @@
 .reviewBar .neutral:hover .tooltiptext,
 .reviewBar .negative:hover .tooltiptext {
     visibility: visible;
+    color: rgba(30,30,30,0.9);
 }
+
+/* 리뷰 요약 스타일링 */
+.reviewSummary{
+    margin-top: 3.5em;
+    margin-left: 5%;
+    margin-right: 5%;
+    min-height: 70vh;
+    display: flex;
+    flex-direction: row;
+}
+
+.positiveAIImg,
+.negativeAIImg {
+    width: 95%;
+}
+
+.summaryFirstColumn{
+    margin-bottom: 10em;
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.positiveReviewTitle,
+.negativeReviewTitle {
+    font-weight: 800;
+    width: 80%;
+    padding: 1.5em;
+}
+
+.positiveReviewTitle{
+    margin-left: 10%;
+    margin-top: 1em;
+    background: linear-gradient(to right top, rgba(238, 246, 255, 0.5), rgba(77, 164, 251, 0.5));
+    border-top-left-radius: 3em;
+    border-bottom-right-radius: 3em;
+}
+
+.summarySecondColumn{
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    padding-bottom: 2em;
+}
+
+.positiveReviewSummary{
+    margin-right: 1.5em;
+}
+
+.negativeReviewSummary{
+    margin-left: 1.5em;
+}
+
+.reviewSummary .positiveReviewSummary,
+.reviewSummary .negativeReviewSummary {
+    padding: 1em;
+    border-radius: 1.2em;
+    width: 90%;
+    height: auto;
+    text-align: left;
+    font-weight: 700;
+    font-size: 1.1em;
+    margin-top: 1em;
+}
+
+.reviewSummary .positiveReviewSummary{
+    background: linear-gradient(to right top, rgba(238, 246, 255, 0.5), rgba(77, 164, 251, 0.5));
+}
+
+.reviewSummary .negativeReviewSummary{
+    background: linear-gradient(to left top, rgba(254, 225, 225, 0.5), rgba(255, 130, 130, 0.5));
+}
+
+.negativeReviewTitle{
+    margin-left: 10%;
+    margin-bottom: 1em;
+    background: linear-gradient(to left top, rgba(254, 225, 225, 0.5), rgba(255, 130, 130, 0.5));
+    border-top-right-radius: 3em;
+    border-bottom-left-radius: 3em;
+}
+
+.summaryThirdColumn{
+    margin-top: 10em;
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+
 
 

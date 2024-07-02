@@ -18,11 +18,12 @@
 }
 
 @font-face {
-  font-family: 'Ownglyph_jooreeletter-Rg';
-  src: url('./fonts/온글잎\ 주리손편지.ttf') format('woff2');
+  font-family: "Noto Sans KR", sans-serif;
+  src: url('./fonts/Noto_Sans_KR/NotoSansKR-VariableFont_wght.ttf') format('woff2');
   font-weight: normal;
   font-style: normal;
 }
+
 body{
-  font-family: "Ownglyph_jooreeletter-Rg";
+  font-family: "Noto Sans KR", sans-serif;
 }
