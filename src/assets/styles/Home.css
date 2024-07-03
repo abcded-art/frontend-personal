@@ -1,12 +1,34 @@
 .Home__homeContainer {
     position: relative;
     width: 100%;
+    min-height: 200vh;
+    background-color: #f1eaff;
+
+}
+.Home__background-Image-Wrapper{
+    width: 100%;
     height: 90vh;
-    top: 10vh;
     overflow: hidden;
 }
 
-.Home__cover-slides {
+.Home__main-background-img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.Home__quickcatch-logo-wrapper{
+    width: 100%;
+    border: 1px solid black;
+}
+
+.Home__quickcatch-logo{
+    position: absolute;
+    top: 10vh;
+    width: 30%;
+}
+
+/* .Home__cover-slides {
     position: relative;
     width: 100%;
     height: 100%;
@@ -76,4 +98,4 @@
     font-size: 30px;
     cursor: pointer;
     text-decoration: none;
-}
+} */

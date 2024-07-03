@@ -1,69 +1,70 @@
 /* 기본 라이트 모드 스타일 */
 @import url('https://fonts.googleapis.com/css2?family=Gwendolyn:wght@400;700&display=swap');
+
 .Header {
-    padding-left: 2em;
-    padding-right: 2em;
-    background: linear-gradient(to bottom right, rgba(241, 234, 255, 0.5)
-, rgba(208, 162, 248, 0.5));
-    transition: background 1s ease, color 1s ease;
-    height: 10vh;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 20;
-    backdrop-filter: blur(20px);
-  }
-  
-  .custom-navbar {
-    height: 10vh; /* 전체 높이의 10%로 설정 */
-  }
-  
-  .navbar-brand {
-    display: flex;
-    justify-content: center;
-    height: 10vh;
-    width: 0em;
-    flex-grow: 1;
-    display: flex;
-    align-items: center;
-    font-family: "Gwendolyn", cursive;
-    font-weight: 700;
-    font-style: normal;
-    font-size: 3em;
-    background: linear-gradient(to bottom right, red, blue);
-    -webkit-background-clip: text;
-            background-clip: text;
-    -webkit-text-fill-color: transparent;
-    transition: background 1s ease, color 1s ease;
-  }
+  padding-left: 2em;
+  padding-right: 2em;
+  background: linear-gradient(to bottom right, rgba(241, 234, 255, 0.5), rgba(208, 162, 248, 0.5));
+  transition: background 1s ease, color 1s ease;
+  height: 10vh;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 20;
+  backdrop-filter: blur(20px);
+}
 
-  .navbar-brand.dark-mode{
-    width: 5em;
-    flex-grow: 1;
-    display: flex;
-    align-items: center;
-    font-family: "Gwendolyn", cursive;
-    font-weight: 700;
-    font-style: normal;
-    background: linear-gradient(to bottom right, rgb(255, 243, 254), rgb(184, 184, 255));
-    -webkit-background-clip: text;
-            background-clip: text;
-    -webkit-text-fill-color: transparent;
-    transition: background 1s ease, color 1s ease;
-  }
+.custom-navbar {
+  height: 10vh;
+  /* 전체 높이의 10%로 설정 */
+}
 
-  .navbar-collapse{
-    display: flex;
-    justify-content: right;
-  }
-  
-  .form-control {
-    width: 200px;
-    margin-right: 1em;
-    transition: background-color 1s ease, color 1s ease;
-  }
+.navbar-brand {
+  display: flex;
+  justify-content: center;
+  height: 10vh;
+  width: 0em;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  font-family: "Gwendolyn", cursive;
+  font-weight: 700;
+  font-style: normal;
+  font-size: 3em;
+  background: linear-gradient(to bottom right, red, blue);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: background 1s ease, color 1s ease;
+}
 
-.withAWSCloudSchool{
+.navbar-brand.dark-mode {
+  width: 5em;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  font-family: "Gwendolyn", cursive;
+  font-weight: 700;
+  font-style: normal;
+  background: linear-gradient(to bottom right, rgb(255, 243, 254), rgb(184, 184, 255));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: background 1s ease, color 1s ease;
+}
+
+.navbar-collapse {
+  display: flex;
+  justify-content: right;
+}
+
+.form-control {
+  width: 200px;
+  margin-right: 1em;
+  transition: background-color 1s ease, color 1s ease;
+}
+
+.withAWSCloudSchool {
   cursor: pointer;
   height: 2em;
   width: 2em;
@@ -72,26 +73,26 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgba(0,0,0,1);
+  color: rgba(0, 0, 0, 1);
   transform: 0.5s;
 }
 
-.withAWSCloudSchool:hover{
+.withAWSCloudSchool:hover {
   color: rgba(99, 99, 99, 0.9);
 }
 
-  .light-dark-icon {
-    font-size: 1.5em;
-    cursor: pointer;
-    transition: background 1s ease, color 1s ease;
-  }
+.light-dark-icon {
+  font-size: 1.5em;
+  cursor: pointer;
+  transition: background 1s ease, color 1s ease;
+}
 
-  .light-dark-icon.dark-mode {
-    font-size: 1.5em;
-    cursor: pointer;
-    color: #F1EAFF;
-    transition: background 1s ease, color 1s ease;
-  }
+.light-dark-icon.dark-mode {
+  font-size: 1.5em;
+  cursor: pointer;
+  color: #F1EAFF;
+  transition: background 1s ease, color 1s ease;
+}
 
 /* Styles for the shopping cart and search icons */
 .linkToTVShopping {
@@ -108,8 +109,9 @@
   margin-right: 1em;
 }
 
-.linkToTVShopping:hover, .linkToSearch:hover {
-  color: #5a5a5a; 
+.linkToTVShopping:hover,
+.linkToSearch:hover {
+  color: #5a5a5a;
 }
 
 /* Dark mode specific styles for the icons */
@@ -121,50 +123,77 @@
 
 .Header.dark-mode .linkToTVShopping:hover,
 .Header.dark-mode .linkToSearch:hover {
-  color: #e388fc; 
+  color: #e388fc;
 }
 
-body{
+body {
   transition: background 1s ease, color 1s ease;
 }
 
 /* 다크 모드 스타일 */
 body.dark-mode {
-    background-color: #000000;
-    color: #F1EAFF;
-    transition: background-color 1s ease, color 1s ease;
-  }
-  
-  .Header.dark-mode {
-    background: linear-gradient(to bottom right, rgba(115, 41, 127, 0.5)
-    , rgba(76, 27, 83, 0.5));
-    color: #F1EAFF;
-    transition: background 1s ease, color 1s ease;
-  }
-  
-  .Header.dark-mode .navbar-brand {
-    color: #F1EAFF;
-    transition: background 1s ease, color 1s ease;
-  }
-  
-  .Header.dark-mode .nav-link {
-    color: #F1EAFF;
-    transition: background 1s ease, color 1s ease;
-  }
-  
-  .Header.dark-mode .form-control {
-    background-color: #333;
-    color: #F1EAFF;
-    transition: background-color 1s ease, color 1s ease;
-  }
-  
-  .Header.dark-mode .light-dark-icon {
-    color: #F1EAFF;
-    transition: background 1s ease, color 1s ease;
-  }
+  background-color: #000000;
+  color: #F1EAFF;
+  transition: background-color 1s ease, color 1s ease;
+}
 
-  @media (max-width: 767px) {
-    .form-control {
-      width: 100px;
-    }
+.Header.dark-mode {
+  background: linear-gradient(to bottom right, rgba(115, 41, 127, 0.5), rgba(76, 27, 83, 0.5));
+  color: #F1EAFF;
+  transition: background 1s ease, color 1s ease;
+}
+
+.Header.dark-mode .navbar-brand {
+  color: #F1EAFF;
+  transition: background 1s ease, color 1s ease;
+}
+
+.Header.dark-mode .nav-link {
+  color: #F1EAFF;
+  transition: background 1s ease, color 1s ease;
+}
+
+.Header.dark-mode .form-control {
+  background-color: #333;
+  color: #F1EAFF;
+  transition: background-color 1s ease, color 1s ease;
+}
+
+.Header.dark-mode .light-dark-icon {
+  color: #F1EAFF;
+  transition: background 1s ease, color 1s ease;
+}
+
+@media (max-width: 767px) {
+  .form-control {
+    width: 100px;
   }
+}
+
+.suggestions-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #ccc;
+  background-color: white;
+  position: absolute;
+  top: 50px;
+  /* 검색창 바로 아래에 배치 */
+  left: 0;
+  /* 검색창 왼쪽 정렬 */
+  width: 100%;
+  /* 검색창 너비와 맞춤 */
+  z-index: 1000;
+  max-height: 200px;
+  overflow-y: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.suggestions-list li {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.suggestions-list li:hover {
+  background-color: #eee;
+}

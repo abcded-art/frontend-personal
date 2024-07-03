@@ -1,6 +1,5 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useNavigate, Routes, Route, useLocation } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 
 import TVShopping from './TVShopping/TVShopping.js';
 import Calendar from './TVShopping/Calendar.js';
@@ -13,11 +12,13 @@ import SearchProduct from './product/SearchProduct.js';
 import CryingDocker from '../assets/images/crying_docker.png';
 import '../assets/styles/Main.css';
 
+import Header from './common/Header.js';
+
 function Main() {
     const navigate = useNavigate();
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedMalls, setSelectedMalls] = useState(["cjonstyle", "gsshop", "hmall", "lotteimall"]);
-    const [showWith, setShowWith] = useState(false);
+    const [showHeader, setShowHeader] = useState(false);
 
     const handleMiddleDateChange = (date) => {
         setSelectedDate(date);
@@ -36,8 +37,25 @@ function Main() {
         setSelectedMalls(newSelection);
     };
 
+    useEffect(() => {
+        const handleScroll = () => {
+            const scrollPosition = window.scrollY;
+            if (scrollPosition > 100){
+                setShowHeader(true);
+            } else{
+                setShowHeader(false);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, [])
+
     return (
         <div className='mainContainer'>
+            <Header showHeader={showHeader} />
             <Routes>
                 <Route path="/" element={
                     <div className='mainPage'>

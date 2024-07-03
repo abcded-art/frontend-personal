@@ -1,3 +1,5 @@
+const config = require('./src/config.js');
+
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
@@ -13,9 +15,10 @@ app.post('/api/search', async (req, res) => {
     const { query } = req.body;
 
     try {
+        const { elasticsearchAddr } = config;
         const response = await axios({
             method: 'post',
-            url: 'http://192.168.0.6:9200/quickcatch-broadcast/_search?pretty',
+            url: `http://${elasticsearchAddr}:9200/quickcatch-broadcast/_search?pretty`,
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -39,5 +42,6 @@ app.post('/api/search', async (req, res) => {
 });
 
 app.listen(port, '0.0.0.0', () => {
-    console.log(`Server is running on http://192.168.0.11:${port}`);
+    const { frontendAddr } = config;
+    console.log(`Server is running on http://${frontendAddr}:${port}`);
 });

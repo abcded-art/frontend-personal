@@ -3,9 +3,11 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Nav, Navbar, Form, FormControl } from 'react-bootstrap';
 import { FaSun, FaMoon, FaShoppingCart, FaSearch } from 'react-icons/fa';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import '../../assets/styles/Header.css';
+import axios from 'axios';
 import quickCatchLogo from '../../assets/images/quickcatch_logo.png';
+import config from '../../config.js';
 
 function Header({ onWithClick }) {
     const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -14,7 +16,9 @@ function Header({ onWithClick }) {
     });
 
     const [searchQuery, setSearchQuery] = useState('');
+    const [suggestions, setSuggestions] = useState(null);
     const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
         if (isDarkMode) {
@@ -23,6 +27,11 @@ function Header({ onWithClick }) {
             document.body.classList.remove('dark-mode');
         }
     }, [isDarkMode]);
+
+    useEffect(() => {
+        setSuggestions(null);
+    }, [location]);
+
 
     const toggleDarkMode = () => {
         setIsDarkMode((prevMode) => {
@@ -38,24 +47,63 @@ function Header({ onWithClick }) {
         navigate(`/search?q=${searchQuery}`);
     };
 
+    const fetchSuggestions = async (query) => {
+        try {
+            const { frontendAddr } = config
+            const response = await axios.post(`http://${frontendAddr}:5000/api/search`, { query });
+            setSuggestions(response.data.hits.hits.map(hit => ({
+                name: hit._source.name,
+                id: hit._source.product_id
+            })));
+        } catch (error) {
+            console.error("Failed to fetch suggestions from Elasticsearch", error);
+            setSuggestions([]);
+        }
+    };
+
+    useEffect(() => {
+        if (searchQuery.length >= 2) {
+            const timer = setTimeout(() => {
+                fetchSuggestions(searchQuery);
+            }, 300);
+
+            return () => clearTimeout(timer);
+        } else {
+            setSuggestions(null);
+        }
+    }, [searchQuery]);
+
+    const handleSuggestionClick = (id) => {
+        navigate(`/product/${id}`);
+    };
+
     return (
         <div className={`Header ${isDarkMode ? 'dark-mode' : ''}`}>
             <Navbar collapseOnSelect expand="lg" className='custom-navbar'>
                 <Container>
                     <Navbar.Brand href="/" className={isDarkMode ? "dark-mode" : ""}>
-                        <img src={quickCatchLogo} alt="QuickCatch Logo" style={{ height: '80px' }}/>
+                        <img src={quickCatchLogo} alt="QuickCatch Logo" style={{ height: '80px' }} />
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
-                        <Form className="d-flex" onSubmit={handleSearchSubmit}>
-                            <FormControl 
-                                type="search" 
-                                placeholder="Search" 
-                                className="me-2" 
-                                aria-label="Search" 
-                                value={searchQuery} 
-                                onChange={(e) => setSearchQuery(e.target.value)} 
+                        <Form className="d-flex" onSubmit={handleSearchSubmit} style={{ position: 'relative' }}>
+                            <FormControl
+                                type="search"
+                                placeholder="Search"
+                                className="me-2"
+                                aria-label="Search"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
                             />
+                            {suggestions && suggestions.length > 0 && (
+                                <ul className="suggestions-list">
+                                    {suggestions.map((suggestion, index) => (
+                                        <li key={index} onClick={() => handleSuggestionClick(suggestion.id)}>
+                                            {suggestion.name}
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
                         </Form>
                         <Nav>
                             <Link to={`/TVShopping`} className='linkToTVShopping'>

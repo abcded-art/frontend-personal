@@ -4,6 +4,7 @@ import '../../assets/styles/SearchProduct.css';
 import { useLocation } from 'react-router-dom';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko'; // 한국어 날짜 포맷팅을 위해 추가
+import config from "../../config.js"
 
 const useQuery = () => {
     return new URLSearchParams(useLocation().search);
@@ -23,9 +24,10 @@ function SearchProduct() {
             setLoading(true);  // 로딩 상태를 true로 설정
         
             try {
+                const { frontendAddr } = config;
                 const response = await axios({
                     method: 'post',
-                    url: 'http://192.168.0.11:5000/api/search',
+                    url: `http://192.168.0.16:5000/api/search`,
                     headers: {
                         'Content-Type': 'application/json',
                     },
@@ -77,9 +79,10 @@ function SearchProduct() {
             {data && data.length > 0 ? (
                 <ul className='product-list'>
                     {data.map((item, index) => {
+                        const { frontendAddr } = config;
                         const { _source } = item;
                         const { broadcast_date, detail_images, price, name, product_id } = _source;
-                        const productUrl = `http://192.168.0.11:3000/product/${product_id}`;
+                        const productUrl = `http://${frontendAddr}:3000/product/${product_id}`;
                         return (
                             <li key={index} className='product-item'>
                                 <a href={productUrl} target="_blank" rel="noopener noreferrer" className='product-link'>
