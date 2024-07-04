@@ -5,20 +5,15 @@
     min-height: 100vh;
 }
 
-.loadingMessage{
-    padding-top: 8vh;
+.loadingMessage,
+.emptyMessage{
     font-size: 3.5em;
-    font-weight: 800;
+    font-weight: 600;
     text-align: center;
-    line-height: 52vh;
+    line-height: 10vh;
+    padding-top: 20vh;
     width: 100vh;
     height: 82vh;
-}
-
-.emptyMessage{
-    padding-top: 18vh;
-    font-size: 3em;
-    text-align: center;
 }
 
 .hourGroup {
@@ -82,18 +77,54 @@
     border-radius: 0.75em;
     border-bottom: 1px solid rgba(197,79,216, 0.15);
     width: 100%;
-    height: 14em;
+    height: auto;
 }
 
-.divForAlertAlign{
-    position: absolute;
-    top: 0.5em;
-    left: 0em;
-    height: 90%;
+/**================================
+    상품 이미지, 알림과 관련된 스타일
+==================================*/
+
+.productImageAlignBox{
+    display: flex;
+    justify-content: space-between;
+    align-items: strecth;
+    flex-direction: row;
+    width: 30%;
+    height: 100%;
+}
+
+.tvShopping__divForAlertAlignWrapper{
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-between;
+    top: 0em;
+    left: 0em;
+    height: auto;
+    width: 30%;
+}
+
+.alert{
+    cursor: pointer;
+    transition: 1s;
+    scale: 1;
+    font-size: 1.5em;
+    margin-left: 0;
+    border: none;
+    opacity: 100%;
+    width: 100%;
+}
+
+.alert:hover {
+    transform: scale(1.1);
+    opacity: 40%;
+    color:rgba(110, 113, 15, 0.9);
+}
+
+.divForAlertAlign{
+    width: 100%;
+    height: auto;
+    position: relative;
 }
 
 .productReviewExplain{
@@ -105,62 +136,43 @@
     font-size: 0.85em;
     width: 12em;
     height: 8em;
-    z-index:1;
+    z-index:-1;
     word-break:break-all;
     padding-top: 0.5em;
     padding-left: 0.2em;
     padding-right: 0.2em;
     transition: opacity 0.5s;
     border-radius: 1em;
-    top: 1.5em;
+    top: -8.5em;
     left: 0.5em;
 }
 
 .productReviewExplain::after {
     content: "";
     position: absolute;
-    bottom: -1.4em;
-    left: 0.8em;
+    top: 100%;
+    left: 2.6vh;
     width: 0;
     height: 0;
     border-left: 0.4em solid transparent;
     border-right: 0.4em solid transparent;
-    border-bottom: 0.7em solid rgba(255, 255, 255, 0.7);
-    border-top-color: rgba(255, 255, 255, 0.7);
     border-top: 0.7em solid rgba(55, 55, 55, 0.9);
     z-index: -1;
 }
 
 .productReviewExplain.visible{
     opacity: 1;
-}
-
-.alert{
-    cursor: pointer;
-    transition: 1s;
-    scale: 1;
-    font-size: 1.5em;
-    margin-left: 0;
-    border: none;
-    opacity: 100%;
-}
-
-.alert:hover {
-    transform: scale(1.1);
-    opacity: 40%;
-    color:rgba(110, 113, 15, 0.9);
+    z-index: 1;
 }
 
 .reviewAvailableBadge{
-    position: absolute;
+    position: relative;
     cursor: pointer;
-    bottom: 0.2em;
-    right: 0.4em;
     width: 1em;
     height: 1em;
     color: rgba(225, 231, 32, 0.7);
     transition: color 1s;
-    font-size: 2.3em;
+    font-size: 2.1em;
     font-weight: 900;
 }
 
@@ -168,18 +180,10 @@
     color: rgba(225, 227, 190, 0.7);
 }
 
-.productImageAlign{
-    display: flex;
-    justify-content: start;
-    align-items: flex-end;
-    flex-direction: column;
-    width: 30%;
-    height: 100%;
-}
-
 .productImageFix {
     position: relative;
     width: 60%;
+    height: auto;
     aspect-ratio: 1 / 1;
     transition: transform 0.5s;
     transform-origin: center;
@@ -211,6 +215,10 @@
     height: 100%;
     object-fit: contain;
 }
+
+/**================================
+    상품 정보와 관련 정보를 담는 스타일
+==================================*/
 
 .productInfoBox{
     width: 70%;
@@ -251,14 +259,13 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    height: 50%;
+    height: 1.6vh;
     overflow: hidden;
 }
 
 .productMallLogo{
     object-fit: contain;
-    max-height: 60%;
-    width: auto;
+    height: 100%;
     border-radius: 0;
 }
 

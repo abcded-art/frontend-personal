@@ -27,7 +27,7 @@ function SearchProduct() {
                 const { frontendAddr } = config;
                 const response = await axios({
                     method: 'post',
-                    url: `http://192.168.0.16:5000/api/search`,
+                    url: `http://192.168.0.16:5005/api/search`,
                     headers: {
                         'Content-Type': 'application/json',
                     },

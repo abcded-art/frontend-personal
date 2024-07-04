@@ -3,13 +3,14 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Nav, Navbar, Form, FormControl } from 'react-bootstrap';
 import { FaSun, FaMoon, FaShoppingCart, FaSearch } from 'react-icons/fa';
+import { ImHome3 } from "react-icons/im";
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import '../../assets/styles/Header.css';
 import axios from 'axios';
-import quickCatchLogo from '../../assets/images/quickcatch_logo.png';
+import quickCatchLogo from '../../assets/images/QuickCatch_Logo_Simple.png';
 import config from '../../config.js';
 
-function Header({ onWithClick }) {
+function Header({ showHeader, onWithClick }) {
     const [isDarkMode, setIsDarkMode] = useState(() => {
         const savedMode = localStorage.getItem('darkMode');
         return savedMode ? JSON.parse(savedMode) : false;
@@ -49,8 +50,8 @@ function Header({ onWithClick }) {
 
     const fetchSuggestions = async (query) => {
         try {
-            const { frontendAddr } = config
-            const response = await axios.post(`http://${frontendAddr}:5000/api/search`, { query });
+            const { frontendAddr } = config;
+            const response = await axios.post(`http://${frontendAddr}:5005/api/search`, { query });
             setSuggestions(response.data.hits.hits.map(hit => ({
                 name: hit._source.name,
                 id: hit._source.product_id
@@ -78,11 +79,11 @@ function Header({ onWithClick }) {
     };
 
     return (
-        <div className={`Header ${isDarkMode ? 'dark-mode' : ''}`}>
+        <div className={`Header ${showHeader ? 'visible' : 'hidden'} ${isDarkMode ? 'dark-mode' : ''}`}>
             <Navbar collapseOnSelect expand="lg" className='custom-navbar'>
                 <Container>
-                    <Navbar.Brand href="/" className={isDarkMode ? "dark-mode" : ""}>
-                        <img src={quickCatchLogo} alt="QuickCatch Logo" style={{ height: '80px' }} />
+                    <Navbar.Brand href="/TVShopping" className={isDarkMode ? "dark-mode" : ""}>
+                        <img src={quickCatchLogo} alt="QuickCatch Logo" style={{ height: '5vh' }} />
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
@@ -106,12 +107,15 @@ function Header({ onWithClick }) {
                             )}
                         </Form>
                         <Nav>
+                            <Link to={`/`} className='linkToHome'>
+                                <ImHome3 />
+                            </Link>
                             <Link to={`/TVShopping`} className='linkToTVShopping'>
                                 <FaShoppingCart />
                             </Link>
-                            <Link to={`/search`} className='linkToSearch'>
+                            {/* <Link to={`/search`} className='linkToSearch'>
                                 <FaSearch />
-                            </Link>
+                            </Link> */}
                             <div className='withAWSCloudSchool' onClick={onWithClick}>with</div>
                             <Nav.Link onClick={toggleDarkMode}>
                                 {isDarkMode ? <FaMoon className="light-dark-icon" /> : <FaSun className="light-dark-icon" />}

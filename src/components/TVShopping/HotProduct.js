@@ -35,6 +35,11 @@ function HotProduct({ selectedDate }) {
         }
     }, [dateStr, backendAddr, backendPort]);
 
+    const formatDateStringMonthDate = (dateString) => {
+        const [year, month, day] = dateString.split('-');
+        return `${parseInt(month)}월 ${parseInt(day)}일`;
+    };
+
     useEffect(() => {
         fetchData();
     }, [fetchData]);
@@ -51,11 +56,19 @@ function HotProduct({ selectedDate }) {
     }, [productImages.length]);
 
     const currentProduct = productImages[currentIndex] || {};
+    console.log(`current product: ${currentProduct}`);
     console.log(currentProduct);
+    console.log(`product images: ${productImages}`);
+    console.log(productImages);
     return (
         <div className='HotProductOuterContainer'>
-            <div className='todaysHotDealProduct'>오늘의 특가 상품</div>
-            {productImages.length > 0 ? (
+            <div className='HotProduct__todaysHotDealDate'>
+                〈{formatDateStringMonthDate(dateStr)}〉<br/>
+            </div>
+            <div className='HotProduct__todaysHotDealProduct'>
+                특가 상품
+            </div>
+            {productImages.length > 0 && currentProduct.discount > 0 ? (
                 <Link to={`/product/${currentProduct.link}`} className={`hotProductBox ${isAnimating ? 'swipe' : ''}`}>
                     <div className='hotProductFirstRow'>
                         <div className='hotProductImage'>

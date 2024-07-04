@@ -153,7 +153,7 @@ function LiveProduct() {
                         </div>
                         <div className="liveProduct-last-row">
                             <div className="liveProduct-price">{product.p_price ? product.p_price.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ` 원` : `상담문의`}</div>
-                            <a href={product.redirect_url} className="liveProduct-link" target='_blank' rel="noopener noreferrer">구매하러 가기</a>
+                            <a href={product.redirect_url} className="liveProduct-link" target='_blank' rel="noopener noreferrer">구매 링크</a>
                         </div>
                     </div>
                 </div>

@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useNavigate, Routes, Route, useLocation } from 'react-router-dom';
 
+// Routing 요소 출력을 위해 Components 임포트
 import TVShopping from './TVShopping/TVShopping.js';
 import Calendar from './TVShopping/Calendar.js';
 import MallsMenu from './TVShopping/MallsMenu.js';
@@ -8,17 +9,22 @@ import HotProduct from './TVShopping/HotProduct.js';
 import Home from './home/Home.js';
 import LiveProduct from './product/LiveProducts.js';
 import SearchProduct from './product/SearchProduct.js';
-
-import CryingDocker from '../assets/images/crying_docker.png';
-import '../assets/styles/Main.css';
-
+import AWSCloudSchoolCooperators from './common/AWSCloudSchoolCooperators.js';
 import Header from './common/Header.js';
 
+// 이미지 임포트
+import CryingDocker from '../assets/images/crying_docker.png';
+
+// CSS 임포트
+import '../assets/styles/Main.css';
+
 function Main() {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
+    const location = useLocation();
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedMalls, setSelectedMalls] = useState(["cjonstyle", "gsshop", "hmall", "lotteimall"]);
     const [showHeader, setShowHeader] = useState(false);
+    const [showWith, setShowWith] = useState(false);
 
     const handleMiddleDateChange = (date) => {
         setSelectedDate(date);
@@ -40,22 +46,30 @@ function Main() {
     useEffect(() => {
         const handleScroll = () => {
             const scrollPosition = window.scrollY;
-            if (scrollPosition > 100){
-                setShowHeader(true);
-            } else{
-                setShowHeader(false);
-            }
+            const isHomePage = location.pathname === '/';
+            const isTopOfPage = scrollPosition <= 250;
+            setShowHeader(!isHomePage || !isTopOfPage);
         };
 
         window.addEventListener('scroll', handleScroll);
+        handleScroll();
+
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
-    }, [])
+    }, [location]);
+    
+    const handleWithClick = () => {
+      setShowWith(true);
+    };
+  
+    const handleClose = () => {
+      setShowWith(false);
+    };
 
     return (
         <div className='mainContainer'>
-            <Header showHeader={showHeader} />
+            <Header showHeader={showHeader} onWithClick={handleWithClick}/>
             <Routes>
                 <Route path="/" element={
                     <div className='mainPage'>
@@ -71,7 +85,6 @@ function Main() {
                             <TVShopping selectedDate={selectedDate} onScrollToCurrentHour={scrollToCurrentHour} selectedMalls={selectedMalls} />
                         </div>
                     </div>
-
                 } />
                 <Route path="/product/:id" element={<LiveProduct />} />
                 <Route path="/search" element={
@@ -84,6 +97,7 @@ function Main() {
                     <img src={CryingDocker} alt="docker" />
                 </>} />
             </Routes>
+            <AWSCloudSchoolCooperators show={showWith} onClose={handleClose} />
         </div>
     );
 }

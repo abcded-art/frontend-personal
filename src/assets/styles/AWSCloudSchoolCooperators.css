@@ -13,8 +13,10 @@
 }
 
 .with-box {
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(229, 229, 229, 0.95);
     padding: 2em;
+    margin-left: 1em;
+    margin-right: 1em;
     border-radius: 1em;
     position: relative;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -39,21 +41,47 @@
 .row{
     display: flex;
     width: 100%;
+    min-height: 15vh;
     justify-content: space-between;
     margin-bottom: 1em;
+    /* border-bottom: 1px solid #888888; */
 }
 
 .column{
     flex: 1;
     display: flex;
+    justify-content: space-evenly;
+    text-decoration: none;
+    color: inherit;
+    font-family: inherit;
+    transition: background-color 1s;
+    border-radius: 1em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+
+.column:hover{
+    background-color:rgba(0, 0, 0, 0.1);
+}
+
+.schoolTeamLogoImgWrapper{
+    width: 25%;
+    height: 100%;
+    display: flex;
     justify-content: center;
 }
 
 .logoDescribe{
+    width: 75%;
+    padding-left: 5%;
+    padding-right: 5%;
+    text-align: left;
     text-decoration: none;
     color: inherit;
     font-family: inherit;
     font-size: inherit;
+    display: flex;
+    align-items: center;
 }
 
 .error-message{
@@ -61,5 +89,29 @@
 }
 
 .schoolTeamLogoImg{
-    width: 10em;
+    width: 90%;
+    height: 80%;
+}
+
+
+/* SetAlert Component Transition */
+
+.alert-enter {
+    opacity: 0;
+    border-radius: 5em;
+}
+
+.alert-enter-active {
+    opacity: 1;
+    transition: opacity 500ms, transform 500ms;
+    border-radius: 0;
+}
+
+.alert-exit {
+    opacity: 1;
+}
+
+.alert-exit-active {
+    opacity: 0;
+    transition: opacity 500ms, transform 500ms;
 }

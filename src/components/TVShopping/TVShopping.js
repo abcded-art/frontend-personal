@@ -40,8 +40,15 @@ const ProductItem = React.memo(({ product, isBeforeLive, showAlert, dateStr, tod
 
     return (
         <div className="product">
-            <div className='productImageAlign'>
-                {isBeforeLive && (
+            <div className='productImageAlignBox'>
+                <div className='tvShopping__divForAlertAlignWrapper'>
+                    {isBeforeLive ? (
+                        <div className='alert'>
+                            <BiBell className='alertBell' onClick={showAlert} />
+                        </div>
+                    ): (
+                        <div></div>
+                    )}
                     <div className='divForAlertAlign'>
                         <div className={`productReviewExplain ${productReviewExplainVisible ? 'visible' : ''}`}>
                             본 상품은 인공지능 리뷰 분석이 된 상품입니다.
@@ -50,11 +57,9 @@ const ProductItem = React.memo(({ product, isBeforeLive, showAlert, dateStr, tod
                         {product.review_yn === 'Y' && (
                             <GiTalk className='reviewAvailableBadge' onClick={toggleProductReviewExplainVisible} />
                         )}
-                        <div className='alert'>
-                            <BiBell className='alertBell' onClick={showAlert} />
-                        </div>
                     </div>
-                )}
+                </div>
+
                 <div className='productImageFix'>
                     <Link to={`/product/${product.p_id}`} className='customLink'>
                         <img src={product.img_url} alt={product.p_name} />
@@ -88,7 +93,7 @@ const ProductItem = React.memo(({ product, isBeforeLive, showAlert, dateStr, tod
                     {similarProducts.map((similarProduct, idx) => (
                         <div key={idx} className='tvShopping__similarProduct'>
                             {similarProduct ? (
-                                <Link to={similarProduct.redirect_url} className='tvShopping__similarProductLink'>
+                                <Link to={similarProduct.redirect_url} className='tvShopping__similarProductLink' target='_blank' rel="noopener noreferrer">
                                     <div className='tvShopping__similarProductElementWrapper'>
                                         <div className='tvShopping__similarProductImageWrapper'>
                                             <img src={similarProduct.image_url} alt={similarProduct.product_name} className='tvShopping__similarProductImage' />
@@ -130,6 +135,7 @@ function TVShopping({ selectedDate, onScrollToCurrentHour, selectedMalls }) {
     };
 
     const fetchData = useCallback(async () => {
+        setLoading(true);
         if (selectedMalls.length === 0) {
             console.warn("쇼핑사 선택이 안됐다.");
             setLiveData({});
@@ -245,13 +251,13 @@ function TVShopping({ selectedDate, onScrollToCurrentHour, selectedMalls }) {
     }, [liveData, dateStr, today, selectedMalls]);
 
     if (loading) {
-        return <div className='loadingMessage'>Loading....</div>;
+        return <div className='loadingMessage'>{dateStr}<br/>데이터 로딩중...</div>;
     }
 
     return (
         <div className='Main'>
             <div className='mallsContainer'>
-                {Object.keys(liveData).length === 0 ? (
+                {Object.keys(liveData).length === 0 || selectedMalls.length === 0 ? (
                     <div className='emptyMessage'>상품이 없습니다</div>
                 ) : (
                     renderTimeBar

@@ -5,13 +5,19 @@
     right: 1em;
     width: 15%;
     padding: 1em;
+    background: rgba(255, 255, 255, 0.1); 
     height: 50%;
     z-index:1;
 }
 
-.todaysHotDealProduct{
-    font-size: 1.5em;
-    font-weight: 800;
+.HotProduct__todaysHotDealDate{
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
+.HotProduct__todaysHotDealProduct{
+    font-size: 1.4em;
+    font-weight: 600;
     padding-bottom: 1em;
 }
 

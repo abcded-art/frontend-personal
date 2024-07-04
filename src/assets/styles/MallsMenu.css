@@ -6,12 +6,11 @@
     padding: 1em;
     background: rgba(255, 255, 255, 0.1); 
     border-radius: 2em;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     z-index: 500;
     transition: opacity 0.4s ease-in-out;
     display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
+    justify-content: center;
+    align-items: center;
 }
 
 .fixContainer {
@@ -19,20 +18,20 @@
     height: 100%;
     width: 100%;
     display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
+    justify-content: center;
+    align-items: center;
 }
 
 .menuContainer {
     width: 100%;
     height: 100%;
     display: flex;
-    flex-direction: column; /* Stack items vertically */
-    align-items: center; /* Center horizontally */
-    justify-content: center; /* Center vertically */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
-.announceSelectMall{
+.announceSelectMall {
     font-size: 1.3em;
     font-weight: 800;
     padding-bottom: 1em;
@@ -41,56 +40,96 @@
 .checkbox-item-wrapper {
     opacity: 1.0;
     padding: 0.3em;
-    background: rgba(208, 162, 248, 0.05);
+    /* background: rgba(208, 162, 248, 0.05); */
     margin-bottom: 0.4em;
     border-radius: 10em;
     cursor: pointer;
-    width: 70%;
+    width: 85%;
     transition: 1s;
     display: flex;
-    justify-content: center; /* Center horizontally */
+    justify-content: center;
 }
 
 .checkbox-item-wrapper:hover {
-    background: rgba(208, 162, 248, 0.2);
+    /* background: rgba(208, 162, 248, 0.2); */
 }
 
 .checkbox-item-wrapper.checked {
-    border: 0.1em solid rgba(208, 162, 248, 0.25);
-}
-
-.checkbox-item-wrapper.checked:hover {
-    background: rgba(208, 162, 248, 0.);
+    border-left: 0.1em solid rgba(208, 162, 248, 0.55);
+    border-right: 0.1em solid rgba(208, 162, 248, 0.55);
 }
 
 .checkbox-item-wrapper:not(.checked) {
-    opacity: 0.5; /* 선택되지 않은 경우 불투명도 50% */
+    opacity: 0.5;
 }
 
 .checkbox-item {
     display: flex;
     align-items: center;
-    justify-content: center; /* Center the images */
-    padding: 10px; /* Reduced padding */
+    justify-content: center;
+    padding: 10px;
     background: transparent;
     border-radius: 8px;
-    font-size: 0; /* Remove text */
+    font-size: 0;
     font-weight: 400;
     white-space: nowrap;
     position: relative;
     transition: 0.4s;
     box-sizing: border-box;
-    height: auto; /* Adjust height to content */
+    height: auto;
 }
 
 .checkbox-item input[type="checkbox"] {
     display: none;
 }
 
+.checkbox-item .custom-checkbox {
+    position: relative;
+    cursor: pointer;
+    padding-left: 25px;
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-item .custom-checkbox::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    border: 2px solid #9b59b6;
+    border-radius: 4px;
+    background: transparent;
+}
+
+.checkbox-item input[type="checkbox"]:checked + .custom-checkbox::before {
+    background: #9b59b6;
+}
+
+.checkbox-item .custom-checkbox::after {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+    width: 6px;
+    height: 12px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.checkbox-item input[type="checkbox"]:checked + .custom-checkbox::after {
+    opacity: 1;
+}
+
 .checkbox-item img {
-    width: 80px; /* Increase the image size */
+    width: 80px;
     height: auto;
-    margin: 0; /* Remove margin */
+    margin: 0;
     transition: transform 0.3s ease-in-out;
     cursor: pointer;
 }
@@ -99,15 +138,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%; /* Make label full width */
+    width: 100%;
     cursor: pointer;
 }
 
-/* 다크모드일 때 이미지 색상 반전 */
 body.dark-mode .dark-mode-image {
     filter: invert(1);
 }
 
 .checkbox-item-wrapper:hover {
-    transform: scale(1.1); /* 1.2배 확대 */
+    transform: scale(1.1);
 }

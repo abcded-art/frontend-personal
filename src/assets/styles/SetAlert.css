@@ -46,3 +46,25 @@
     color: white;
     cursor: pointer;
 }
+
+/* SetAlert Component Transition */
+
+.alert-enter {
+    opacity: 0;
+    border-radius: 5em;
+}
+
+.alert-enter-active {
+    opacity: 1;
+    transition: opacity 500ms, transform 500ms;
+    border-radius: 0;
+}
+
+.alert-exit {
+    opacity: 1;
+}
+
+.alert-exit-active {
+    opacity: 0;
+    transition: opacity 500ms, transform 500ms;
+}

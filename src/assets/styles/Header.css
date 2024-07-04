@@ -6,51 +6,25 @@
   padding-right: 2em;
   background: linear-gradient(to bottom right, rgba(241, 234, 255, 0.5), rgba(208, 162, 248, 0.5));
   transition: background 1s ease, color 1s ease;
-  height: 10vh;
+  height: 8vh;
   position: fixed;
   top: 0;
   width: 100%;
   z-index: 20;
   backdrop-filter: blur(20px);
+  transition: top 1s ease-out;
+}
+
+.Header.hidden {
+  top: -8vh;
+}
+
+.Header.visible {
+  top: 0;
 }
 
 .custom-navbar {
-  height: 10vh;
-  /* 전체 높이의 10%로 설정 */
-}
-
-.navbar-brand {
-  display: flex;
-  justify-content: center;
-  height: 10vh;
-  width: 0em;
-  flex-grow: 1;
-  display: flex;
-  align-items: center;
-  font-family: "Gwendolyn", cursive;
-  font-weight: 700;
-  font-style: normal;
-  font-size: 3em;
-  background: linear-gradient(to bottom right, red, blue);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  transition: background 1s ease, color 1s ease;
-}
-
-.navbar-brand.dark-mode {
-  width: 5em;
-  flex-grow: 1;
-  display: flex;
-  align-items: center;
-  font-family: "Gwendolyn", cursive;
-  font-weight: 700;
-  font-style: normal;
-  background: linear-gradient(to bottom right, rgb(255, 243, 254), rgb(184, 184, 255));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  transition: background 1s ease, color 1s ease;
+  height: 8vh;
 }
 
 .navbar-collapse {
@@ -95,34 +69,36 @@
 }
 
 /* Styles for the shopping cart and search icons */
-.linkToTVShopping {
+.linkToHome,
+.linkToTVShopping,
+.linkToSearch,
+.withAWSCloudSchool {
   font-size: 1.5em;
   color: inherit;
   transition: color 1s ease;
   margin-right: 1em;
 }
 
-.linkToSearch {
-  font-size: 1.5em;
-  color: inherit;
-  transition: color 1s ease;
-  margin-right: 1em;
-}
-
+.linkToHome,
 .linkToTVShopping:hover,
-.linkToSearch:hover {
+.linkToSearch:hover,
+.withAWSCloudSchool:hover {
   color: #5a5a5a;
 }
 
 /* Dark mode specific styles for the icons */
+.Header.dark-mode .linkToHome,
 .Header.dark-mode .linkToTVShopping,
-.Header.dark-mode .linkToSearch {
+.Header.dark-mode .linkToSearch,
+.Header.dark-mode .withAWSCloudSchool {
   color: #F1EAFF;
   transition: color 1s ease;
 }
 
+.Header.dark-mode .linkToHome:hover,
 .Header.dark-mode .linkToTVShopping:hover,
-.Header.dark-mode .linkToSearch:hover {
+.Header.dark-mode .linkToSearch:hover,
+.Header.dark-mode .withAWSCloudSchool:hover {
   color: #e388fc;
 }
 

@@ -22,6 +22,16 @@ git checkout -b dev
 
 git push origin dev
 
+# 실행 방법
+
+bash terminal 2개 열기
+
+1번 터미널에서 npm start
+
+2번 터미널에서 node server.js
+
+node server.js 실행시 ip:port 가 실행된다고 나와야함
+
 # 도커
 
 ### 멀티플랫폼 도커 이미지 빌드 방법

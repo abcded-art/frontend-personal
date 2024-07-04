@@ -6,7 +6,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 
 const app = express();
-const port = 5000;
+const port = 5005;
 
 app.use(cors()); // 모든 출처에서의 요청 허용
 app.use(bodyParser.json());
