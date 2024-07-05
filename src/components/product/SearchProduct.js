@@ -96,9 +96,12 @@ function SearchProduct() {
                                                 <img src={product_img} alt={name} className='SearchProduct__product-image' />
                                             </div>
                                             
-                                            <div className='SearchProduct__product-info'>
-                                                <div className='SearchProduct__product-name'>{name}</div>
-                                                <div className='SearchProduct__product-price'>{formatPrice(price)}</div>
+                                            <div className='SearchProduct__product-info-box'>
+                                                <div className='SearchProduct__product-info'>
+                                                    <div className='SearchProduct__product-name'>{name}</div>
+                                                    <div className='SearchProduct__product-price'>{formatPrice(price)}</div>
+                                                </div>
+                                                
                                                 {isBroadcasted ? (
                                                     <div className='SearchProduct__product-date'>
                                                     본 상품은 {formatBroadcastDate(broadcast_date)}(<span className='SearchProduct__product-delayed'>{broadcastStatus}</span>)에 방송되었습니다.

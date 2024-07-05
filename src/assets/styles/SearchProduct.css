@@ -47,7 +47,6 @@
 
 .SearchProduct__product-content-box{
     margin-top: 6vh;
-    
 }
 
 .SearchProduct__product-list {
@@ -60,12 +59,14 @@
     list-style: none;
     border: 1px solid #ddd;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
     padding-top: 0.5em;
     border-radius: 10px;
     margin-bottom: 20px;
     overflow: hidden;
-    background: #fff;
+    background: transparent;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -79,10 +80,16 @@
     opacity: 0.75;
 }
 
+.SearchProduct__product-item:hover .SearchProduct__product-name{
+    color: rgba(197,79,216, 0.85);
+}
+
 .SearchProduct__product-link {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
+    height: 100%;
     /* Link Style 제거 */
     text-decoration: none; 
     color: inherit;
@@ -91,7 +98,9 @@
 }
 
 .SearchProduct__product-image-wrapper{
-    width: 90%;
+    padding-top: 5%;
+    max-width: 80%;
+    height: 40%;
 }
 
 .SearchProduct__product-image {
@@ -106,11 +115,21 @@
     transition: opacity 0.5s ease;
 }
 
-.SearchProduct__product-info {
-    width: 95%;
-    padding: 20px;
-    flex: 1;
+.SearchProduct__product-info-box{
+    width: 92%;
+    min-height: 60%;
     display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+    padding-left: 0.2em;
+    padding-right: 0.2em;
+    padding-bottom: 1em;
+}
+
+.SearchProduct__product-info {
+    display: flex;
+    flex: 1;
     flex-direction: column;
     justify-content: flex-start;
 }
@@ -119,7 +138,9 @@
     margin-top: 0;
     font-size: 1.2em;
     font-weight: 500;
+    padding-top: 10%;
     text-align: left;
+    transition: color 0.5s;
 }
 
 .SearchProduct__product-price{
@@ -132,6 +153,7 @@
 
 .SearchProduct__product-date {
     padding-top: 2em;
+    padding-bottom: 0.8em;
     font-size: 0.9em;
     text-align: left;
 }
