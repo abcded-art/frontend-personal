@@ -8,6 +8,7 @@
 const config = {
     backendAddr: process.env.BACKEND_ADDR || '',
     backendPort: process.env.BACKEND_PORT || '',
+    // elasticsearchAddr: process.env.ELASTICSEARCH_ADDR || '10.0.6.5',
     elasticsearchAddr: process.env.ELASTICSEARCH_ADDR || '192.168.0.6',
     frontendAddr: process.env.FRONTEND_ADDR || '192.168.0.16'
 };

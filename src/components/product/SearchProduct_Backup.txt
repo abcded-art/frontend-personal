@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 import '../../assets/styles/SearchProduct.css';
 import { useLocation } from 'react-router-dom';
@@ -49,7 +48,7 @@ function SearchProduct() {
     }, [searchQuery]);
 
     if (loading) {
-        return <div>로딩중 입니다.</div>;
+        return <div>Loading...</div>;
     }
 
     if (error) {
@@ -71,6 +70,12 @@ function SearchProduct() {
         const days = dayjs().diff(dayjs(date), 'day');
         return days < 0 ? `${Math.abs(days)}일 뒤 방송 예정` : `${days}일 경과`;
     }
+
+    // const showConsoleLog = (message) => {
+    //     console.log("아이템 정보에 대한 로그입니다.");
+    //     console.log(message);
+    // }
+
     return (
         <div className='SearchProduct__searchMain'>
             {data && data.length > 0 ? (
@@ -81,35 +86,23 @@ function SearchProduct() {
                     <div className='SearchProduct__product-content-box'>
                         <ul className='SearchProduct__product-list'>
                             {data.map((item, index) => {
+                                // showConsoleLog(item);
                                 const { frontendAddr } = config;
                                 const { _source } = item;
                                 const { broadcast_date, price, name, product_id } = _source;
                                 const productUrl = `http://${frontendAddr}:3000/product/${product_id}`;
                                 const product_img = _source.image_url;
-                                const broadcastStatus = getDaysSinceBroadcast(broadcast_date);
-                                const isBroadcasted = broadcastStatus.includes('경과');
-
                                 return (
                                     <li key={index} className='SearchProduct__product-item'>
-                                        <Link to={productUrl} target="_blank" className='SearchProduct__product-link'>
-                                            <div className='SearchProduct__product-image-wrapper'>
-                                                <img src={product_img} alt={name} className='SearchProduct__product-image' />
-                                            </div>
-                                            
+                                        <a href={productUrl} target="_blank" rel="noopener noreferrer" className='SearchProduct__product-link'>
+                                            <img src={product_img} alt={name} className='SearchProduct__product-image' />
                                             <div className='SearchProduct__product-info'>
-                                                <div className='SearchProduct__product-name'>{name}</div>
-                                                <div className='SearchProduct__product-price'>{formatPrice(price)}</div>
-                                                {isBroadcasted ? (
-                                                    <div className='SearchProduct__product-date'>
-                                                    본 상품은 {formatBroadcastDate(broadcast_date)}(<span className='SearchProduct__product-delayed'>{broadcastStatus}</span>)에 방송되었습니다.
-                                                </div>
-                                                ) : (  
-                                                    <div className='SearchProduct__product-date'>
-                                                    본 상품은 {formatBroadcastDate(broadcast_date)} 방송입니다. <span className='SearchProduct__product-delayed'>{broadcastStatus}</span>입니다.
-                                                </div>
-                                                )}
+                                                <h2>{name}</h2>
+                                                <p>가격: {formatPrice(price)}</p>
+                                                <p>방송 날짜: {formatBroadcastDate(broadcast_date)}</p>
+                                                <p>경과 일수: {getDaysSinceBroadcast(broadcast_date)}</p>
                                             </div>
-                                        </Link>
+                                        </a>
                                     </li>
                                 );
                             })}

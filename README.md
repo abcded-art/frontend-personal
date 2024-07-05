@@ -1,8 +1,14 @@
 # Docker ENV 이름
 
+###이미지 빌드 시 다음과 같은 환경 변수를 지정해 주세요.
+
 백엔드 주소: BACKEND_ADDR=""
 
 백엔드 포트: BACKEND_PORT=""
+
+프론트엔드 주소: FRONTEND_ADDR=""
+
+엘라스틱 서치 주소: ELASTICSEARCH_ADDR=""
 
 # Github 커밋 방법
 

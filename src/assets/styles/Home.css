@@ -246,6 +246,19 @@
     width: 100%;
 }
 
+.swiper-wrapper{
+    overflow: hidden;
+}
+
+.swiper-slide{
+    width: 100%;
+    background-color: rgba(255,255,255,0.95);
+}
+
+.Home__swiper-text-wrap{
+
+}
+
 .Home__introBox-Describe-Detail{
     margin-bottom: 2vh;
     opacity: 0;

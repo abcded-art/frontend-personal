@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { IoInformationCircleOutline } from "react-icons/io5";
 import axios from 'axios';
 import '../../assets/styles/LiveProducts.css';
@@ -162,16 +163,16 @@ function LiveProduct() {
                     <div className='productBucket'>
                         {displayedProducts.length > 0 ? (
                             displayedProducts.map((prod, idx) => (
-                                <a href={prod.redirect_url} className='similarProduct' key={idx} target='_blank' rel="noopener noreferrer">
+                                <Link to={prod.redirect_url} className='similarProduct' key={idx} target='_blank' rel="noopener noreferrer">
                                     <div className='similarProductComponent'>
                                         <img src={prod.image_url} alt={prod.product_name} className="relatedProductImage" />
                                         <div className='relatedProductName'>{prod.seller}</div>
                                         <div className='relatedProductPrice'>{prod.price ? prod.price.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ` 원` : `구매문의`}</div>
                                     </div>
-                                </a>
+                                </Link>
                             ))
                         ) : (
-                            <div className="noSimilarProducts">비교 상품 없음</div>
+                            <div className="LiveProducts__product-status-alert">비교 상품 없음</div>
                         )}
                     </div>
                     {similarProducts.length > displayedProducts.length && (
@@ -182,7 +183,7 @@ function LiveProduct() {
                 </div>
                 <div className="reviews">
                     <h4 className='priceCompare'>상품 리뷰</h4>
-                    {review && review.total_reviews !== 0 ? (
+                    {review && review.total_reviews !== 0 && !review.positive_review_summary.includes("미만이라 요약을 제공할 수 없습니다.") ? (
                         <>
                             <div className='reviewInfo'>
                                 <div className={`firstReviewInfoDetail ${firstDetailVisible ? 'visible' : ''}`}>
@@ -218,7 +219,7 @@ function LiveProduct() {
                             </div>
                         </>
                     ) : (
-                        <div>해당 리뷰는 준비중 입니다</div>
+                        <div className='LiveProducts__product-status-alert'>해당 리뷰는 준비 중 입니다</div>
                     )}
                 </div>
                 <div className="productDetails">
@@ -227,7 +228,7 @@ function LiveProduct() {
                         product.img_url_details.map((url, index) => (
                             <img key={index} className='productDetailInfo' src={url} alt={`${id}-${index}`} />
                         ))
-                    ) : (<h4 className="noDetailedProducts">상세 정보 없음</h4>)
+                    ) : (<h4 className="LiveProducts__product-status-alert">상세 정보 없음</h4>)
                     }
                 </div>
             </div>

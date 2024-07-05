@@ -1,18 +1,67 @@
-.searchMain {
-    padding: 20px;
-    background: #f0f2f5;
-    font-family: 'Arial', sans-serif;
+/**=====================================
+            검색 결과 공동 스타일
+======================================*/
+
+.SearchProduct__searchMain {
+    padding-top:8vh;
+    margin-left: 10%;
+    margin-right: 10%;
 }
 
-.product-list {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
+/**=====================================
+          검색 결과 상품 제목 정의
+======================================*/
+
+.SearchProduct__product-box{
 }
 
-.product-item {
+.SearchProduct__product-title-wrapper{
+    width: 100%;
     display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3vh;
+}
+
+.SearchProduct__product-title{
+    min-width: 50%;
+    font-weight: 700;
+    font-size: 1.5em;
+    border-radius: 10em;
+    padding-left: 1em;
+    padding-right: 1em;
+    /* background: rgba(241, 234, 255, 0.5); */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.SearchProduct__searchQuery{
+    font-size: 2em;
+    color: rgba(197, 79, 216, 1);
+}
+
+/**=====================================
+          검색 결과 상품 목록 정의
+======================================*/
+
+.SearchProduct__product-content-box{
+    margin-top: 6vh;
+    
+}
+
+.SearchProduct__product-list {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1em;
+}
+
+.SearchProduct__product-item {
+    list-style: none;
     border: 1px solid #ddd;
+    display: flex;
+    justify-content: center;
+    padding-top: 0.5em;
     border-radius: 10px;
     margin-bottom: 20px;
     overflow: hidden;
@@ -21,40 +70,108 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.product-item:hover {
+.SearchProduct__product-item:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-.product-link {
+.SearchProduct__product-item:hover .SearchProduct__product-image{
+    opacity: 0.75;
+}
+
+.SearchProduct__product-link {
     display: flex;
-    text-decoration: none;
+    flex-direction: column;
+    align-items: center;
+    /* Link Style 제거 */
+    text-decoration: none; 
     color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+.SearchProduct__product-image-wrapper{
+    width: 90%;
+}
+
+.SearchProduct__product-image {
     width: 100%;
+    height: 100%;
+    object-fit: contain;
+    position: relative;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 1.5em;
+    transition: opacity 0.5s ease;
 }
 
-.product-image {
-    width: 150px;
-    height: 150px;
-    object-fit: cover;
-    border-right: 1px solid #ddd;
-}
-
-.product-info {
+.SearchProduct__product-info {
+    width: 95%;
     padding: 20px;
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
 }
 
-.product-info h2 {
+.SearchProduct__product-name {
     margin-top: 0;
-    font-size: 24px;
-    color: #333;
+    font-size: 1.2em;
+    font-weight: 500;
+    text-align: left;
 }
 
-.product-info p {
-    margin: 5px 0;
-    color: #666;
+.SearchProduct__product-price{
+    font-size: 1.3em;
+    font-weight: 800;
+    padding-top: 0.5em;
+    text-align: right;
+    color: rgba(197, 79, 216, 1);
+}
+
+.SearchProduct__product-date {
+    padding-top: 2em;
+    font-size: 0.9em;
+    text-align: left;
+}
+
+.SearchProduct__product-delayed{
+    color: red;
+}
+
+/**=====================================
+         검색 결과 상품 반응형 정의
+======================================*/
+
+@media (max-width: 1192px) {
+    .SearchProduct__product-list {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    .SearchProduct__searchMain {
+        margin-left: 7%;
+        margin-right: 7%;
+    }
+}
+
+/* 768px 미만일 때 row에 3개의 아이템 */
+@media (max-width: 868px) {
+    .SearchProduct__product-list {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .SearchProduct__searchMain {
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+}
+
+/* 576px 미만일 때 row에 2개의 아이템, margin을 0으로 설정 */
+@media (max-width: 676px) {
+    .SearchProduct__product-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .SearchProduct__searchMain {
+        margin-left: 0;
+        margin-right: 0;
+    }
 }

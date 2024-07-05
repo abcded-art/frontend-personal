@@ -127,7 +127,7 @@
     margin-bottom: 1em;
     font-size: 1.5em;
     font-weight: 600;
-    color: #C54FD8;
+    color: rgba(197, 79, 216, 1);
 }
 
 .relatedProductName{
@@ -137,10 +137,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
     margin-top: 0.6em;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    height: 4.7em;
 }
 
 .relatedProductPrice{
@@ -188,14 +184,14 @@
     left: 50%;
 }
 
-.noSimilarProducts{
-    padding-left: 3em;
+.LiveProducts__product-status-alert{
+    padding-top: 3em;
     padding-bottom: 3em;
     font-weight: 500;
     font-size: 1.5em;
     width: 100%;
     padding-left: 1em;
-    text-align: left;
+    text-align: center;
 }
 
 .similarProduct{

@@ -4,13 +4,16 @@ import '../../assets/styles/Home.css'
 import { Link } from 'react-router-dom';
 import { RiArrowDownWideFill } from "react-icons/ri";
 
-// core version + navigation, pagination modules:
-import Swiper from 'swiper';
+// Swiper: core version + navigation, pagination modules:
+import { Swiper, SwiperSlide } from 'swiper';
 import { Navigation, Pagination } from 'swiper/modules';
+
 // import Swiper and modules styles
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
+
 
 // Import images
 import banner1 from '../../assets/images/banner-01.jpg';
@@ -107,6 +110,8 @@ function Home() {
                             <div className='swiper-wrapper'>
                                 {banners.map((banner, index) => (
                                     <div key={index} className='swiper-slide'>
+                                        <div class='Home__swiper-text-wrap'>
+                                        </div>
                                         <img src={banner} alt={`Banner ${index + 1}`} className='Home__introBox-Describe-Detail-image' />
                                     </div>
                                 ))}
@@ -119,7 +124,7 @@ function Home() {
                     </div>
                     <div className='Home__introBox-Describe'>
                         <br /><br />
-                        <h4 className='Home__introBox-Describe-Subtitle Home__subtitle-explainBox Home__appear-slightly'>리뷰 요약 확인율 비교</h4>
+                        <h4 className='Home__introBox-Describe-Subtitle Home__subtitle-explainBox Home__appear-slightly'>리뷰 요약과 할인율 비교</h4>
                         <div className='Home__introBox-Describe-Detail-image-wrapper Home__appear-slightly '>
                             <div className='swiper-wrapper'>
                                 {banners.map((banner, index) => (
@@ -178,14 +183,6 @@ function Home() {
                 <div className='Home__explainBox'>
                     <div className='Home__imageBox'>
                         <img src={banners[0]} alt='test1' className='Home__imageBox-img'></img>
-                    </div>
-                    <div className='Home__explainBox-describe'>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vestibulum sodales odio sed ornare. Vivamus urna turpis, placerat ut sodales at, eleifend vulputate dui. Quisque tristique nunc eleifend erat consectetur volutpat. Nam laoreet consectetur ligula volutpat interdum. Fusce ac semper massa, id aliquam quam. Sed non est vel turpis pretium egestas. Aenean ac enim venenatis urna porta dictum eu at tortor. Vivamus eget nisi at nulla dignissim consequat in finibus velit. Pellentesque vitae neque eget augue fringilla gravida sit amet vitae est.
-                    </div>
-                </div>
-                <div className='Home__explainBox'>
-                    <div className='Home__imageBox'>
-                        <img src={banners[1]} alt='test2' className='Home__imageBox-img'></img>
                     </div>
                     <div className='Home__explainBox-describe'>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vestibulum sodales odio sed ornare. Vivamus urna turpis, placerat ut sodales at, eleifend vulputate dui. Quisque tristique nunc eleifend erat consectetur volutpat. Nam laoreet consectetur ligula volutpat interdum. Fusce ac semper massa, id aliquam quam. Sed non est vel turpis pretium egestas. Aenean ac enim venenatis urna porta dictum eu at tortor. Vivamus eget nisi at nulla dignissim consequat in finibus velit. Pellentesque vitae neque eget augue fringilla gravida sit amet vitae est.
