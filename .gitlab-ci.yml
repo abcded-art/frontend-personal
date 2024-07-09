@@ -9,7 +9,7 @@ build-and-push:
   stage: build
   image: docker:19.03.12  # Docker 버전
   tags:
-    - quickcatch-ci  # 그룹 러너 태그
+    - qck-app-ci  # 그룹 러너 태그
   variables:
     DOCKER_TLS_CERTDIR: ""  # TLS 인증서 디렉토리 비움
   services:
