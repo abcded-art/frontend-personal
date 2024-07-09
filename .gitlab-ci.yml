@@ -13,7 +13,7 @@ build-and-push:
   variables:
     DOCKER_TLS_CERTDIR: ""
   services:
-    - docker:stable  # Use Docker-in-Docker service for building Docker images
+    - docker:19.03.12-dind  # Use Docker-in-Docker service for building Docker images
   before_script:
     - apk add --no-cache curl jq  # Install curl and jq for API requests
   script:
