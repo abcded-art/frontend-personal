@@ -21,16 +21,18 @@ build-and-push:
     - >
       TAGS=$(curl -s --header "PRIVATE-TOKEN: $CI_JOB_TOKEN" "https://$CI_SERVER_HOST/api/v4/projects/$CI_PROJECT_ID/registry/repositories/1/tags" |
       jq -r '.[] | select(.name | test("^[0-9]+\\.[0-9]+$")) | .name' | sort -V)
-    - if [ -z "$TAGS" ]; then
-        echo "No existing numeric tags found. Setting latest tag to 0.0";
-        LATEST_TAG="0.0";
+    - |
+      if [ -z "$TAGS" ]; then
+        echo "No existing numeric tags found. Setting latest tag to 0.0"
+        LATEST_TAG="0.0"
       else
-        LATEST_TAG=$(echo "$TAGS" | tail -n 1);  # Get the latest numeric tag
+        LATEST_TAG=$(echo "$TAGS" | tail -n 1)  # Get the latest numeric tag
       fi
     - echo "Latest numeric tag: $LATEST_TAG"
-    - NEW_VERSION=$(( $(echo $LATEST_TAG | cut -d. -f1) + 1 )).0
-    - if [ "$LATEST_TAG" = "0.0" ]; then
-        NEW_VERSION="1.0";
+    - |
+      NEW_VERSION=$(( $(echo $LATEST_TAG | cut -d. -f1) + 1 )).0
+      if [ "$LATEST_TAG" = "0.0" ]; then
+        NEW_VERSION="1.0"
       fi
     - echo "New tag: $NEW_VERSION"
     - docker build . -t $CI_REGISTRY_IMAGE/quickcatch/frontend:$NEW_VERSION  # Build Docker image with incremented tag
