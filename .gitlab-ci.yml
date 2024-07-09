@@ -1,0 +1,23 @@
+# .gitlab-ci.yml
+
+# Define stages of the pipeline
+stages:
+  - build
+
+# Job to build and push Docker image
+build-and-push:
+  stage: build
+  image: docker:19.03.12  # Docker 클라이언트 버전 지정
+  tags:
+    - quickcatch-ci  # Specify the group runner tag
+  variables:
+    DOCKER_TLS_CERTDIR: ""
+  services:
+    - docker:19.03.12-dind  # Docker-in-Docker 서비스 사용
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY  # GitLab Container Registry 로그인
+  script:
+    - docker build . -t $CI_REGISTRY_IMAGE/my-node-app:${CI_COMMIT_SHORT_SHA}  # Docker 이미지 빌드
+    - docker push $CI_REGISTRY_IMAGE/my-node-app:${CI_COMMIT_SHORT_SHA}  # GitLab Container Registry에 Docker 이미지 푸시
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"  # main 브랜치에 push 이벤트 발생 시 실행
