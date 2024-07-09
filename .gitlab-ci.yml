@@ -8,6 +8,8 @@ stages:
 build-and-push:
   stage: build
   image: docker:19.03.12  # Docker 클라이언트 버전 지정
+  tags:
+    - quickcatch-ci  # Specify the group runner tag
   variables:
     DOCKER_TLS_CERTDIR: ""
   services:
