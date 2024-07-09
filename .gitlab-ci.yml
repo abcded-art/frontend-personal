@@ -1,25 +1,22 @@
 # .gitlab-ci.yml
 
-# 빌드 단계 정의
 stages:
   - build
 
-# Docker 이미지 빌드 및 푸시 작업
 build-and-push:
   stage: build
-  image: docker:19.03.12  # Docker 버전
-  tags:
-    - qck-app-ci  # 그룹 러너 태그
+  image: docker:19.03.12
   variables:
-    DOCKER_TLS_CERTDIR: ""  # TLS 인증서 디렉토리 비움
+    DOCKER_TLS_CERTDIR: ""
   services:
-    - docker:19.03.12-dind  # Docker-in-Docker 서비스
+    - name: docker:19.03.12-dind
+      alias: docker-dind  # 서비스에 별칭을 지정합니다.
+      entrypoint: ["env", "-u", "DOCKER_HOST"]  # Docker 호스트 설정 제거
   before_script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY  # GitLab Container Registry 로그인
+    - docker info  # Docker 정보 출력을 통해 연결 상태 확인
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:
-    - docker build . -t $CI_REGISTRY_IMAGE/my-node-app:${CI_COMMIT_SHORT_SHA}  # Docker 이미지 빌드
-    - docker push $CI_REGISTRY_IMAGE/my-node-app:${CI_COMMIT_SHORT_SHA}  # GitLab Container Registry 푸시
+    - docker build . -t $CI_REGISTRY_IMAGE/my-node-app:${CI_COMMIT_SHORT_SHA}
+    - docker push $CI_REGISTRY_IMAGE/my-node-app:${CI_COMMIT_SHORT_SHA}
   rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'  # main 브랜치에 push 이벤트 발생 시 실행
-
-# 다른 작업이나 단계 추가 가능
+    - if: '$CI_COMMIT_BRANCH == "main"'
