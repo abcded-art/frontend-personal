@@ -5,7 +5,7 @@ build-and-push:
   stage: build
   image: docker:19.03.12
   variables:
-    CUSTOM_REGISTRY: "https://qkcgitlab.store"
+    CUSTOM_REGISTRY: "qkcgitlab.store"
     CUSTOM_REGISTRY_USER: "minho"
     CUSTOM_REGISTRY_PASSWORD: "k8spass#"
     CUSTOM_IMAGE: "my-node-app"
