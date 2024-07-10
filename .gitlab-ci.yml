@@ -34,6 +34,7 @@ build-and-push:
       sed -i "s|image: $CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:.*|image: $CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID|g" qkc-nsp-fro/qkc-app-fro.yaml  # YAML 파일 업데이트
     - git add qkc-nsp-fro/qkc-app-fro.yaml
     - git commit -m "Update image tag to $CUSTOM_IMAGE_NAME:$CI_JOB_ID"
+    - echo "git push https://${GITLAB_USERNAME}:${GITLAB_ACCESS_TOKEN}@qkcgitlab.store/quickcatch/infra.git HEAD:main"
     - git push "https://${GITLAB_USERNAME}:${GITLAB_ACCESS_TOKEN}@qkcgitlab.store/quickcatch/infra.git" HEAD:main  # 변경 사항 푸시
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'  # main 브랜치에서만 실행
