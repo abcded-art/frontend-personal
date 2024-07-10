@@ -9,16 +9,14 @@ build-and-push:
     CUSTOM_REGISTRY_USER: "minho"
     CUSTOM_REGISTRY_PASSWORD: "k8spass#"
     CUSTOM_IMAGE: "my-node-app"
-    CUSTOM_TAG: "${CI_COMMIT_SHORT_SHA}"
   services:
     - name: docker:19.03.12-dind
       alias: docker
-      command: ["--insecure-registry", "qkcgitlab.store:5000"]
   before_script:
     - docker info  # Docker 데몬이 정상적으로 작동하는지 확인
     - echo "$CUSTOM_REGISTRY_PASSWORD" | docker login -u "$CUSTOM_REGISTRY_USER" --password-stdin $CUSTOM_REGISTRY
   script:
-    - docker build -t $CUSTOM_REGISTRY/quickcatch/frontend/runner/$CUSTOM_IMAGE:$CUSTOM_TAG .
-    - docker push $CUSTOM_REGISTRY/quickcatch/frontend/runner/$CUSTOM_IMAGE:$CUSTOM_TAG
+    - docker build -t $CUSTOM_REGISTRY/quickcatch/frontend/runner:1.0 .
+    - docker push $CUSTOM_REGISTRY/quickcatch/frontend/runmer:1.0
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
