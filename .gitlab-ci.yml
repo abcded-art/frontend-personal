@@ -33,7 +33,8 @@ build-and-push:
     - docker build -t "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID" .
     - docker push "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID"
     - cd infra
-    - sed -i "s|image: $CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:.*|image: $CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID|g" qkc-nsp-fro/qkc-app-fro.yaml
+    - |
+      sed -i "s|image: $CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:.*|image: $CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID|g" qkc-nsp-fro/qkc-app-fro.yaml
     - git add qkc-nsp-fro/qkc-app-fro.yaml
     - git commit -m "Update image tag to $CUSTOM_IMAGE_NAME:$CI_JOB_ID"
     - git push "https://${GITLAB_USERNAME}:${GITLAB_ACCESS_TOKEN}@qkcgitlab.store/quickcatch/infra.git" HEAD:main
