@@ -1,41 +1,42 @@
 stages:
-  - build  # 빌드 단계 정의
+  - build
 
 variables:
-  CUSTOM_REGISTRY: "$CUSTOM_REGISTRY"  # 사용자 정의 레지스트리 주소
-  CUSTOM_REGISTRY_USER: "$CUSTOM_REGISTRY_USER"  # 사용자 정의 레지스트리 사용자 이름
-  CUSTOM_REGISTRY_PASSWORD: "$CUSTOM_REGISTRY_PASSWORD"  # 사용자 정의 레지스트리 비밀번호
-  CUSTOM_IMAGE_NAME: "$CUSTOM_IMAGE_NAME"  # 사용자 정의 이미지 이름
+  CUSTOM_REGISTRY: "$CUSTOM_REGISTRY"
+  CUSTOM_REGISTRY_USER: "$CUSTOM_REGISTRY_USER"
+  CUSTOM_REGISTRY_PASSWORD: "$CUSTOM_REGISTRY_PASSWORD"
+  CUSTOM_IMAGE_NAME: "$CUSTOM_IMAGE_NAME"
   GITLAB_USERNAME: "$GITLAB_USERNAME"
   GITLAB_ACCESS_TOKEN: "$GITLAB_ACCESS_TOKEN"
 
 build-and-push:
-  stage: build  # 빌드 단계에 속하는 작업
-  image: docker:19.03.12  # Docker CLI 버전 지정
+  stage: build
+  image: docker:19.03.12
   services:
-    - name: docker:19.03.12-dind  # Docker in Docker (DinD) 서비스 사용
+    - name: docker:19.03.12-dind
       alias: docker
   before_script:
     - apk update && apk add git
-    - docker info  # Docker 데몬이 정상적으로 작동하는지 확인
-    - echo "CUSTOM_REGISTRY: $CUSTOM_REGISTRY"
+    - docker info
+    - echo "CUSTOM_REGISTRY: $CUSTOM_REGISTRY"  # Debugging: Print the value of CUSTOM_REGISTRY
+    - nslookup $CUSTOM_REGISTRY  # Check if the domain resolves correctly
+    - ping -c 4 $CUSTOM_REGISTRY  # Ping the registry to check connectivity
     - echo "$CUSTOM_REGISTRY_PASSWORD" | docker login -u "$CUSTOM_REGISTRY_USER" --password-stdin $CUSTOM_REGISTRY
     - git config --global credential.helper store
     - echo "https://${GITLAB_USERNAME}:${GITLAB_ACCESS_TOKEN}@qkcgitlab.store" > ~/.git-credentials
-    - git config --global user.email "gillhwa9@gmail.com"  # 전역 사용자 이메일 설정
-    - git config --global user.name "gillhwa"  # 전역 사용자 이름 설정
-    - git config --global -l
-    - cat ~/.git-credentials
+    - git config --global user.email "gillhwa9@gmail.com"
+    - git config --global user.name "gillhwa"
+    - git config --global -l  # List the git config to check if credentials are set
+    - cat ~/.git-credentials  # Check if the credentials are stored correctly
   script:
-    - git clone "https://qkcgitlab.store/quickcatch/infra.git"  # 저장소 클론
-    - docker build -t "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID" .  # Docker 이미지 빌드
-    - docker push "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID"  # Docker 이미지 푸시
-    - cd infra  # 클론한 저장소 디렉토리로 이동
-    - |
-      sed -i "s|image: $CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:.*|image: $CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID|g" qkc-nsp-fro/qkc-app-fro.yaml  # YAML 파일 업데이트
+    - git clone "https://qkcgitlab.store/quickcatch/infra.git"
+    - docker build -t "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID" .
+    - docker push "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID"
+    - cd infra
+    - sed -i "s|image: $CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:.*|image: $CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID|g" qkc-nsp-fro/qkc-app-fro.yaml
     - git add qkc-nsp-fro/qkc-app-fro.yaml
     - git commit -m "Update image tag to $CUSTOM_IMAGE_NAME:$CI_JOB_ID"
     - echo "git push https://${GITLAB_USERNAME}:${GITLAB_ACCESS_TOKEN}@qkcgitlab.store/quickcatch/infra.git HEAD:main"
-    - git push "https://${GITLAB_USERNAME}:${GITLAB_ACCESS_TOKEN}@qkcgitlab.store/quickcatch/infra.git" HEAD:main  # 변경 사항 푸시
+    - git push "https://${GITLAB_USERNAME}:${GITLAB_ACCESS_TOKEN}@qkcgitlab.store/quickcatch/infra.git" HEAD:main
   rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'  # main 브랜치에서만 실행
+    - if: '$CI_COMMIT_BRANCH == "main"'
