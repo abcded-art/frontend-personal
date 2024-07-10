@@ -1,21 +1,42 @@
 stages:
-  - debug
+  - build
 
 variables:
   CUSTOM_REGISTRY: "$CUSTOM_REGISTRY"
   CUSTOM_REGISTRY_USER: "$CUSTOM_REGISTRY_USER"
   CUSTOM_REGISTRY_PASSWORD: "$CUSTOM_REGISTRY_PASSWORD"
+  CUSTOM_IMAGE_NAME: "$CUSTOM_IMAGE_NAME"
+  GITLAB_USERNAME: "$GITLAB_USERNAME"
+  GITLAB_ACCESS_TOKEN: "$GITLAB_ACCESS_TOKEN"
 
-debug:
-  stage: debug
+build-and-push:
+  stage: build
   image: docker:19.03.12
   services:
     - name: docker:19.03.12-dind
       alias: docker
   before_script:
     - apk update && apk add git bind-tools  # bind-tools provides nslookup
-  script:
-    - echo "CUSTOM_REGISTRY: $CUSTOM_REGISTRY"  # Print the value of CUSTOM_REGISTRY
+    - docker info
+    - echo "CUSTOM_REGISTRY: $CUSTOM_REGISTRY"  # Debugging: Print the value of CUSTOM_REGISTRY
     - nslookup $CUSTOM_REGISTRY  # Check if the domain resolves correctly
     - ping -c 4 $CUSTOM_REGISTRY  # Ping the registry to check connectivity
     - echo "$CUSTOM_REGISTRY_PASSWORD" | docker login -u "$CUSTOM_REGISTRY_USER" --password-stdin $CUSTOM_REGISTRY
+    - git config --global credential.helper store
+    - echo "https://${GITLAB_USERNAME}:${GITLAB_ACCESS_TOKEN}@qkcgitlab.store" > ~/.git-credentials
+    - git config --global user.email "gillhwa9@gmail.com"
+    - git config --global user.name "gillhwa"
+    - git config --global -l  # List the git config to check if credentials are set
+    - cat ~/.git-credentials  # Check if the credentials are stored correctly
+  script:
+    - git clone "https://qkcgitlab.store/quickcatch/infra.git"
+    - docker build -t "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID" .
+    - docker push "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID"
+    - cd infra
+    - sed -i "s|image: $CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:.*|image: $CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID|g" qkc-nsp-fro/qkc-app-fro.yaml
+    - git add qkc-nsp-fro/qkc-app-fro.yaml
+    - git commit -m "Update image tag to $CUSTOM_IMAGE_NAME:$CI_JOB_ID"
+    - echo "git push https://${GITLAB_USERNAME}:${GITLAB_ACCESS_TOKEN}@qkcgitlab.store/quickcatch/infra.git HEAD:main"
+    - git push "https://${GITLAB_USERNAME}:${GITLAB_ACCESS_TOKEN}@qkcgitlab.store/quickcatch/infra.git" HEAD:main
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
