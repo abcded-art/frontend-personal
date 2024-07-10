@@ -18,7 +18,7 @@ build-and-push:
     - docker info  # Docker 데몬이 정상적으로 작동하는지 확인
     - echo "$CUSTOM_REGISTRY_PASSWORD" | docker login -u "$CUSTOM_REGISTRY_USER" --password-stdin $CUSTOM_REGISTRY
   script:
-    - docker build -t $CUSTOM_REGISTRY/$CUSTOM_IMAGE:$CUSTOM_TAG .
-    - docker push $CUSTOM_REGISTRY/$CUSTOM_IMAGE:$CUSTOM_TAG
+    - docker build -t $CUSTOM_REGISTRY/quickcatch/frontend/runner/$CUSTOM_IMAGE:$CUSTOM_TAG .
+    - docker push $CUSTOM_REGISTRY/quickcatch/frontend/runner/$CUSTOM_IMAGE:$CUSTOM_TAG
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
