@@ -43,6 +43,7 @@ build-and-push:
     - cat ~/.git-credentials
     - echo "Here is for the docker login checks"
     - cat ~/.docker/config.json
-    - git push "https://${GITLAB_USERNAME}:${GITLAB_ACCESS_TOKEN}@qkcgitlab.store/quickcatch/infra.git" HEAD:main
+    - git remote set-url origin "https://${GITLAB_USERNAME}:${GITLAB_ACCESS_TOKEN}@qkcgitlab.store/quickcatch/infra.git"
+    - git push origin HEAD:main
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
