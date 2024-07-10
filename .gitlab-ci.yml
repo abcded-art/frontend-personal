@@ -30,7 +30,6 @@ build-and-push:
     - git config --global user.email "gillhwa9@gmail.com"
     - git config --global user.name "gillhwa"
     - git config --global -l
-    - cat ~/.git-credentials
   script:
     - git clone "https://qkcgitlab.store/quickcatch/infra.git"
     - docker build -t "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID" .
@@ -40,6 +39,10 @@ build-and-push:
       sed -i "s|image: $CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:.*|image: $CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID|g" qkc-nsp-fro/qkc-app-fro.yaml
     - git add qkc-nsp-fro/qkc-app-fro.yaml
     - git commit -m "Update image tag to $CUSTOM_IMAGE_NAME:$CI_JOB_ID"
+    - echo "Here is for the git credentials checks"
+    - cat ~/.git-credentials
+    - echo "Here is for the docker login checks"
+    - cat ~/.docker/config.json
     - git push "https://${GITLAB_USERNAME}:${GITLAB_ACCESS_TOKEN}@qkcgitlab.store/quickcatch/infra.git" HEAD:main
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
