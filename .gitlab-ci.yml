@@ -18,6 +18,7 @@ build-and-push:
   before_script:
     - apk update && apk add git
     - docker info  # Docker 데몬이 정상적으로 작동하는지 확인
+    - echo "CUSTOM_REGISTRY: $CUSTOM_REGISTRY"
     - echo "$CUSTOM_REGISTRY_PASSWORD" | docker login -u "$CUSTOM_REGISTRY_USER" --password-stdin $CUSTOM_REGISTRY
     - git config --global credential.helper store
     - echo "https://${GITLAB_USERNAME}:${GITLAB_ACCESS_TOKEN}@qkcgitlab.store" > ~/.git-credentials
