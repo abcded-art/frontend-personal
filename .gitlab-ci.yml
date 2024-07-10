@@ -16,11 +16,16 @@ build-and-push:
   before_script:
     - docker info  # Docker 데몬이 정상적으로 작동하는지 확인
     - echo "$CUSTOM_REGISTRY_PASSWORD" | docker login -u "$CUSTOM_REGISTRY_USER" --password-stdin $CUSTOM_REGISTRY
+    - apk add --no-cache git  # git 설치 (Alpine 기반 이미지 사용 시)
+    - git clone https://$CI_JOB_TOKEN@$CI_SERVER_HOST/quickcatch/infra.git registry.qkcgitlab.store/quickcatch/infra  # 레지스트리 클론
   script:
-    - CI_JOB_ID=$(echo "$CI_COMMIT_SHA" | cut -c1-8)  # CI_JOB_ID를 커밋의 앞 8자리로 설정
+    - docker build -t "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID" .  # Docker 이미지 빌드
+    - docker push "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID"  # Docker 이미지 푸시
     - |
-      docker build -t "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID" .
-      docker push "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID"
-      sed -i "s|image: $CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:.*|image: $CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID|g" registry.qkcgitlab.store/quickcatch/infra/qkc-nsp-fro/qkc-app-fro.yaml
+      sed -i "s|image: $CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:.*|image: $CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID|g" registry.qkcgitlab.store/quickcatch/infra/qkc-nsp-fro/qkc-app-fro.yaml  # YAML 파일 업데이트
+    - cd registry.qkcgitlab.store/quickcatch/infra
+    - git add qkc-nsp-fro/qkc-app-fro.yaml
+    - git commit -m "Update image tag to $CUSTOM_IMAGE_NAME:$CI_JOB_ID"
+    - git push https://$CI_JOB_TOKEN@$CI_SERVER_HOST/quickcatch/infra.git HEAD:main  # 변경 사항 푸시
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'  # main 브랜치에서만 실행
