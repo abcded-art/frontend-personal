@@ -6,6 +6,9 @@ variables:
   CUSTOM_REGISTRY_USER: "$CUSTOM_REGISTRY_USER"  # 사용자 정의 레지스트리 사용자 이름
   CUSTOM_REGISTRY_PASSWORD: "$CUSTOM_REGISTRY_PASSWORD"  # 사용자 정의 레지스트리 비밀번호
   CUSTOM_IMAGE_NAME: "$CUSTOM_IMAGE_NAME"  # 사용자 정의 이미지 이름
+  GITLAB_USERNAME: "$GITLAB_USERNAME"
+  GITLAB_ACCESS_TOKEN: "$GITLAB_ACCESS_TOKEN"
+
 
 build-and-push:
   stage: build  # 빌드 단계에 속하는 작업
