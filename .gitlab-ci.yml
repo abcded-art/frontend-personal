@@ -17,6 +17,6 @@ build-and-push:
     - echo "$CUSTOM_REGISTRY_PASSWORD" | docker login -u "$CUSTOM_REGISTRY_USER" --password-stdin $CUSTOM_REGISTRY
   script:
     - docker build -t $CUSTOM_REGISTRY/quickcatch/frontend/runner:1.0 .
-    - docker push $CUSTOM_REGISTRY/quickcatch/frontend/runmer:1.0
+    - docker push $CUSTOM_REGISTRY/quickcatch/frontend/runner:1.0
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
