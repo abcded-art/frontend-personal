@@ -1,39 +1,37 @@
 stages:
-  - build
+  - build  # 빌드 단계 정의
 
 variables:
-  CUSTOM_REGISTRY: "$CUSTOM_REGISTRY"
-  CUSTOM_REGISTRY_USER: "$CUSTOM_REGISTRY_USER"
-  CUSTOM_REGISTRY_PASSWORD: "$CUSTOM_REGISTRY_PASSWORD"
-  CUSTOM_IMAGE_NAME: "$CUSTOM_IMAGE_NAME"
+  CUSTOM_REGISTRY: "$CUSTOM_REGISTRY"  # 사용자 정의 레지스트리 주소
+  CUSTOM_REGISTRY_USER: "$CUSTOM_REGISTRY_USER"  # 사용자 정의 레지스트리 사용자 이름
+  CUSTOM_REGISTRY_PASSWORD: "$CUSTOM_REGISTRY_PASSWORD"  # 사용자 정의 레지스트리 비밀번호
+  CUSTOM_IMAGE_NAME: "$CUSTOM_IMAGE_NAME"  # 사용자 정의 이미지 이름
 
 build-and-push:
-  stage: build
-  image: docker:19.03.12
+  stage: build  # 빌드 단계에 속하는 작업
+  image: docker:19.03.12  # Docker CLI 버전 지정
   services:
-    - name: docker:19.03.12-dind
+    - name: docker:19.03.12-dind  # Docker in Docker (DinD) 서비스 사용
       alias: docker
   before_script:
-    - docker info  # Docker 데몬이 정상적으로 작동하는지 확인
-    - echo "$CUSTOM_REGISTRY_PASSWORD" | docker login -u "$CUSTOM_REGISTRY_USER" --password-stdin "$CUSTOM_REGISTRY"
-    # main 브랜치인 경우 GitLab API를 사용하여 가장 최근 태그 확인 및 다음 태그 계산
+    - docker info  # Docker 데몬 확인
+    - echo "$CUSTOM_REGISTRY_PASSWORD" | docker login -u "$CUSTOM_REGISTRY_USER" --password-stdin "$CUSTOM_REGISTRY"  # Docker 레지스트리 로그인
     - >
       if [[ "$CI_COMMIT_BRANCH" == "main" ]]; then
-        # Container Registry에서 최신 태그를 가져오기 위한 API 호출
+        # main 브랜치인 경우 최신 태그 확인 및 다음 태그 계산
         export LATEST_TAG=$(curl --header "PRIVATE-TOKEN: $CI_JOB_TOKEN" "$CUSTOM_REGISTRY/api/v4/projects/$CI_PROJECT_ID/registry/repositories/$CUSTOM_IMAGE_NAME/tags" | jq '.[0].name' | tr -d '"')
         if [ -z "$LATEST_TAG" ]; then
           export NEXT_TAG="1.0"
         else
-          # 다음 태그 계산
           export NEXT_TAG=$((LATEST_TAG + 1))
         fi
         echo "Next tag to use: $NEXT_TAG"
       else
-        export NEXT_TAG="1.0"  # 다른 브랜치에서는 기본 태그를 사용
+        export NEXT_TAG="1.0"  # main 브랜치가 아닌 경우 기본 태그 사용
         echo "Using default tag: $NEXT_TAG"
       fi
   script:
-    - docker build -t "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$NEXT_TAG" .
-    - docker push "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$NEXT_TAG"
+    - docker build -t "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$NEXT_TAG" .  # Docker 이미지 빌드
+    - docker push "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$NEXT_TAG"  # Docker 이미지 푸시
   rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
+    - if: '$CI_COMMIT_BRANCH == "main"'  # main 브랜치에서만 실행
