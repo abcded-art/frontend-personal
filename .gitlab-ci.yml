@@ -23,6 +23,8 @@ build-and-push:
     - echo "https://${GITLAB_USERNAME}:${GITLAB_ACCESS_TOKEN}@qkcgitlab.store" > ~/.git-credentials
     - git config --global user.email "gillhwa9@gmail.com"  # 전역 사용자 이메일 설정
     - git config --global user.name "gillhwa"  # 전역 사용자 이름 설정
+    - git config --global -l
+    - cat ~/.git-credentials
   script:
     - git clone "https://qkcgitlab.store/quickcatch/infra.git"  # 저장소 클론
     - docker build -t "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID" .  # Docker 이미지 빌드
