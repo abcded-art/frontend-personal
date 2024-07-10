@@ -16,7 +16,7 @@ build-and-push:
   before_script:
     - docker info  # Docker 데몬이 정상적으로 작동하는지 확인
     - echo "$CUSTOM_REGISTRY_PASSWORD" | docker login -u "$CUSTOM_REGISTRY_USER" --password-stdin $CUSTOM_REGISTRY
-    - git clone "$CUSTOM_REGISTRY/quickcatch/infra.git"  # 레지스트리 클론
+    - git clone "https://qkcgitlab.store/quickcatch/infra.git"  # 레지스트리 클론
   script:
     - docker build -t "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID" .  # Docker 이미지 빌드
     - docker push "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID"  # Docker 이미지 푸시
