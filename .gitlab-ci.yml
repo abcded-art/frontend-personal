@@ -7,7 +7,7 @@ variables:
   CUSTOM_REGISTRY_PASSWORD: "$CUSTOM_REGISTRY_PASSWORD"
   CUSTOM_IMAGE_NAME: "$CUSTOM_IMAGE_NAME"
   GITLAB_USERNAME: "$GITLAB_USERNAME"
-  GITLAB_ACCESS_TOKEN: "$GITLAB_ACCESS_TOKEN"
+  GITLAB_TOKEN: "$GITLAB_TOKEN"
 
 build-and-push:
   stage: build
@@ -20,7 +20,8 @@ build-and-push:
     - docker info
     - echo "$CUSTOM_REGISTRY_PASSWORD" | docker login -u "$CUSTOM_REGISTRY_USER" --password-stdin "$CUSTOM_REGISTRY"
     - git config --global credential.helper store
-    - echo "https://${GITLAB_USERNAME}:${GITLAB_ACCESS_TOKEN}@qkcgitlab.store" > ~/.git-credentials
+    - echo "---------${GITLAB_TOKEN}---------"
+    - echo "https://${GITLAB_USERNAME}:${GITLAB_TOKEN}@qkcgitlab.store" > ~/.git-credentials
     - git config --global user.email "gillhwa9@gmail.com"
     - git config --global user.name "gillhwa"
     - git config --global -l
@@ -37,7 +38,7 @@ build-and-push:
     - cat ~/.git-credentials
     - echo "Here is for the docker login checks"
     - cat ~/.docker/config.json
-    - git remote set-url origin "https://${GITLAB_USERNAME}:${GITLAB_ACCESS_TOKEN}@qkcgitlab.store/quickcatch/infra.git"
+    - git remote set-url origin "https://${GITLAB_USERNAME}:${GITLAB_TOKEN}@qkcgitlab.store/quickcatch/infra.git"
     - git push origin HEAD:main -f
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
