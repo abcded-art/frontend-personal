@@ -14,24 +14,10 @@ build-and-push:
     - name: docker:19.03.12-dind  # Docker in Docker (DinD) 서비스 사용
       alias: docker
   before_script:
-    - docker info  # Docker 데몬 확인
-    - echo "$CUSTOM_REGISTRY_PASSWORD" | docker login -u "$CUSTOM_REGISTRY_USER" --password-stdin "$CUSTOM_REGISTRY"  # Docker 레지스트리 로그인
-    - >
-      if [[ "$CI_COMMIT_BRANCH" == "main" ]]; then
-        # main 브랜치인 경우 최신 태그 확인 및 다음 태그 계산
-        export LATEST_TAG=$(curl --header "PRIVATE-TOKEN: $CI_JOB_TOKEN" "$CUSTOM_REGISTRY/api/v4/projects/$CI_PROJECT_ID/registry/repositories/$CUSTOM_IMAGE_NAME/tags" | jq '.[0].name' | tr -d '"')
-        if [ -z "$LATEST_TAG" ]; then
-          export NEXT_TAG="1.0"
-        else
-          export NEXT_TAG=$((LATEST_TAG + 1))
-        fi
-        echo "Next tag to use: $NEXT_TAG"
-      else
-        export NEXT_TAG="1.0"  # main 브랜치가 아닌 경우 기본 태그 사용
-        echo "Using default tag: $NEXT_TAG"
-      fi
+    - docker info  # Docker 데몬이 정상적으로 작동하는지 확인
+    - echo "$CUSTOM_REGISTRY_PASSWORD" | docker login -u "$CUSTOM_REGISTRY_USER" --password-stdin $CUSTOM_REGISTRY
   script:
-    - docker build -t "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$NEXT_TAG" .  # Docker 이미지 빌드
-    - docker push "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$NEXT_TAG"  # Docker 이미지 푸시
+    - docker build -t "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID" .  # Docker 이미지 빌드
+    - docker push "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID"  # Docker 이미지 푸시
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'  # main 브랜치에서만 실행
