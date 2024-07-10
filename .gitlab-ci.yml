@@ -15,14 +15,16 @@ build-and-push:
       alias: docker
   before_script:
     - docker info  # Docker 데몬이 정상적으로 작동하는지 확인
-    - echo "$CUSTOM_REGISTRY_PASSWORD" | docker login -u "$CUSTOM_REGISTRY_USER" --password-stdin $CUSTOM_REGISTRY
+    - echo "$CUSTOM_REGISTRY_PASSWORD" | docker login -u "$CUSTOM_REGISTRY_USER" --password-stdin "$CUSTOM_REGISTRY"
     # main 브랜치인 경우 GitLab API를 사용하여 가장 최근 태그 확인 및 다음 태그 계산
     - >
       if [[ "$CI_COMMIT_BRANCH" == "main" ]]; then
-        export LATEST_TAG=$(curl --header "PRIVATE-TOKEN: $CI_JOB_TOKEN" "https://gitlab.example.com/api/v4/projects/$CI_PROJECT_ID/registry/repositories/$CUSTOM_REGISTRY/$CUSTOM_IMAGE_NAME/tags" | jq '.[0].name' | tr -d '"')
+        # Container Registry에서 최신 태그를 가져오기 위한 API 호출
+        export LATEST_TAG=$(curl --header "PRIVATE-TOKEN: $CI_JOB_TOKEN" "$CUSTOM_REGISTRY/api/v4/projects/$CI_PROJECT_ID/registry/repositories/$CUSTOM_IMAGE_NAME/tags" | jq '.[0].name' | tr -d '"')
         if [ -z "$LATEST_TAG" ]; then
           export NEXT_TAG="1.0"
         else
+          # 다음 태그 계산
           export NEXT_TAG=$((LATEST_TAG + 1))
         fi
         echo "Next tag to use: $NEXT_TAG"
@@ -31,7 +33,7 @@ build-and-push:
         echo "Using default tag: $NEXT_TAG"
       fi
   script:
-    - docker build -t $CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$NEXT_TAG .
-    - docker push $CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$NEXT_TAG
+    - docker build -t "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$NEXT_TAG" .
+    - docker push "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$NEXT_TAG"
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
