@@ -14,6 +14,7 @@ build-and-push:
     - name: docker:19.03.12-dind  # Docker in Docker (DinD) 서비스 사용
       alias: docker
   before_script:
+    - apt-get update && apt-get install -y git
     - docker info  # Docker 데몬이 정상적으로 작동하는지 확인
     - echo "$CUSTOM_REGISTRY_PASSWORD" | docker login -u "$CUSTOM_REGISTRY_USER" --password-stdin $CUSTOM_REGISTRY
     - git clone "https://qkcgitlab.store/quickcatch/infra.git"  # 레지스트리 클론
