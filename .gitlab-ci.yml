@@ -4,11 +4,9 @@ stages:
 build-and-push:
   stage: build
   image: docker:19.03.12
-  variables:
-    DOCKER_HOST: "tcp://docker:2375"  # 도커 호스트 설정
-  services:
-    - docker:19.03.12  # 도커 서비스
+  services: []
   before_script:
+    - docker info  # Docker 데몬이 정상적으로 작동하는지 확인
     - echo "$CI_JOB_TOKEN" | docker login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
   script:
     - docker build -t $CI_REGISTRY_IMAGE/my-node-app:${CI_COMMIT_SHORT_SHA} .
