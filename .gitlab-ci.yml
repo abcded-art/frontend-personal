@@ -4,12 +4,21 @@ stages:
 build-and-push:
   stage: build
   image: docker:19.03.12
-  services: []
+  variables:
+    CUSTOM_REGISTRY: "https://qkcgitlab.store"
+    CUSTOM_REGISTRY_USER: "minho"
+    CUSTOM_REGISTRY_PASSWORD: "k8spass#"
+    CUSTOM_IMAGE: "my-node-app"
+    CUSTOM_TAG: "${CI_COMMIT_SHORT_SHA}"
+  services:
+    - name: docker:19.03.12-dind
+      alias: docker
+      command: ["--insecure-registry", "qkcgitlab.store:5000"]
   before_script:
     - docker info  # Docker 데몬이 정상적으로 작동하는지 확인
-    - echo "$CI_JOB_TOKEN" | docker login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
+    - echo "$CUSTOM_REGISTRY_PASSWORD" | docker login -u "$CUSTOM_REGISTRY_USER" --password-stdin $CUSTOM_REGISTRY
   script:
-    - docker build -t $CI_REGISTRY_IMAGE/my-node-app:${CI_COMMIT_SHORT_SHA} .
-    - docker push $CI_REGISTRY_IMAGE/my-node-app:${CI_COMMIT_SHORT_SHA}
+    - docker build -t $CUSTOM_REGISTRY/$CUSTOM_IMAGE:$CUSTOM_TAG .
+    - docker push $CUSTOM_REGISTRY/$CUSTOM_IMAGE:$CUSTOM_TAG
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
