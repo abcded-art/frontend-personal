@@ -1,22 +1,48 @@
 stages:
   - build
+  - ci
+
+variables:
+  CUSTOM_REGISTRY: "$CUSTOM_REGISTRY"
+  CUSTOM_REGISTRY_USER: "$CUSTOM_REGISTRY_USER"
+  CUSTOM_REGISTRY_PASSWORD: "$CUSTOM_REGISTRY_PASSWORD"
+  CUSTOM_IMAGE_NAME: "$CUSTOM_IMAGE_NAME"
+  INFRA_FILE_PATH: "$INFRA_FILE_PATH"
 
 build-and-push:
   stage: build
   image: docker:19.03.12
-  variables:
-    CUSTOM_REGISTRY: "registry.qkcgitlab.store"
-    CUSTOM_REGISTRY_USER: "minho"
-    CUSTOM_REGISTRY_PASSWORD: "k8spass#"
-    CUSTOM_IMAGE: "my-node-app"
   services:
     - name: docker:19.03.12-dind
       alias: docker
   before_script:
     - docker info  # Docker 데몬이 정상적으로 작동하는지 확인
-    - echo "$CUSTOM_REGISTRY_PASSWORD" | docker login -u "$CUSTOM_REGISTRY_USER" --password-stdin $CUSTOM_REGISTRY
+    - echo "$CUSTOM_REGISTRY_PASSWORD" | docker login -u "$CUSTOM_REGISTRY_USER" --password-stdin "$CUSTOM_REGISTRY"
+    # main 브랜치인 경우 GitLab API를 사용하여 가장 최근 태그 확인 및 다음 태그 계산
+    - >
+      if [[ "$CI_COMMIT_BRANCH" == "main" ]]; then
+        export LATEST_TAG=$(curl --header "PRIVATE-TOKEN: $CI_JOB_TOKEN" "https://gitlab.example.com/api/v4/projects/$CI_PROJECT_ID/registry/repositories/$CUSTOM_REGISTRY/$CUSTOM_IMAGE_NAME/tags" | jq '.[0].name' | tr -d '"')
+        if [ -z "$LATEST_TAG" ]; then
+          export NEXT_TAG="1.0"
+        else
+          export NEXT_TAG=$((LATEST_TAG + 1))
+        fi
+        echo "Next tag to use: $NEXT_TAG"
+      else
+        export NEXT_TAG="1.0"  # 다른 브랜치에서는 기본 태그를 사용
+        echo "Using default tag: $NEXT_TAG"
+      fi
   script:
-    - docker build -t $CUSTOM_REGISTRY/quickcatch/frontend/runner:1.0 .
-    - docker push $CUSTOM_REGISTRY/quickcatch/frontend/runner:1.0
+    - docker build -t "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$NEXT_TAG" .
+    - docker push "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$NEXT_TAG"
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+
+ci:
+  stage: ci
+  image: alpine
+  script:
+    # qck-app-fro.yaml 파일에서 이미지 버전을 새로 빌드한 이미지의 버전으로 교체
+    - sed -i "s#image: $CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:[0-9.]*#image: $CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$NEXT_TAG#" "$INFRA_FILE_PATH"
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
