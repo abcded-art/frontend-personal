@@ -10,8 +10,7 @@ build-and-push:
     DOCKER_TLS_CERTDIR: ""
   services:
     - name: docker:19.03.12-dind
-      alias: docker-dind  # 서비스에 별칭을 지정합니다.
-      entrypoint: ["env", "-u", "DOCKER_HOST"]  # Docker 호스트 설정 제거
+      alias: docker  # 서비스에 별칭을 지정합니다.
   before_script:
     - docker info  # Docker 정보 출력을 통해 연결 상태 확인
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
