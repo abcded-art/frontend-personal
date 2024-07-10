@@ -17,8 +17,11 @@ build-and-push:
     - apk update && apk add git
     - docker info  # Docker 데몬이 정상적으로 작동하는지 확인
     - echo "$CUSTOM_REGISTRY_PASSWORD" | docker login -u "$CUSTOM_REGISTRY_USER" --password-stdin $CUSTOM_REGISTRY
-    - git clone "https://qkcgitlab.store/quickcatch/infra.git"  # 레지스트리 클론
+    - git config --global credential.helper store
+    - echo "https://${GITLAB_USERNAME}:${GITLAB_ACCESS_TOKEN}@qkcgitlab.store" > ~/.git-credentials
+    - echo "${GITLAB_USERNAME}:${GITLAB_ACCESS_TOKEN}"
   script:
+    - git clone "https://qkcgitlab.store/quickcatch/infra.git"  # 레지스트리 클론
     - docker build -t "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID" .  # Docker 이미지 빌드
     - docker push "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID"  # Docker 이미지 푸시
     - |
