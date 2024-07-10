@@ -1,5 +1,3 @@
-# .gitlab-ci.yml
-
 stages:
   - build
 
@@ -7,15 +5,13 @@ build-and-push:
   stage: build
   image: docker:19.03.12
   variables:
-    DOCKER_TLS_CERTDIR: ""
+    DOCKER_HOST: "tcp://docker:2375"  # 도커 호스트 설정
   services:
-    - name: docker:19.03.12-dind
-      alias: docker  # 서비스에 별칭을 지정합니다.
+    - docker:19.03.12  # 도커 서비스
   before_script:
-    - docker info  # Docker 정보 출력을 통해 연결 상태 확인
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - echo "$CI_JOB_TOKEN" | docker login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
   script:
-    - docker build . -t $CI_REGISTRY_IMAGE/my-node-app:${CI_COMMIT_SHORT_SHA}
+    - docker build -t $CI_REGISTRY_IMAGE/my-node-app:${CI_COMMIT_SHORT_SHA} .
     - docker push $CI_REGISTRY_IMAGE/my-node-app:${CI_COMMIT_SHORT_SHA}
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
