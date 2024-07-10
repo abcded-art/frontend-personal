@@ -1,13 +1,13 @@
 stages:
   - build
-  - ci
+  - edit_deployment_yaml
 
 variables:
   CUSTOM_REGISTRY: "$CUSTOM_REGISTRY"
   CUSTOM_REGISTRY_USER: "$CUSTOM_REGISTRY_USER"
   CUSTOM_REGISTRY_PASSWORD: "$CUSTOM_REGISTRY_PASSWORD"
   CUSTOM_IMAGE_NAME: "$CUSTOM_IMAGE_NAME"
-  INFRA_FILE_PATH: "$INFRA_FILE_PATH"
+  INFRA_FILE_PATH: "quickcatch/infra/qck-app-fro.yaml"
 
 build-and-push:
   stage: build
@@ -38,7 +38,7 @@ build-and-push:
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
 
-ci:
+edit_deployment_yaml:
   stage: ci
   image: alpine
   script:
