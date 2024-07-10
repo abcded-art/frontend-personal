@@ -26,6 +26,8 @@ build-and-push:
     - docker build -t "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID" .  # Docker 이미지 빌드
     - docker push "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID"  # Docker 이미지 푸시
     - git clone "https://qkcgitlab.store/quickcatch/infra.git"  # 레지스트리 클론
+    - ls
+    - cd infra
     - |
       sed -i "s|image: $CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:.*|image: $CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID|g" qkc-nsp-fro/qkc-app-fro.yaml  # YAML 파일 업데이트
     - git add qkc-nsp-fro/qkc-app-fro.yaml
