@@ -26,9 +26,9 @@ build-and-push:
     - git config --global -l
     - cat ~/.git-credentials
   script:
-    - git clone "https://qkcgitlab.store/quickcatch/infra.git"
     - docker build -t "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID" .
     - docker push "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID"
+    - git clone "https://qkcgitlab.store/quickcatch/infra.git"
     - cd infra
     - |
       sed -i "s|image: $CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:.*|image: $CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID|g" qkc-nsp-fro/qkc-app-fro.yaml
