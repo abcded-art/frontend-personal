@@ -22,7 +22,7 @@ try {
     }
 } catch (error) {
     config.backendAddr = 'https://quickcatch.store';
-    config.elasticsearchAddr = '';
+    config.elasticsearchAddr = 'http://192.168.0.6:9200';
     config.frontendAddr = 'https://quickcatch.store';
     console.error('Error reading window.env properties:', error);
 }
