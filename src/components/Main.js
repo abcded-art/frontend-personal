@@ -70,7 +70,7 @@ function Main() {
 
     return (
         <div className='mainContainer'>
-            <Header showHeader={showHeader} onWithClick={handleWithClick}/>
+            <Header showHeader={showHeader} onWithClick={handleWithClick} className='headerContainer'/>
             <Routes>
                 <Route path="/" element={
                     <div className='mainPage'>

@@ -23,7 +23,7 @@ app.post('/api/search', async (req, res) => {
         console.log(`Elasticsearch Address: ${elasticsearchAddr}`);
         const response = await axios({
             method: 'post',
-            url: `http://${elasticsearchAddr}:9200/quickcatch-broadcast/_search?pretty`,
+            url: `${elasticsearchAddr}:9200/quickcatch-broadcast/_search?pretty`,
             headers: {
                 'Content-Type': 'application/json',
             },

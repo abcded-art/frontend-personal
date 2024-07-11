@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Nav, Navbar, Form, FormControl } from 'react-bootstrap';
-import { FaSun, FaMoon, FaShoppingCart, FaSearch } from 'react-icons/fa';
-import { ImHome3 } from "react-icons/im";
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import '../../assets/styles/Header.css';
 import axios from 'axios';
 import quickCatchLogo from '../../assets/images/QuickCatch_Logo_Simple.png';
-import config from '../../config.js';
+import { FaSun, FaMoon, FaSearch } from 'react-icons/fa';
+
+import { config } from '../../config.js';
+
+const { frontendAddr } = config;
 
 function Header({ showHeader, onWithClick }) {
     const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -29,16 +30,15 @@ function Header({ showHeader, onWithClick }) {
         document.body.classList.toggle('dark-mode', !isDarkMode);
     };
 
-    const handleSearchSubmit = (e) => {
-        e.preventDefault();
+    const handleSearchSubmit = () => {
+        // if (e) e.preventDefault();
         setSuggestions([]);
         navigate(`/search?q=${searchQuery}`);
     };
 
     const fetchSuggestions = async (query) => {
         try {
-            const { frontendAddr } = config;
-            const response = await axios.post(`http://${frontendAddr}:5005/api/search`, { query });
+            const response = await axios.post(`${frontendAddr}/api/search`, { query });
             const fetchedSuggestions = response.data.hits.hits.map(hit => ({
                 name: hit._source.name,
                 id: hit._source.product_id
@@ -60,10 +60,10 @@ function Header({ showHeader, onWithClick }) {
     };
 
     const handleClickOutside = (event) => {
-        if (!event.target.closest('.me-2') && !event.target.closest('.suggestions-list')) {
+        if (!event.target.closest('.Header_input') && !event.target.closest('.suggestions-list')) {
             setSuggestions([]);
             setInputFocused(false);
-            setSearchQuery('');
+            // setSearchQuery('');
         }
     };
 
@@ -74,7 +74,7 @@ function Header({ showHeader, onWithClick }) {
     };
 
     const handleKeyDown = (e) => {
-        if (e.key === 'Enter'){
+        if (e.key === 'Enter') {
             setTimeout(() => {
                 handleSearchSubmit(e);
             }, 300);
@@ -98,7 +98,7 @@ function Header({ showHeader, onWithClick }) {
             const timer = setTimeout(() => {
                 fetchSuggestions(searchQuery);
             }, 200);
-    
+
             return () => {
                 clearTimeout(timer);
             };
@@ -117,55 +117,63 @@ function Header({ showHeader, onWithClick }) {
     }, []);
 
     return (
-        <div className={`Header ${showHeader ? 'visible' : 'hidden'} ${isDarkMode ? 'dark-mode' : ''}`}>
-            <Navbar collapseOnSelect expand="lg" className='custom-navbar'>
-                <Container>
-                    <Link to="/TVShopping" className={`navbar-brand ${isDarkMode ? "dark-mode" : ""}`}>
-                        <img src={quickCatchLogo} alt="QuickCatch Logo" style={{ height: '5vh' }} />
-                    </Link>
-                    <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-                    <Navbar.Collapse id="responsive-navbar-nav">
-                        <Form className="d-flex" onSubmit={handleSearchSubmit} style={{ position: 'relative' }}>
-                            <FormControl
-                                type="search"
-                                placeholder="Search"
-                                className="me-2"
-                                aria-label="Search"
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                onFocus={handleFocus}
-                                onKeyDown={handleKeyDown}
-                            />
-                            {suggestions && (
-                                <ul className='suggestions-list'>
-                                    {suggestions.map((suggestion, index) => (
-                                        <li key={index} onClick={suggestion.id ? () => handleSuggestionClick(suggestion.id) : null}>
-                                            {suggestion.name}
-                                        </li>
-                                    ))}
-                                </ul>
-                            )}
-                        </Form>
-                        <Nav>
-                            <Link to={`/`} className='linkToHome'>
-                                {/* <ImHome3 /> */}
-                                헤더
-                            </Link>
-                            <Link to={`/TVShopping`} className='linkToTVShopping'>
-                                <FaShoppingCart />
-                            </Link>
-                            {/* <Link to={`/search`} className='linkToSearch'>
-                                <FaSearch />
-                            </Link> */}
-                            <div className='withAWSCloudSchool' onClick={onWithClick}>with</div>
-                            <Nav.Link onClick={toggleDarkMode}>
-                                {isDarkMode ? <FaMoon className="light-dark-icon" /> : <FaSun className="light-dark-icon" />}
-                            </Nav.Link>
-                        </Nav>
-                    </Navbar.Collapse>
-                </Container>
-            </Navbar>
-        </div>
+        <header className={`Header ${showHeader ? 'visible' : 'hidden'} ${isDarkMode ? 'dark-mode' : ''}`}>
+            <div className="mx-auto flex justify-between items-center relative w-full px-8">
+                <Link to='/TVShopping' className="flex items-center">
+                    <img src={quickCatchLogo} alt="Logo" className="w-13 h-9 mr-1" />
+                </Link>
+
+                <div className="flex-grow mx-5 relative">
+                    <div className="relative">
+                        <FaSearch
+                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer"
+                            onClick={() => {
+                                console.log("쿼리문의 결과이다: ",searchQuery);
+                                if (searchQuery.trim() === '') {
+                                    setSuggestions([{ name: '상품을 검색하세요', id: null }]);
+                                } else {
+                                    handleSearchSubmit();
+                                }
+                            }}
+                        />
+                        <input
+                            type="text"
+                            placeholder="Search..."
+                            className="w-full pl-10 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 Header_input"
+                            value={searchQuery}
+                            onChange={(e) =>{ 
+                                setSearchQuery(e.target.value);
+                                console.log("Current search query: ", e.target.value);
+                            }}
+                            onFocus={handleFocus}
+                            onKeyDown={handleKeyDown}
+                        />
+                    </div>
+                    {suggestions && (
+                        <ul className='suggestions-list rounded-md'>
+                            {suggestions.map((suggestion, index) => (
+                                <li
+                                    key={index}
+                                    onClick={suggestion.id ? () => handleSuggestionClick(suggestion.id) : null}
+                                    className="p-2.5 text-left flex items-center cursor-pointer hover:bg-gray-100"
+                                >
+                                    {suggestion.name}
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </div>
+
+                <nav className="hidden md:flex space-x-4">
+                    <Link to='/' className="text-gray-600 transition-colors hover:text-gray-800">Home</Link>
+                    <Link to='/TVShopping' className="text-gray-600 transition-colors hover:text-gray-800">Shopping</Link>
+                    <div className="text-gray-600 transition-colors hover:text-gray-800 cursor-pointer" onClick={onWithClick}>with</div>
+                    <button onClick={toggleDarkMode}>
+                        {isDarkMode ? <FaMoon className="light-dark-icon" /> : <FaSun className="light-dark-icon" />}
+                    </button>
+                </nav>
+            </div>
+        </header>
     );
 }
 

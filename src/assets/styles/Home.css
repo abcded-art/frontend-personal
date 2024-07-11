@@ -8,6 +8,11 @@
     min-height: 800vh;
     background-color: #f1eaff;
 }
+
+.Home__homeIntroLinker{
+    transition: 1s;
+}
+
 .Home__background-Image-Wrapper{
     width: 100%;
     height: 100vh;
@@ -22,6 +27,8 @@
     position: absolute;
     object-fit: cover;
     overflow: hidden;
+    display: flex;
+    justify-content: center;
 }
 
 .Home__link-to-tvShopping-desc{
@@ -90,7 +97,7 @@
 
 .Home__more-info-arrow{
     position: absolute;
-    top: 95vh;
+    top: 92vh;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -118,11 +125,11 @@
 }
 
 /*======================================
-              홈 페이지 공통 스타일
+        홈 페이지 공통 스타일과 폰트
 ======================================*/
 
 
-.Home__explainBox-wrapper{
+.Home__contents{
     position: absolute;
     margin-left: 20%;
     margin-right: 20%;
@@ -180,31 +187,79 @@
     margin-bottom: 10vh;
 }
 
+.Home__introBox-Title{
+    margin-top: 40vh;
+    max-height: 20vh;
+    margin-bottom: 30vh;
+}
+
+@font-face {
+    font-family: 'NanumSquareNeoLight';
+    src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-aLt.eot);
+    src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-aLt.eot?#iefix) format("embedded-opentype"), url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-aLt.woff) format("woff"), url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-aLt.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: 'NanumSquareNeo';
+    src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-bRg.eot);
+    src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-bRg.eot?#iefix) format("embedded-opentype"), url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-bRg.woff) format("woff"), url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-bRg.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: 'NanumSquareNeoBold';
+    src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-cBd.eot);
+    src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-cBd.eot?#iefix) format("embedded-opentype"), url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-cBd.woff) format("woff"), url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-cBd.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: 'NanumSquareNeoExtraBold';
+    src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-dEb.eot);
+    src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-dEb.eot?#iefix) format("embedded-opentype"), url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-dEb.woff) format("woff"), url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-dEb.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: 'NanumSquareNeoHeavy';
+    src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-eHv.eot);
+    src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-eHv.eot?#iefix) format("embedded-opentype"), url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-eHv.woff) format("woff"), url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-eHv.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: 'NanumSquareNeoVariable';
+    src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeo-Variable.eot);
+    src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeo-Variable.eot?#iefix) format("embedded-opentype"), url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeo-Variable.woff) format("woff"), url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeo-Variable.ttf) format("truetype");
+}
+
 
 /*======================================
                 스와이퍼
 ======================================*/
+
 
 .swiper-container {
     width: 100%;
     height: 100%;
 }
 
-.swiper-pagination-bullet {
-    background-color: #000;
-    opacity: 0.6;
-}
-
-.swiper-pagination-bullet-active {
-    background-color: #fff;
-    opacity: 1;
+.swiper-slide{
+    width: 100%;
+    flex-shrink: 0;
 }
 
 .swiper-button-next,
-.swiper-button-prev {
-    color: #000;
-    width: 3rem;
-    height: 3rem;
+.swiper-button-prev{
+    color: rgba(155,89,182,0.7) !important;
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: 800;
+}
+
+/* 페이지네이션 스타일 */
+.swiper-pagination-bullet {
+    background-color: rgba(0, 0, 0, 0.8) !important;
+}
+
+.swiper-pagination-bullet-active {
+    background-color: rgba(155, 89, 182, 0.7) !important; 
 }
 
 
@@ -216,19 +271,15 @@
     width: 100%;
     min-height: 300vh;
     margin-top: 0;
-}
-
-.Home__introBox-Title{
-    margin-top: 40vh;
-    max-height: 20vh;
-    margin-bottom: 30vh;
+    display: flex;
+    flex-direction: column;
 }
 
 /* 하나의 주제를 보여 줄 박스 */
 .Home__introBox-Describe {
     font-weight: 500;
     font-size: 0.5em;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .Home__introBox-Describe-Subtitle{
@@ -238,41 +289,22 @@
 }
 
 .Home__introBox-Describe-Detail-image-wrapper{
-    width: 100%;
+    left: -10vw;
+    width: 80vw;
     margin-bottom: 5vh;
-}
-
-.Home__introBox-Describe-Detail-image{
-    width: 100%;
-}
-
-.swiper-wrapper{
+    position: relative;
     overflow: hidden;
 }
 
-.swiper-slide{
-    width: 100%;
-    background-color: rgba(255,255,255,0.95);
-}
-
-.Home__swiper-text-wrap{
-
+.Home__introBox-Describe-Detail-image{
+    width: 105%;
+    transform: scale(1.05);
 }
 
 .Home__introBox-Describe-Detail{
     margin-bottom: 2vh;
     opacity: 0;
     transition: opacity 1s;
-}
-
-
-
-/*======================================
-              홈 페이지 톺아보기
-======================================*/
-
-.Home__explain{
-
 }
 
 
@@ -288,10 +320,60 @@
 }
 
 .Home__vision-box{
+    position: relative;
     font-size: 0.5em;
+    left: -20vw;
+    width: 100vw;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 
+.Home__vision-explain-box,
+.Home__vision-image-box{
+    width: 50%;
+    min-height: 40vh;
+    box-sizing: border-box;
+}
 
+.Home__vision-explain-box{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 0.8em;
+    padding: 1.8em 0.8em;
+    background-color:rgba(220, 191, 255, 1);
+}
+
+.Home__vision-homepage-describe-title{
+    font-family: 'NanumSquareNeoHeavy';
+    font-weight: 700;
+}
+
+.Home__vision-homepage-describe-detail{
+    font-family: 'NanumSquareNeo';
+    font-weight: 300;
+    text-align: left !important;
+    font-size: 0.7em;
+}
+
+.Home__vision-image-box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color:rgba(246, 224, 246, 0.816);
+}
+
+.Home__vision-image-wrapper{
+    width: 80%;
+}
+
+.Home__vision-image{
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
 
 /*======================================
                  팀원 소개글
