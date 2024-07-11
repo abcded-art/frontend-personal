@@ -1,24 +1,27 @@
 /* eslint-disable */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../../assets/styles/Home.css'
 import { Link } from 'react-router-dom';
 import { RiArrowDownWideFill } from "react-icons/ri";
+import HomeIntro from './HomeIntro';
 
 // Swiper: core version + navigation, pagination modules:
-import { Swiper, SwiperSlide } from 'swiper';
-import { Navigation, Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination, Navigation } from 'swiper/modules'
 
 // import Swiper and modules styles
 import 'swiper/css';
-import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import 'swiper/css/scrollbar';
-
+import 'swiper/css/navigation';
 
 // Import images
-import banner1 from '../../assets/images/banner-01.jpg';
-import banner2 from '../../assets/images/banner-02.jpg';
-import banner3 from '../../assets/images/banner-03.jpg';
+import Home_Pro1 from '../../assets/images/Home_Pro1.png';
+import Home_Pro2 from '../../assets/images/Home_Pro2.png';
+import Home_Pro3 from '../../assets/images/Home_Pro3.png';
+import Home_Pro4 from '../../assets/images/Home_Pro4.png';
+
+import Home_Comp1 from '../../assets/images/Home_Comp1.png';
+import Home_Comp2 from '../../assets/images/banner-01.jpg';
 
 import mainBackground from '../../assets/images/Home2.png';
 import mainBackground_dark from '../../assets/images/Home-dark2.png';
@@ -26,9 +29,27 @@ import quickCatchLogo from '../../assets/images/quickcatch_logo.png';
 import startBarLignt from '../../assets/images/Home-light-start-bar.png';
 import startBarDark from '../../assets/images/Home-dark-start-bar.png';
 
-const banners = [banner1, banner2, banner3];
+const Home_Products = [Home_Pro1, Home_Pro2, Home_Pro3, Home_Pro4];
+const Home_Comparisons = [Home_Comp1, Home_Comp2];
 
 function Home() {
+    const [showIntro, setShowIntro] = useState(false);
+
+    useEffect(() => {
+        const seenIntro = localStorage.getItem('seenIntro');
+        if (!seenIntro) {
+            setShowIntro(true);
+        }
+    }, []);
+
+    const handleIntroClose = () => {
+        setShowIntro(false);
+    };
+
+    const handleNeverShowAgain = () => {
+        localStorage.setItem('seenIntro', 'true');
+        setShowIntro(false);
+    };
 
     useEffect(() => {
         const handleScroll = () => {
@@ -54,20 +75,6 @@ function Home() {
         };
     }, []);
 
-    useEffect(() => {
-        new Swiper('.swiper-container', {
-            modules: [Navigation, Pagination],
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            },
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true,
-            },
-        });
-    }, []);
-
     const scrollToNextSection = () => {
         window.scrollTo({
             top: window.innerHeight,
@@ -77,6 +84,7 @@ function Home() {
 
     return (
         <div className='Home__homeContainer'>
+            {showIntro && <HomeIntro show={showIntro} onClose={handleIntroClose} onNeverShowAgain={handleNeverShowAgain} className='Home__homeIntroLinker' />}
             <div className='Home__background-Image-Wrapper'>
                 <div className='Home__quickcatch-logo-wrapper'>
                     <img src={quickCatchLogo} alt='quickCatch_Logo' className='Home__quickcatch-logo' />
@@ -100,23 +108,32 @@ function Home() {
             </div>
 
 
-            <div className='Home__explainBox-wrapper'>
-
+            <div className='Home__contents'>
+            <h3 className='Home__box-Title Home__introBox-Title Home__appear-slightly'>Quick Catch 활용 방법</h3>
                 <div className='Home__introBox'>
-                    <h3 className='Home__box-Title Home__introBox-Title Home__appear-slightly'>Quick Catch 방문을<br />환영합니다</h3>
+                    
                     <div className='Home__introBox-Describe'>
                         <h4 className='Home__introBox-Describe-Subtitle Home__subtitle-explainBox Home__appear-slightly'>실시간 방송 가격 비교</h4>
                         <div className='Home__introBox-Describe-Detail-image-wrapper Home__appear-slightly'>
-                            <div className='swiper-wrapper'>
-                                {banners.map((banner, index) => (
-                                    <div key={index} className='swiper-slide'>
-                                        <div class='Home__swiper-text-wrap'>
+                            <Swiper
+                                slidesPerView={1}
+                                spaceBetween={30}
+                                loop={true}
+                                pagination={{
+                                    clickable: true,
+                                }}
+                                navigation={true}
+                                modules={[Pagination, Navigation]}
+                                className='Home__swiper'
+                            >
+                                {Home_Products.map((banner, index) => (
+                                    <SwiperSlide key={index}>
+                                        <div className='Home__swiper-text-wrap'>
+                                            <img src={banner} alt={`Banner ${index + 1}`} className='Home__introBox-Describe-Detail-image' />
                                         </div>
-                                        <img src={banner} alt={`Banner ${index + 1}`} className='Home__introBox-Describe-Detail-image' />
-                                    </div>
+                                    </SwiperSlide>
                                 ))}
-                            </div>
-                            {/* <img src={banners[0]} alt='' className='Home__introBox-Describe-Detail-image'/> */}
+                            </Swiper>
                         </div>
                         <p className='Home__introBox-Describe-Detail'>실시간 홈쇼핑 방송과</p>
                         <p className='Home__introBox-Describe-Detail'>인터넷 최저가 비교를 통해</p>
@@ -125,14 +142,26 @@ function Home() {
                     <div className='Home__introBox-Describe'>
                         <br /><br />
                         <h4 className='Home__introBox-Describe-Subtitle Home__subtitle-explainBox Home__appear-slightly'>리뷰 요약과 할인율 비교</h4>
-                        <div className='Home__introBox-Describe-Detail-image-wrapper Home__appear-slightly '>
-                            <div className='swiper-wrapper'>
-                                {banners.map((banner, index) => (
-                                    <div key={index} className='swiper-slide'>
-                                        <img src={banner} alt={`Banner ${index + 1}`} className='Home__introBox-Describe-Detail-image' />
-                                    </div>
+                        <div className='Home__introBox-Describe-Detail-image-wrapper Home__appear-slightly'>
+                            <Swiper
+                                slidesPerView={1}
+                                spaceBetween={50}
+                                loop={true}
+                                pagination={{
+                                    clickable: true,
+                                }}
+                                navigation={true}
+                                modules={[Pagination, Navigation]}
+                                className='Home__swiper'
+                            >
+                                {Home_Comparisons.map((banner, index) => (
+                                    <SwiperSlide key={index}>
+                                        <div className='Home__swiper-text-wrap'>
+                                            <img src={banner} alt={`Banner ${index + 1}`} className='Home__introBox-Describe-Detail-image' />
+                                        </div>
+                                    </SwiperSlide>
                                 ))}
-                            </div>
+                            </Swiper>
                         </div>
                         <p className='Home__introBox-Describe-Detail'>리뷰 요약과 할인율 순위로</p>
                         <p className='Home__introBox-Describe-Detail'>쇼핑의 모든 것을</p>
@@ -141,28 +170,32 @@ function Home() {
                     </div>
                 </div>
 
-                <div className='Home__explain'>
-                    <h3 className='Home__box-Title Home__appear-slightly'>
-                        Quick Catch 톺아보기
-                    </h3>
-
-                </div>
-
                 <div className='Home__vision'>
                     <h3 className='Home__box-Title Home__appear-slightly'>
                         Quick Catch 비전
                     </h3>
-                    <div className='Home__vision-box'>
-                        <div className='Home__vision-row1'>
-                            <div className='Home__vision-homepage-wrapper'>
-                                <h4>Homepage Vision</h4>
-                                <p>가나다라마바사아자차카타파하</p>
+                    <div className='Home__vision-box Home__appear-slightly'>
+                        <div className='Home__vision-explain-box'>
+                            <div className='Home__vision-homepage-describe'>
+                                <h4 className='Home__vision-homepage-describe-title'>원하는 상품을</h4>
+                                <p className='Home__vision-homepage-describe-detail'>사용자가 원하는 제품을 찾거나, 홈쇼핑사의 제품을 찾습니다.</p>
+                            </div>
+                            <div className='Home__vision-homepage-describe'>
+                                <h4 className='Home__vision-homepage-describe-title'>빠르게</h4>
+                                <p className='Home__vision-homepage-describe-detail'>원하는 제품을 찾았을 때, 비교 상품을 빠르게 확인할 수 있습니다.</p>
+                            </div>
+                            <div className='Home__vision-homepage-describe'>
+                                <h4 className='Home__vision-homepage-describe-title'>저렴하게</h4>
+                                <p className='Home__vision-homepage-describe-detail'>비교 상품을 저렴한 가격부터 보여줍니다.</p>
+                            </div>
+                            <div className='Home__vision-homepage-describe'>
+                                <h4 className='Home__vision-homepage-describe-title'>비교</h4>
+                                <p className='Home__vision-homepage-describe-detail'>홈쇼핑 제품과 비교 상품 중 어떤 상품이 더 합리적인 가격인지 비교할 수 있습니다.</p>
                             </div>
                         </div>
-                        <div className='Home__vision-row2'>
-                            <div className='Home__vision-team-wrapper'>
-                                <h4>Team Vision</h4>
-                                <p>가나다라마바사아자차카타파하</p>
+                        <div className='Home__vision-image-box'>
+                            <div className='Home__vision-image-wrapper'>
+                                <img src={Home_Comparisons[1]} alt='' className='Home__vision-image'/>
                             </div>
                         </div>
                     </div>
@@ -173,21 +206,21 @@ function Home() {
                         Quick Catch 팀
                     </h3>
                     <div className='Home__imageBox'>
-                        <img src={banners[0]} alt='test1' className='Home__imageBox-img'></img>
+                        <img src={Home_Comparisons[1]} alt='test1' className='Home__imageBox-img'></img>
                     </div>
                     <div className='Home__explainBox-describe'>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vestibulum sodales odio sed ornare. Vivamus urna turpis, placerat ut sodales at, eleifend vulputate dui. Quisque tristique nunc eleifend erat consectetur volutpat. Nam laoreet consectetur ligula volutpat interdum. Fusce ac semper massa, id aliquam quam. Sed non est vel turpis pretium egestas. Aenean ac enim venenatis urna porta dictum eu at tortor. Vivamus eget nisi at nulla dignissim consequat in finibus velit. Pellentesque vitae neque eget augue fringilla gravida sit amet vitae est.
                     </div>
                 </div>
 
-                <div className='Home__explainBox'>
+                {/* <div className='Home__explainBox'>
                     <div className='Home__imageBox'>
-                        <img src={banners[0]} alt='test1' className='Home__imageBox-img'></img>
+                        <img src={Home_Comparisons[0]} alt='test1' className='Home__imageBox-img'></img>
                     </div>
                     <div className='Home__explainBox-describe'>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vestibulum sodales odio sed ornare. Vivamus urna turpis, placerat ut sodales at, eleifend vulputate dui. Quisque tristique nunc eleifend erat consectetur volutpat. Nam laoreet consectetur ligula volutpat interdum. Fusce ac semper massa, id aliquam quam. Sed non est vel turpis pretium egestas. Aenean ac enim venenatis urna porta dictum eu at tortor. Vivamus eget nisi at nulla dignissim consequat in finibus velit. Pellentesque vitae neque eget augue fringilla gravida sit amet vitae est.
                     </div>
-                </div>
+                </div> */}
             </div>
         </div>
     );

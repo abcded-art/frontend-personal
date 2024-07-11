@@ -5,7 +5,9 @@ import '../../assets/styles/SearchProduct.css';
 import { useLocation } from 'react-router-dom';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
-import config from "../../config.js"
+import { config } from "../../config.js"
+
+const { frontendAddr } = config;
 
 const useQuery = () => new URLSearchParams(useLocation().search);
 
@@ -23,10 +25,9 @@ function SearchProduct() {
             setLoading(true);
 
             try {
-                const { frontendAddr } = config;
                 const response = await axios({
                     method: 'post',
-                    url: `http://192.168.0.16:5005/api/search`,
+                    url: `${frontendAddr}/api/search`,
                     headers: {
                         'Content-Type': 'application/json',
                     },
@@ -81,10 +82,9 @@ function SearchProduct() {
                     <div className='SearchProduct__product-content-box'>
                         <ul className='SearchProduct__product-list'>
                             {data.map((item, index) => {
-                                const { frontendAddr } = config;
                                 const { _source } = item;
                                 const { broadcast_date, price, name, product_id } = _source;
-                                const productUrl = `http://${frontendAddr}:3000/product/${product_id}`;
+                                const productUrl = `${frontendAddr}/product/${product_id}`;
                                 const product_img = _source.image_url;
                                 const broadcastStatus = getDaysSinceBroadcast(broadcast_date);
                                 const isBroadcasted = broadcastStatus.includes('경과');

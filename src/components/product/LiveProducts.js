@@ -9,6 +9,11 @@ import cjonstyleImage from '../../assets/images/Malls/CJOnStyle.png';
 import hyundaiImage from '../../assets/images/Malls/Hyundai.png';
 import gsshopImage from '../../assets/images/Malls/GSShop.png';
 import lotteImage from '../../assets/images/Malls/Lotte.png';
+import positiveImage from '../../assets/images/Positive_AI.png';
+import negativeImage from '../../assets/images/Negative_AI.png';
+import { config } from '../../config.js';
+
+const { backendAddr } = config;
 
 const mallImages = {
     cjonstyle: cjonstyleImage,
@@ -27,9 +32,9 @@ function LiveProduct() {
     const [firstDetailVisible, setFirstDetailVisible] = useState(false);
     const [secondDetailVisible, setSecondDetailVisible] = useState(false);
 
-    // Delete after
-    const backendAddr = process.env.REACT_APP_BACKEND_ADDR;
-    const backendPort = process.env.REACT_APP_BACKEND_PORT;
+    // // Delete after
+    // const backendAddr = process.env.REACT_APP_BACKEND_ADDR;
+    // // const backendPort = process.env.REACT_APP_BACKEND_PORT;
 
     const liveVideoUrls = {
         cjonstyle: "https://live-ch1.cjonstyle.net/cjmalllive/_definst_/stream2/playlist.m3u8",
@@ -41,7 +46,9 @@ function LiveProduct() {
     useEffect(() => {
         const fetchProductDetails = async () => {
             try {
-                const apiUrl = `http://${backendAddr}:${backendPort}/api/live/details?product_id=${id}`;
+                // Use this when you sperate address and port number.
+                const apiUrl = `${backendAddr}/api/live/details?product_id=${id}`;
+                // const apiUrl = `http://${backendAddr}:${backendPort}/api/live/details?product_id=${id}`;
                 const productResponse = await axios.get(apiUrl);
                 console.log("Product Details Response: ", productResponse.data);
                 setProduct(productResponse.data.details);
@@ -55,7 +62,8 @@ function LiveProduct() {
 
         const fetchProductReview = async () => {
             try {
-                const apiUrl = `http://${backendAddr}:${backendPort}/api/review?product_id=${id}`;
+                const apiUrl = `${backendAddr}/api/review?product_id=${id}`;
+                // const apiUrl = `http://${backendAddr}:${backendPort}/api/review?product_id=${id}`;
                 const productReview = await axios.get(apiUrl);
                 console.log("Product Review Response: ", productReview.data);
                 setReview(productReview.data.result.review_details);
@@ -69,7 +77,8 @@ function LiveProduct() {
 
         const fetchSimilarProducts = async () => {
             try {
-                const apiUrl = `http://${backendAddr}:${backendPort}/api/compare/details?product_id=${id}`;
+                const apiUrl = `${backendAddr}/api/compare/details?product_id=${id}`;
+                // const apiUrl = `http://${backendAddr}:${backendPort}/api/compare/details?product_id=${id}`;
                 const similarResponse = await axios.get(apiUrl);
                 console.log("Similar products response: ", similarResponse.data);
                 const sortedProducts = similarResponse.data.result.similar_products.sort((a, b) => a.s_price - b.s_price);
@@ -205,7 +214,7 @@ function LiveProduct() {
                             </div>
                             <div className="reviewSummary">
                                 <div className='summaryFirstColumn'>
-                                    <img src='/positive_AI.png' alt='positive AI' className='positiveAIImg'></img>
+                                    <img src={positiveImage} alt='positive AI' className='positiveAIImg'></img>
                                     <div className='positiveReviewTitle'>긍정평가 요약</div>
                                 </div>
                                 <div className='summarySecondColumn'>
@@ -214,7 +223,7 @@ function LiveProduct() {
                                 </div>
                                 <div className='summaryThirdColumn'>
                                     <div className='negativeReviewTitle'>부정평가 요약</div>
-                                    <img src='/negative_AI.png' alt='negative AI' className='negativeAIImg'></img>
+                                    <img src={negativeImage} alt='negative AI' className='negativeAIImg'></img>
                                 </div>
                             </div>
                         </>

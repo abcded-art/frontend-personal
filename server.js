@@ -1,5 +1,4 @@
-//test 주석 추가
-const config = require('./src/config.js');
+const { processconfig } = require('./src/config.js');
 
 const express = require('express');
 const axios = require('axios');
@@ -8,15 +7,20 @@ const bodyParser = require('body-parser');
 
 const app = express();
 const port = 5005;
+const { elasticsearchAddr } = processconfig;
 
 app.use(cors()); // 모든 출처에서의 요청 허용
 app.use(bodyParser.json());
+
+app.get('/', (req, res) => {
+    res.status(200).send('OK');
+});
 
 app.post('/api/search', async (req, res) => {
     const { query } = req.body;
 
     try {
-        const { elasticsearchAddr } = config;
+        console.log(`Elasticsearch Address: ${elasticsearchAddr}`);
         const response = await axios({
             method: 'post',
             url: `http://${elasticsearchAddr}:9200/quickcatch-broadcast/_search?pretty`,
@@ -43,6 +47,5 @@ app.post('/api/search', async (req, res) => {
 });
 
 app.listen(port, '0.0.0.0', () => {
-    const { frontendAddr } = config;
-    console.log(`Server is running on http://${frontendAddr}:${port}`);
+    console.log(`Server is running on port:${port}`);
 });

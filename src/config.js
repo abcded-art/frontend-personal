@@ -1,23 +1,38 @@
-// const config = {
-//     backendAddr: window.env ? window.env.BACKEND_ADDR : '',
-//     backendPort: window.env ? window.env.BACKEND_PORT : '',
-//     elasticsearchAddr: window.env ? window.env.ELASTICSEARCH_ADDR : '192.168.0.6',
-//     frontendAddr: window.env ? window.env.FRONTEND_ADDR : '192.168.0.16'
-// }
-
-const config = {
+const processconfig = {
     backendAddr: process.env.BACKEND_ADDR || '',
-    backendPort: process.env.BACKEND_PORT || '',
-    // elasticsearchAddr: process.env.ELASTICSEARCH_ADDR || '10.0.6.5',
-    elasticsearchAddr: process.env.ELASTICSEARCH_ADDR || '192.168.0.6',
-    frontendAddr: process.env.FRONTEND_ADDR || '192.168.0.16'
+    elasticsearchAddr: process.env.ELASTICSEARCH_ADDR || '',
+    frontendAddr: process.env.FRONTEND_ADDR || ''
 };
 
-console.log("backend Address: ", config.backendAddr);
-console.log("backend Port: ", config.backendPort);
-console.log("elasticsearch Address: ", config.elasticsearchAddr);
-console.log("frontend Port: ", config.frontendAddr);
+const config = {
+    backendAddr: '',
+    elasticsearchAddr: '',
+    frontendAddr: ''
+};
 
+// 클라이언트 환경에서 window.env 설정
+try {
+    if (typeof window !== 'undefined') {
+        window.env = window.env || {};
+        config.backendAddr = window.env.BACKEND_ADDR || processconfig.backendAddr;
+        config.elasticsearchAddr = window.env.ELASTICSEARCH_ADDR || processconfig.elasticsearchAddr;
+        config.frontendAddr = window.env.FRONTEND_ADDR || processconfig.frontendAddr;
+    } else {
+        throw new Error('window is undefined');
+    }
+} catch (error) {
+    config.backendAddr = 'https://quickcatch.store';
+    config.elasticsearchAddr = 'http://192.168.0.6:9200';
+    config.frontendAddr = 'https://quickcatch.store';
+    console.error('Error reading window.env properties:', error);
+}
 
-//export default config;
-module.exports = config;
+console.log("Config Backend Address: ", config.backendAddr);
+console.log("Config Elasticsearch Address: ", config.elasticsearchAddr);
+console.log("Config Frontend Address: ", config.frontendAddr);
+
+console.log("ProcessConfig Backend Address: ", processconfig.backendAddr);
+console.log("ProcessConfig Elasticsearch Address: ", processconfig.elasticsearchAddr);
+console.log("ProcessConfig Frontend Address: ", processconfig.frontendAddr);
+
+module.exports = { config, processconfig };

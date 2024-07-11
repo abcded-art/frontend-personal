@@ -2,18 +2,18 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    min-height: 100vh;
+    height: auto;
 }
 
 .loadingMessage,
 .emptyMessage{
-    font-size: 3.5em;
+    font-size: 3em;
     font-weight: 600;
     text-align: center;
     line-height: 10vh;
     padding-top: 20vh;
-    width: 100vh;
-    height: 82vh;
+    width: 100%;
+    height: 50%;
 }
 
 .hourGroup {
@@ -53,8 +53,8 @@
     flex-direction: column;
     justify-content: space-between;
     gap: 20px;
-    max-height: calc(100vh-0em);
     overflow-y: auto;
+    
 }
 
 .mallSelection{
@@ -76,8 +76,10 @@
     justify-content: space-between;
     border-radius: 0.75em;
     border-bottom: 1px solid rgba(197,79,216, 0.15);
+    overflow-y: hidden;
     width: 100%;
-    height: auto;
+    min-height: 12em;
+    /* background-color: rgba(59,23,128, 0.2); */
 }
 
 /**================================
@@ -134,8 +136,8 @@
     font-weight: 600;
     background-color: rgba(255,255,255,0.85);
     font-size: 0.85em;
-    width: 12em;
-    height: 8em;
+    width: 14em;
+    height: 7em;
     z-index:-1;
     word-break:break-all;
     padding-top: 0.5em;
@@ -143,7 +145,7 @@
     padding-right: 0.2em;
     transition: opacity 0.5s;
     border-radius: 1em;
-    top: -8.5em;
+    top: -7.3em;
     left: 0.5em;
 }
 

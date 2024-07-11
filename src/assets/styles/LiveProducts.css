@@ -359,13 +359,13 @@
 }
 
 .reviewBar .positive:hover{
-    background-color: rgba(52, 153, 255, 0.5);
+    background-color: rgba(34, 136, 238, 0.5);
 }
 .reviewBar .neutral:hover{
     background-color: rgba(68, 68, 68, 0.5);
 }
 .reviewBar .negative:hover {
-    background-color: rgba(255, 59, 59, 0.5);
+    background-color: rgba(212, 31, 31, 0.5);
 }
 
 .reviewBar .positive .tooltiptext,
@@ -373,6 +373,8 @@
 .reviewBar .negative .tooltiptext {
     visibility: hidden;
     width: 120px;
+    font-weight: 700; 
+    font-size: 1.2em;
     background-color: transparent;
     text-align: center;
     position: relative;

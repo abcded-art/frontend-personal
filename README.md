@@ -1,16 +1,23 @@
 # Docker ENV 이름
 
-###이미지 빌드 시 다음과 같은 환경 변수를 지정해 주세요.
+### 이미지 빌드 시 다음과 같은 환경 변수를 지정해 주세요.
 
-백엔드 주소: BACKEND_ADDR=""
+프론트엔드 주소: FRONTEND_ADDR=[http://][addr]
+(예) FRONT_ADDR="https://123.456.789.123"
+
+백엔드 주소: BACKEND_ADDR=[http://][addr]:[port]
+(예) BACKEND_ADDR="https://123.456.789.123:1234"
+
+엘라스틱 서치 주소: ELASTICSEARCH_ADDR=[http://][addr]
+(예) ELASTIC_ADDR="https://123.456.789.123"
+
+// 삭제 된 것입니다. 디버깅용으로 남겨둡니다.
 
 백엔드 포트: BACKEND_PORT=""
 
-프론트엔드 주소: FRONTEND_ADDR=""
+# Github 및 GitLab 커밋 및 Push 방법
 
-엘라스틱 서치 주소: ELASTICSEARCH_ADDR=""
-
-# Github 커밋 방법
+## Github 커밋
 
 ### 우선 github에서 pull하기
 
@@ -27,6 +34,25 @@ git checkout -b dev
 ### 원격 저장소를 dev로 설정하여 Push하기
 
 git push origin dev
+
+## Gitlab 커밋
+
+
+
+# 이미지 Gitlab push
+
+### 빌드 과정을 거친 이미지에 tag 달기
+
+docker tag hellokyumin/quickcatch:v3.2 registry.qkcgitlab
+.store/quickcatch/frontend/quickcatch:1.0
+
+### Gitlab에 Push하기
+
+docker push registry.qkcgitlab.store/quickcatch/frontend/quickcatch:1.0
+
+### 위 과정을 거치지 않고 한 번에 Push하기
+
+docker buildx build --platform linux/amd64,linux/arm64 -t registry.qkcgitlab.store/quickcatch/frontend/qkc-app-fro:5.0 --push .
 
 # 실행 방법
 
@@ -50,77 +76,11 @@ multi-arch-builder
 
 docker buildx build --platform linux/amd64,linux/arm64 -t hellokyumin/quickcatch:v2.0 --push .
 
+### Docker Run 방법
 
+포트 두 개가 필요합니다. 하나는 80번 포트로 연결시켜주는 포트, 하나는 5005번 포트로 연결시켜주는 포트입니다.
+elastic search는 5005번 포트를 통해 검색을 합니다. 따라서 5005:5005로 연결해주세요.
+다음은 docker run의 예시입니다.
 
-
-
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+ docker run -p 1092:80 -p 5005:5005 --name testcatch -e "BACKEND_ADDR=http://192.168.0.10:8000" -e "FRONTEND_ADDR=http://192.168.0.18" -e "ELASTICSEARCH_
+ADDR=http://192.168.0.6" -itd 077c32d77a6a

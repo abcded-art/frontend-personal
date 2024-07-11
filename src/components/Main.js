@@ -7,6 +7,7 @@ import Calendar from './TVShopping/Calendar.js';
 import MallsMenu from './TVShopping/MallsMenu.js';
 import HotProduct from './TVShopping/HotProduct.js';
 import Home from './home/Home.js';
+import HomeIntro from './home/HomeIntro.js';
 import LiveProduct from './product/LiveProducts.js';
 import SearchProduct from './product/SearchProduct.js';
 import AWSCloudSchoolCooperators from './common/AWSCloudSchoolCooperators.js';

@@ -10,6 +10,9 @@ import cjonstyleImage from '../../assets/images/Malls/CJOnStyle.png';
 import hyundaiImage from '../../assets/images/Malls/Hyundai.png';
 import gsshopImage from '../../assets/images/Malls/GSShop.png';
 import lotteImage from '../../assets/images/Malls/Lotte.png';
+import { config } from '../../config.js';
+
+const {backendAddr} = config;
 
 const mallImages = {
     cjonstyle: cjonstyleImage,
@@ -123,9 +126,10 @@ function TVShopping({ selectedDate, onScrollToCurrentHour, selectedMalls }) {
     const dateStr = selectedDate.toLocaleDateString('en-CA', { timeZone: 'Asia/Seoul' }).split('T')[0];
 
 
-    // Delete After
-    const backendAddr = process.env.REACT_APP_BACKEND_ADDR;
-    const backendPort = process.env.REACT_APP_BACKEND_PORT;
+    // // Delete After
+    // const backendAddr = process.env.REACT_APP_BACKEND_ADDR;
+    // // Use this address when you seperate address and port.
+    // // const backendPort = process.env.REACT_APP_BACKEND_PORT;
 
     const [isDarkMode, setIsDarkMode] = useState(false);
 
@@ -145,7 +149,9 @@ function TVShopping({ selectedDate, onScrollToCurrentHour, selectedMalls }) {
 
         const startTime = performance.now();
         try {
-            const apiUrl = `http://${backendAddr}:${backendPort}/api/live/mainlist?date=${dateStr}&site_name=cjonstyle,hmall,lotteimall,gsshop`;
+            // Use this address when you seperate address and port.
+            // const apiUrl = `http://${backendAddr}:${backendPort}/api/live/mainlist?date=${dateStr}&site_name=cjonstyle,hmall,lotteimall,gsshop`;
+            const apiUrl = `${backendAddr}/api/live/mainlist?date=${dateStr}&site_name=cjonstyle,hmall,lotteimall,gsshop`;
             const response = await axios.get(apiUrl);
 
             const allData = response.data.result.product_list;
@@ -193,16 +199,6 @@ function TVShopping({ selectedDate, onScrollToCurrentHour, selectedMalls }) {
         setIsMallSelection(false);
     }, [selectedDate, dateStr, today]);
 
-    const scrollToCurrentHour = () => {
-        const now = new Date();
-        const currentHour = now.getHours().toString().padStart(2, '0');
-        const currentHourElement = document.getElementById(`hour-${currentHour}`);
-
-        if (currentHourElement) {
-            currentHourElement.scrollIntoView({ behavior: 'smooth' });
-        }
-    };
-
     useEffect(() => {
         if (dateStr === today) {
             let attempts = 0;
@@ -211,7 +207,10 @@ function TVShopping({ selectedDate, onScrollToCurrentHour, selectedMalls }) {
                 if (currentHourElement || attempts >= 20) {
                     clearInterval(interval);
                     if (currentHourElement) {
-                        currentHourElement.scrollIntoView({ behavior: 'smooth' });
+                        window.scrollTo({
+                            top: currentHourElement.offsetTop - (window.innerHeight * 0.08),
+                            behavior: 'smooth'
+                        });
                     }
                 }
                 attempts++;

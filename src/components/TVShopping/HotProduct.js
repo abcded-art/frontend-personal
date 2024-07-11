@@ -2,6 +2,9 @@ import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import '../../assets/styles/HotProduct.css';
 import { Link } from 'react-router-dom';
+import { config } from '../../config.js';
+
+const { backendAddr } = config;
 
 function HotProduct({ selectedDate }) {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -9,16 +12,19 @@ function HotProduct({ selectedDate }) {
 
     const dateStr = selectedDate.toLocaleDateString('en-CA', { timeZone: 'Asia/Seoul' });
 
-    // 환경 변수 설정
-    const backendAddr = process.env.REACT_APP_BACKEND_ADDR;
-    const backendPort = process.env.REACT_APP_BACKEND_PORT;
+    // // 환경 변수 설정
+    // const backendAddr = process.env.REACT_APP_BACKEND_ADDR;
+    // // Use this when you seperate address and port number.
+    // // const backendPort = process.env.REACT_APP_BACKEND_PORT;
 
     const [productImages, setProductImages] = useState([]);
 
     const fetchData = useCallback(async () => {
         const startTime = performance.now();
         try {
-            const apiUrl = `http://${backendAddr}:${backendPort}/api/live/hotdeallist?date=${dateStr}`;
+            // Use this when you seperate address and port number.
+            // const apiUrl = `http://${backendAddr}:${backendPort}/api/live/hotdeallist?date=${dateStr}`;
+            const apiUrl = `${backendAddr}/api/live/hotdeallist?date=${dateStr}`;
             const response = await axios.get(apiUrl);
             setProductImages(response.data.result.product_list.map(product => ({
                 img_url: product.img_url,
@@ -33,7 +39,8 @@ function HotProduct({ selectedDate }) {
             const endTime = performance.now();
             console.log(`핫프로덕트는 ${endTime - startTime}만큼의 시간이 걸렸다.`);
         }
-    }, [dateStr, backendAddr, backendPort]);
+    // }, [dateStr, backendAddr, backendPort]);
+    }, [dateStr, backendAddr]);
 
     const formatDateStringMonthDate = (dateString) => {
         const [year, month, day] = dateString.split('-');

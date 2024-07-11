@@ -14,7 +14,7 @@ RUN npm run build
 FROM nginx:alpine
 RUN apk add --no-cache nodejs npm
 COPY --from=build /app/build /usr/share/nginx/html
-COPY public/env.template.js /usr/share/nginx/html/env.template.js
+COPY public /usr/share/nginx/html/public
 COPY entrypoint.sh /entrypoint.sh
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
