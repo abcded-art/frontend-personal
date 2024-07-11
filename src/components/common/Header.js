@@ -148,7 +148,8 @@ function Header({ showHeader, onWithClick }) {
                         </Form>
                         <Nav>
                             <Link to={`/`} className='linkToHome'>
-                                <ImHome3 />
+                                {/* <ImHome3 /> */}
+                                헤더
                             </Link>
                             <Link to={`/TVShopping`} className='linkToTVShopping'>
                                 <FaShoppingCart />
