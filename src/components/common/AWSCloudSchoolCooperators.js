@@ -26,14 +26,14 @@ function AWSCloudSchoolCooperators({ show, onClose }) {
                     <form className="alert-form">
                         <div className='schoolTeamLogo'>
                             <div className='row'>
-                                <Link to='#spoid' className='column'>
+                                <Link to='https://www.spoid.shop' className='column'>
                                     <div className='schoolTeamLogoImgWrapper'>
                                         <img src='/logos/spoid_logo.png' alt='Spoid Logo' className='schoolTeamLogoImg' />
                                     </div>
                                     <div className='logoDescribe'>컴퓨터 견적의 최저가로 최적의 성능을 뽑아주는 Spoid 입니다. 여러 사이트의 가격 추세를 확인하고 알람을 통해  최저가로 견적 생성을 손쉽게 하세요!</div>
                                 </Link>
                                 
-                                <Link to='#interview_master' className='column'>
+                                <Link to='https://www.interviewmaster.store' className='column'>
                                     <div className='schoolTeamLogoImgWrapper'>
                                         <img src='/logos/interviewmaster_logo.png' alt='Interview Master Logo' className='schoolTeamLogoImg' />
                                     </div>
@@ -42,7 +42,7 @@ function AWSCloudSchoolCooperators({ show, onClose }) {
                             </div>
                             <hr/>
                             <div className='row'>
-                                <Link to='#dapanda' className='column'>
+                                <Link to='https://awscloudschool.online' className='column'>
                                     <div className='schoolTeamLogoImgWrapper'>
                                         <img src='/logos/dapanda_logo.png' alt='Dapanda Logo' className='schoolTeamLogoImg' />
                                     </div>
@@ -57,13 +57,13 @@ function AWSCloudSchoolCooperators({ show, onClose }) {
                             </div>
                             <hr/>
                             <div className='row'>
-                                <Link to='#placeholder' className='column'>
+                                <Link to='https://placeholder-web.shop' className='column'>
                                     <div className='schoolTeamLogoImgWrapper'>
                                         <img src='/logos/placeholder_logo.png' alt='Placeholder Logo' className='schoolTeamLogoImg' />
                                     </div>
                                     <div className='logoDescribe'>약속 코스를 생각하기 힘든 적, 놀러 가고 싶은 지역의 혼잡도가 궁금한 적이 있으셨나요? PlaceHolder는 매주 업데이트되는 인기 가게들로 AI가 혼잡도를 고려한 약속 코스를 만들어 드립니다! 원하는 지역과 테마를 선택해 코스를 자동으로 생성하고 혼잡도를 실시간으로 확인해보세요.</div>
                                 </Link>
-                                <Link to='#recipebook' className='column'>
+                                <Link to='https://mylittle.recipes' className='column'>
                                     <div className='schoolTeamLogoImgWrapper'>
                                         <img src='/logos/mylittlerecipebook_logo.png' alt='My Little Recipe Logo' className='schoolTeamLogoImg' />
                                     </div>
