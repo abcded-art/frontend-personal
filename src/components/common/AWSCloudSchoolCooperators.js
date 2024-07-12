@@ -63,7 +63,7 @@ function AWSCloudSchoolCooperators({ show, onClose }) {
                                     </div>
                                     <div className='logoDescribe'>약속 코스를 생각하기 힘든 적, 놀러 가고 싶은 지역의 혼잡도가 궁금한 적이 있으셨나요? PlaceHolder는 매주 업데이트되는 인기 가게들로 AI가 혼잡도를 고려한 약속 코스를 만들어 드립니다! 원하는 지역과 테마를 선택해 코스를 자동으로 생성하고 혼잡도를 실시간으로 확인해보세요.</div>
                                 </Link>
-                                <Link to='https://mylittle.recipes' className='column'>
+                                <Link to='https://book.mylittle.recipes' className='column'>
                                     <div className='schoolTeamLogoImgWrapper'>
                                         <img src='/logos/mylittlerecipebook_logo.png' alt='My Little Recipe Logo' className='schoolTeamLogoImg' />
                                     </div>

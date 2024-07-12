@@ -84,3 +84,22 @@ elastic search는 5005번 포트를 통해 검색을 합니다. 따라서 5005:5
 
  docker run -p 1092:80 -p 5005:5005 --name testcatch -e "BACKEND_ADDR=http://192.168.0.10:8000" -e "FRONTEND_ADDR=http://192.168.0.18" -e "ELASTICSEARCH_
 ADDR=http://192.168.0.6" -itd 077c32d77a6a
+
+# 환경변수 지정 코드
+
+## 환경변수를 정의하는 component
+
+### /src/config.js
+
+환경변수를 정의하는 컴포넌트입니다. 
+
+## 환경변수를 이용하는 component
+
+### /server.js
+
+lastic search 호출을 위해 사용됩니다. Image화하여 사용하려면 다음과 같이 지정해주세요.
+
+url: `http://${elasticsearchAddr}:9200/quickcatch-broadcast/_search?pretty`
+
+
+
