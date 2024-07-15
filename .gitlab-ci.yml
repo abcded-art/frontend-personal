@@ -24,7 +24,7 @@ build-job:
     - name: docker:19.03.12-dind
       alias: docker
   before_script:
-    - apk update && apk add git bind-tools jq curl
+    - sudo apk update && apk add git bind-tools jq curl
     - docker info
     - echo "$CUSTOM_REGISTRY_PASSWORD" | docker login -u "$CUSTOM_REGISTRY_USER" --password-stdin "$CUSTOM_REGISTRY"
   script:
