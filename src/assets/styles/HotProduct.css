@@ -5,22 +5,20 @@
     right: 1em;
     width: 15%;
     padding: 1em;
-    background: rgba(255, 255, 255, 0.1); 
+    /* background: rgba(255, 255, 255, 0.1);  */
     height: 50%;
     z-index:1;
 }
 
+.HotProduct__todaysHotDeal{
+    font-size: 1.3em;
+    font-weight: 800;
+    padding-bottom: 0.5em;
+}
+
 .HotProduct__todaysHotDealDate{
-    font-size: 1.2em;
-    font-weight: 600;
+    font-weight: 700;
 }
-
-.HotProduct__todaysHotDealProduct{
-    font-size: 1.4em;
-    font-weight: 600;
-    padding-bottom: 1em;
-}
-
 
 .hotProductBox {
     display: block;
@@ -51,18 +49,21 @@
 }
 
 .hotProductSales {
-    font-size: 1.2em;
-    color: red;
+    font-size: 0.95em;
+    font-weight: 700;
+    color:rgba(227, 136, 252, 1);
+    text-align: right;
 }
 
 .hotProductName {
     font-size: 1em;
     font-weight: bold;
+    text-align: left;
 }
 
 .hotProductPrice {
     font-size: 1.2em;
     font-weight: 800;
-    color: #e388fc; 
+    text-align: right;
 }
 

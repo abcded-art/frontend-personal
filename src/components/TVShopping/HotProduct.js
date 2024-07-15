@@ -39,7 +39,7 @@ function HotProduct({ selectedDate }) {
             const endTime = performance.now();
             console.log(`핫프로덕트는 ${endTime - startTime}만큼의 시간이 걸렸다.`);
         }
-    // }, [dateStr, backendAddr, backendPort]);
+        // }, [dateStr, backendAddr, backendPort]);
     }, [dateStr, backendAddr]);
 
     const formatDateStringMonthDate = (dateString) => {
@@ -69,21 +69,15 @@ function HotProduct({ selectedDate }) {
     console.log(productImages);
     return (
         <div className='HotProductOuterContainer'>
-            <div className='HotProduct__todaysHotDealDate'>
-                〈{formatDateStringMonthDate(dateStr)}〉<br/>
-            </div>
-            <div className='HotProduct__todaysHotDealProduct'>
-                특가 상품
-            </div>
+            <div className='HotProduct__todaysHotDealDate'>{formatDateStringMonthDate(dateStr)}</div>
+            <div className='HotProduct__todaysHotDeal'>특가 상품</div>
             {productImages.length > 0 && currentProduct.discount > 0 ? (
                 <Link to={`/product/${currentProduct.link}`} className={`hotProductBox ${isAnimating ? 'swipe' : ''}`}>
                     <div className='hotProductFirstRow'>
                         <div className='hotProductImage'>
                             <img src={currentProduct.img_url} alt={currentProduct.p_name} />
                         </div>
-                        <div className='hotProductSales'>
-                            {currentProduct.discount}% 저렴
-                        </div>
+
                     </div>
                     <div className='hotProductSecondRow'>
                         <div className='hotProductName'>
@@ -93,6 +87,9 @@ function HotProduct({ selectedDate }) {
                     <div className='hotProductThirdRow'>
                         <div className='hotProductPrice'>
                             {currentProduct.p_price ? currentProduct.p_price.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + `원` : `상담문의`}
+                        </div>
+                        <div className='hotProductSales'>
+                            {currentProduct.discount}% 저렴
                         </div>
                     </div>
                 </Link>

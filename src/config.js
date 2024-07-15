@@ -1,7 +1,7 @@
 const processconfig = {
-    backendAddr: process.env.BACKEND_ADDR || '',
-    elasticsearchAddr: process.env.ELASTICSEARCH_ADDR || '',
-    frontendAddr: process.env.FRONTEND_ADDR || ''
+    backendAddr: process.env.BACKEND_ADDR || 'https://quickcatch.store',
+    elasticsearchAddr: process.env.ELASTICSEARCH_ADDR || 'http://localhost:5005',
+    frontendAddr: process.env.FRONTEND_ADDR || 'https://quickcatch.store'
 };
 
 const config = {

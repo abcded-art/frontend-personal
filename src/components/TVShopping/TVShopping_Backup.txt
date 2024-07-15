@@ -12,7 +12,7 @@ import gsshopImage from '../../assets/images/Malls/GSShop.png';
 import lotteImage from '../../assets/images/Malls/Lotte.png';
 import { config } from '../../config.js';
 
-const { backendAddr } = config;
+const {backendAddr} = config;
 
 const mallImages = {
     cjonstyle: cjonstyleImage,
@@ -44,16 +44,14 @@ const ProductItem = React.memo(({ product, isBeforeLive, showAlert, dateStr, tod
     return (
         <div className="product">
             <div className='productImageAlignBox'>
-                <div className='tvShopping__divForAlertAlignBox'>
-                    {/* 과거 버전에서 알림을 알리고자 했던 부분
-                        {isBeforeLive ? (
+                <div className='tvShopping__divForAlertAlignWrapper'>
+                    {isBeforeLive ? (
                         <div className='alert'>
                             <BiBell className='alertBell' onClick={showAlert} />
                         </div>
-                    ) : (
+                    ): (
                         <div></div>
-                    )} */}
-                    <div />
+                    )}
                     <div className='divForAlertAlign'>
                         <div className={`productReviewExplain ${productReviewExplainVisible ? 'visible' : ''}`}>
                             본 상품은 인공지능 리뷰 분석이 된 상품입니다.
@@ -65,64 +63,36 @@ const ProductItem = React.memo(({ product, isBeforeLive, showAlert, dateStr, tod
                     </div>
                 </div>
 
-                <Link to={`/product/${product.p_id}`} className='TVShopping__customLink productImageFix'>
-                    <div className='productImageWrapper'>
-                        <img src={product.img_url} alt={product.p_name} className='productImage' />
+                <div className='productImageFix'>
+                    <Link to={`/product/${product.p_id}`} className='customLink'>
+                        <img src={product.img_url} alt={product.p_name} />
                         {dateStr === today && product.now_live_yn === "Y" && (
                             <div className='liveSign'>Live</div>
                         )}
-                    </div>
-
-                    <div className='TVShopping__product-logo'>
-                        <img
-                            src={mallImages[product.site_name]}
-                            alt={product.site_name}
-                        // className='productMallLogo'
-                        />
-                    </div>
-                </Link>
+                    </Link>
+                </div>
             </div>
             <div className='productInfoBox'>
                 <div className='productFirstRow'>
                     <Link to={`/product/${product.p_id}`} className='customLink productName'>{product.p_name}</Link>
                     <div className='productFirstRow-logo-price'>
-                        {/* 과거 버전에서 로고를 표시했던 부분
                         <div className='logoContainer'>
                             <img
                                 src={mallImages[product.site_name]}
                                 alt={product.site_name}
                                 className='productMallLogo'
                             />
-                        </div> */}
+                        </div>
                         <p className='productPrice'>{product.p_price ? product.p_price.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ` 원` : `상담문의`}</p>
                     </div>
                     <div className='high-low'>
-                        {/* 과거 버전에서 상품의 가격이 높냐 낮냐를 표시했던 부분
-                            {productPrice !== null && similarProductPrice !== null ? (
+                        {productPrice !== null && similarProductPrice !== null ? (
                             productPrice > similarProductPrice ? <FaArrowUp className='arrow arrowUp' /> :
                                 productPrice < similarProductPrice ? <FaArrowDown className='arrow arrowDown' /> : <FaEquals className='arrow arrowEqual' />
-                        ) : ''} 
-                         */}
+                        ) : ''}
                     </div>
                 </div>
                 <div className='productSecondRow'>
-                    {productPrice !== null && similarProductPrice !== null ? (
-                        productPrice > similarProductPrice ? (
-                            <div>본 상품은 최저가보다 <span className='productSecondRow-high'>{
-                                (productPrice - similarProductPrice).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                            } 원</span> 비쌉니다</div>
-                        ) : productPrice < similarProductPrice ? (
-                            <div>본 상품은 최저가보다 <span className='productSecondRow-low'>{
-                                (similarProductPrice - productPrice).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                            } 원</span> 저렴합니다</div>
-                        ) : (
-                            <div>본 상품은 최저가와 가격이 동일합니다</div>
-                        )
-                    ) : ''
-
-                    }
-                </div>
-                <div className='productThirdRow'>
                     {similarProducts.map((similarProduct, idx) => (
                         <div key={idx} className='tvShopping__similarProduct'>
                             {similarProduct ? (
@@ -239,8 +209,7 @@ function TVShopping({ selectedDate, onScrollToCurrentHour, selectedMalls }) {
                     if (currentHourElement) {
                         window.scrollTo({
                             top: currentHourElement.offsetTop - (window.innerHeight * 0.08),
-                            // behavior: 'smooth'
-                            behavior: 'instant'
+                            behavior: 'smooth'
                         });
                     }
                 }
@@ -281,7 +250,7 @@ function TVShopping({ selectedDate, onScrollToCurrentHour, selectedMalls }) {
     }, [liveData, dateStr, today, selectedMalls]);
 
     if (loading) {
-        return <div className='loadingMessage'>{dateStr}<br />데이터 로딩중...</div>;
+        return <div className='loadingMessage'>{dateStr}<br/>데이터 로딩중...</div>;
     }
 
     return (
