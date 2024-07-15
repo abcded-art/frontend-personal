@@ -24,13 +24,11 @@ build-job:
     - name: docker:19.03.12-dind
       alias: docker
   before_script:
-    - sudo apk update && apk add git bind-tools jq curl
+    - apk update && apk add git bind-tools
     - docker info
     - echo "$CUSTOM_REGISTRY_PASSWORD" | docker login -u "$CUSTOM_REGISTRY_USER" --password-stdin "$CUSTOM_REGISTRY"
   script:
-    - IMG_TAG=$(curl -s -u "$CUSTOM_REGISTRY_USER:$CUSTOM_REGISTRY_PASSWORD" "https://$CUSTOM_REGISTRY/v2/quickcatch/frontend/$CUSTOM_IMAGE_NAME/tags/list" | jq -r '.tags | map(tonumber) | max | . + 1')
-    - echo "New image tag will be: $IMG_TAG"
-    - docker build -t "$CUSTOM_IMAGE_NAME:$IMG_TAG" .
+    - docker build -t "$CUSTOM_IMAGE_NAME:$CI_PIPELINE_ID" .
 
 test-job:
   stage: test-image
@@ -39,7 +37,7 @@ test-job:
     - name: docker:19.03.12-dind
       alias: docker
   script:
-    - docker run --rm "$CUSTOM_IMAGE_NAME:$IMG_TAG" sh -c "echo 'Run your tests here'"
+    - docker run --rm "$CUSTOM_IMAGE_NAME:$CI_PIPELINE_ID" sh -c "echo 'Run your tests here'"
 
 push-job:
   stage: push-image
@@ -52,8 +50,8 @@ push-job:
     - docker info
     - echo "$CUSTOM_REGISTRY_PASSWORD" | docker login -u "$CUSTOM_REGISTRY_USER" --password-stdin "$CUSTOM_REGISTRY"
   script:
-    - docker tag "$CUSTOM_IMAGE_NAME:$IMG_TAG" "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$IMG_TAG"
-    - docker push "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$IMG_TAG"
+    - docker tag "$CUSTOM_IMAGE_NAME:$CI_PIPELINE_ID" "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_PIPELINE_ID"
+    - docker push "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_PIPELINE_ID"
 
 save-image-S3-job:
   stage: save-image-S3
@@ -62,9 +60,9 @@ save-image-S3-job:
     - yum install -y aws-cli docker
     - echo "$CUSTOM_REGISTRY_PASSWORD" | docker login -u "$CUSTOM_REGISTRY_USER" --password-stdin "$CUSTOM_REGISTRY"
   script:
-    - docker pull "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$IMG_TAG"
-    - docker save "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$IMG_TAG" -o "$CUSTOM_IMAGE_NAME-$IMG_TAG.tar"
-    - aws s3 cp "$CUSTOM_IMAGE_NAME-$IMG_TAG.tar" "s3://$S3_BUCKET_NAME/$CUSTOM_IMAGE_NAME-$IMG_TAG.tar"
+    - docker pull "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_PIPELINE_ID"
+    - docker save "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_PIPELINE_ID" -o "$CUSTOM_IMAGE_NAME-$CI_PIPELINE_ID.tar"
+    - aws s3 cp "$CUSTOM_IMAGE_NAME-$CI_PIPELINE_ID.tar" "s3://$S3_BUCKET_NAME/$CUSTOM_IMAGE_NAME-$CI_PIPELINE_ID.tar"
 
 update-manifest-job:
   stage: update-manifest
@@ -79,9 +77,9 @@ update-manifest-job:
     - git clone "https://qkcgitlab.store/quickcatch/infra.git"
     - cd infra
     - |
-      sed -i "s|image: $CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:.*|image: $CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$IMG_TAG|g" qkc-nsp-fro/qkc-app-fro.yaml
+      sed -i "s|image: $CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:.*|image: $CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_PIPELINE_ID|g" qkc-nsp-fro/qkc-app-fro.yaml
     - git add qkc-nsp-fro/qkc-app-fro.yaml
-    - git commit -m "Update image tag to $CUSTOM_IMAGE_NAME:$IMG_TAG"
+    - git commit -m "Update image tag to $CUSTOM_IMAGE_NAME:$CI_PIPELINE_ID"
     - git remote set-url origin "https://${GITLAB_USERNAME}:${PRIVATE_ACCESS_TOKEN}@qkcgitlab.store/quickcatch/infra.git"
     - git push origin HEAD:main -f
   rules:
