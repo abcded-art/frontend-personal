@@ -24,11 +24,12 @@ build-job:
     - name: docker:19.03.12-dind
       alias: docker
   before_script:
-    - apk update && apk add git bind-tools jq
+    - apk update && apk add git bind-tools jq curl
     - docker info
     - echo "$CUSTOM_REGISTRY_PASSWORD" | docker login -u "$CUSTOM_REGISTRY_USER" --password-stdin "$CUSTOM_REGISTRY"
   script:
     - IMG_TAG=$(curl -s -u "$CUSTOM_REGISTRY_USER:$CUSTOM_REGISTRY_PASSWORD" "https://$CUSTOM_REGISTRY/v2/quickcatch/frontend/$CUSTOM_IMAGE_NAME/tags/list" | jq -r '.tags | map(tonumber) | max | . + 1')
+    - echo "New image tag will be: $IMG_TAG"
     - docker build -t "$CUSTOM_IMAGE_NAME:$IMG_TAG" .
 
 test-job:
