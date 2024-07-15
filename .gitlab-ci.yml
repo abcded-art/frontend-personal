@@ -1,5 +1,9 @@
 stages:
-  - build
+  - build-image
+  - test-image
+  - push-image
+  - save-image-S3
+  - update-manifest
 
 variables:
   CUSTOM_REGISTRY: "$CUSTOM_REGISTRY"
@@ -8,9 +12,13 @@ variables:
   CUSTOM_IMAGE_NAME: "$CUSTOM_IMAGE_NAME"
   GITLAB_USERNAME: "$GITLAB_USERNAME"
   PRIVATE_ACCESS_TOKEN: "$PRIVATE_ACCESS_TOKEN"
+  AWS_ACCESS_KEY_ID: "$AWS_ACCESS_KEY_ID"
+  AWS_SECRET_ACCESS_KEY: "$AWS_SECRET_ACCESS_KEY"
+  AWS_DEFAULT_REGION: "$AWS_DEFAULT_REGION"
+  S3_BUCKET_NAME: "quickcatch-image"
 
-build-and-push:
-  stage: build
+build-job:
+  stage: build-image
   image: docker:19.03.12
   services:
     - name: docker:19.03.12-dind
@@ -19,6 +27,49 @@ build-and-push:
     - apk update && apk add git bind-tools
     - docker info
     - echo "$CUSTOM_REGISTRY_PASSWORD" | docker login -u "$CUSTOM_REGISTRY_USER" --password-stdin "$CUSTOM_REGISTRY"
+  script:
+    - docker build -t "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID" .
+
+test-job:
+  stage: test-image
+  image: docker:19.03.12
+  services:
+    - name: docker:19.03.12-dind
+      alias: docker
+  script:
+    - docker run --rm "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID" sh -c "echo 'Run your tests here'"
+    # 또는
+    # - docker run --rm "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID" sh -c "npm test"
+
+push-job:
+  stage: push-image
+  image: docker:19.03.12
+  services:
+    - name: docker:19.03.12-dind
+      alias: docker
+  before_script:
+    - apk update && apk add git bind-tools
+    - docker info
+    - echo "$CUSTOM_REGISTRY_PASSWORD" | docker login -u "$CUSTOM_REGISTRY_USER" --password-stdin "$CUSTOM_REGISTRY"
+  script:
+    - docker push "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID"
+
+save-image-S3-job:
+  stage: save-image-S3
+  image: amazonlinux:2
+  before_script:
+    - yum install -y aws-cli docker
+    - echo "$CUSTOM_REGISTRY_PASSWORD" | docker login -u "$CUSTOM_REGISTRY_USER" --password-stdin "$CUSTOM_REGISTRY"
+  script:
+    - docker pull "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID"
+    - docker save "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID" -o "$CUSTOM_IMAGE_NAME-$CI_JOB_ID.tar"
+    - aws s3 cp "$CUSTOM_IMAGE_NAME-$CI_JOB_ID.tar" "s3://$S3_BUCKET_NAME/$CUSTOM_IMAGE_NAME-$CI_JOB_ID.tar"
+
+update-manifest-job:
+  stage: update-manifest
+  image: alpine:latest
+  before_script:
+    - apk update && apk add git
     - git config --global credential.helper store
     - echo "https://${GITLAB_USERNAME}:${PRIVATE_ACCESS_TOKEN}@qkcgitlab.store" > ~/.git-credentials
     - git config --global user.email "gillhwa9@gmail.com"
@@ -26,18 +77,12 @@ build-and-push:
     - git config --global -l
     - cat ~/.git-credentials
   script:
-    - docker build -t "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID" .
-    - docker push "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID"
     - git clone "https://qkcgitlab.store/quickcatch/infra.git"
     - cd infra
     - |
       sed -i "s|image: $CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:.*|image: $CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID|g" qkc-nsp-fro/qkc-app-fro.yaml
     - git add qkc-nsp-fro/qkc-app-fro.yaml
     - git commit -m "Update image tag to $CUSTOM_IMAGE_NAME:$CI_JOB_ID"
-    - echo "Here is for the git credentials checks"
-    - cat ~/.git-credentials
-    - echo "Here is for the docker login checks"
-    - cat ~/.docker/config.json
     - git remote set-url origin "https://${GITLAB_USERNAME}:${PRIVATE_ACCESS_TOKEN}@qkcgitlab.store/quickcatch/infra.git"
     - git push origin HEAD:main -f
   rules:
