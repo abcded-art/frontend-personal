@@ -24,11 +24,11 @@ build-job:
     - name: docker:19.03.12-dind
       alias: docker
   before_script:
-    - apk update && apk add git bind-tools
+    - apk update && apk add git bind-tools jq
     - docker info
     - echo "$CUSTOM_REGISTRY_PASSWORD" | docker login -u "$CUSTOM_REGISTRY_USER" --password-stdin "$CUSTOM_REGISTRY"
-    - IMG_TAG = $CI_JOB_ID
   script:
+    - IMG_TAG=$(curl -s -u "$CUSTOM_REGISTRY_USER:$CUSTOM_REGISTRY_PASSWORD" "https://$CUSTOM_REGISTRY/v2/quickcatch/frontend/$CUSTOM_IMAGE_NAME/tags/list" | jq -r '.tags | map(tonumber) | max | . + 1')
     - docker build -t "$CUSTOM_IMAGE_NAME:$IMG_TAG" .
 
 test-job:
@@ -38,10 +38,7 @@ test-job:
     - name: docker:19.03.12-dind
       alias: docker
   script:
-    - echo "Testing image: $CUSTOM_IMAGE_NAME:$IMG_TAG"
     - docker run --rm "$CUSTOM_IMAGE_NAME:$IMG_TAG" sh -c "echo 'Run your tests here'"
-    # 또는
-    # - docker run --rm "$CUSTOM_IMAGE_NAME:$IMG_TAG" sh -c "npm test"
 
 push-job:
   stage: push-image
@@ -81,9 +78,9 @@ update-manifest-job:
     - git clone "https://qkcgitlab.store/quickcatch/infra.git"
     - cd infra
     - |
-      sed -i "s|image: $CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:.*|image: $CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID|g" qkc-nsp-fro/qkc-app-fro.yaml
+      sed -i "s|image: $CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:.*|image: $CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$IMG_TAG|g" qkc-nsp-fro/qkc-app-fro.yaml
     - git add qkc-nsp-fro/qkc-app-fro.yaml
-    - git commit -m "Update image tag to $CUSTOM_IMAGE_NAME:$CI_JOB_ID"
+    - git commit -m "Update image tag to $CUSTOM_IMAGE_NAME:$IMG_TAG"
     - git remote set-url origin "https://${GITLAB_USERNAME}:${PRIVATE_ACCESS_TOKEN}@qkcgitlab.store/quickcatch/infra.git"
     - git push origin HEAD:main -f
   rules:
