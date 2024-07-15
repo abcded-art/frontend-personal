@@ -28,7 +28,7 @@ build-job:
     - docker info
     - echo "$CUSTOM_REGISTRY_PASSWORD" | docker login -u "$CUSTOM_REGISTRY_USER" --password-stdin "$CUSTOM_REGISTRY"
   script:
-    - docker build -t "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID" .
+    - docker build -t "$CUSTOM_IMAGE_NAME:$CI_JOB_ID" .
 
 test-job:
   stage: test-image
@@ -37,9 +37,10 @@ test-job:
     - name: docker:19.03.12-dind
       alias: docker
   script:
-    - docker run --rm "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID" sh -c "echo 'Run your tests here'"
+    - echo "Testing image: $CUSTOM_IMAGE_NAME:$CI_JOB_ID"
+    - docker run --rm "$CUSTOM_IMAGE_NAME:$CI_JOB_ID" sh -c "echo 'Run your tests here'"
     # 또는
-    # - docker run --rm "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID" sh -c "npm test"
+    # - docker run --rm "$CUSTOM_IMAGE_NAME:$CI_JOB_ID" sh -c "npm test"
 
 push-job:
   stage: push-image
@@ -52,6 +53,7 @@ push-job:
     - docker info
     - echo "$CUSTOM_REGISTRY_PASSWORD" | docker login -u "$CUSTOM_REGISTRY_USER" --password-stdin "$CUSTOM_REGISTRY"
   script:
+    - docker tag "$CUSTOM_IMAGE_NAME:$CI_JOB_ID" "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID"
     - docker push "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID"
 
 save-image-S3-job:
@@ -74,8 +76,6 @@ update-manifest-job:
     - echo "https://${GITLAB_USERNAME}:${PRIVATE_ACCESS_TOKEN}@qkcgitlab.store" > ~/.git-credentials
     - git config --global user.email "gillhwa9@gmail.com"
     - git config --global user.name "gillhwa"
-    - git config --global -l
-    - cat ~/.git-credentials
   script:
     - git clone "https://qkcgitlab.store/quickcatch/infra.git"
     - cd infra
