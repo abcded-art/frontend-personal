@@ -55,7 +55,7 @@ push-job:
 
 save-image-S3-job:
   stage: save-image-S3
-  image: amazonlinux:2
+  image: docker:19.03.12
   before_script:
     - yum install -y aws-cli docker
     - echo "$CUSTOM_REGISTRY_PASSWORD" | docker login -u "$CUSTOM_REGISTRY_USER" --password-stdin "$CUSTOM_REGISTRY"
