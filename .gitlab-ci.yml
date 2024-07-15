@@ -57,7 +57,8 @@ save-image-S3-job:
   stage: save-image-S3
   image: docker:19.03.12
   before_script:
-    - yum install -y aws-cli docker
+    - apk update && apk add --no-cache python3 py3-pip
+    - pip3 install awscli
     - echo "$CUSTOM_REGISTRY_PASSWORD" | docker login -u "$CUSTOM_REGISTRY_USER" --password-stdin "$CUSTOM_REGISTRY"
   script:
     - docker pull "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_PIPELINE_ID"
