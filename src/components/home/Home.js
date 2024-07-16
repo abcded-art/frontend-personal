@@ -118,7 +118,7 @@ function Home() {
                 <div className='Home__more-info-arrow' onClick={scrollToNextSection}>
                     <RiArrowDownWideFill />
                 </div>
-                <img src={mainBackground_dark} alt='Home__main-background' className='Home__main-background-img' />
+                <img src={mainBackground} alt='Home__main-background' className='Home__main-background-img' />
             </div>
 
 
