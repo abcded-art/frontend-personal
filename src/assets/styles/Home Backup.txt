@@ -265,50 +265,13 @@
 .Home__introBox-Describe {
     font-weight: 500;
     font-size: 0.5em;
+    min-height: 100vh;
 }
 
 .Home__introBox-Describe-Subtitle{
-    font-size: 1.4em;
-    font-weight: 700;
-    margin-top: 4vh;
-}
-
-.Home__introBox-Describe-Content {
-    margin-top:2em;
-    position: relative;
-    left: -20vw;
-    width: 100vw;
-    display: flex;
-    align-items: stretch;
-    /* border-top: 1.2px solid rgba(197,79,216, 0.9);
-    border-bottom: 1.2px solid rgba(197,79,216, 0.9); */
-}
-
-.Home__introBox_Describe-ImageWrapper{
-    width: 50vw;
-}
-
-.Home__introBox-Describe-Detail-image{
-    width: 100%;
-    transform: scale(1.0);
-}
-
-.Home__introBox_Describe-ImageWrapper img {
-    width: 100%; /* Ensure image fills the container */
-    height: auto; /* Maintain aspect ratio */
-}
-
-.Home__introBox-Describe-Content ol {
-    width: 50vw;
-    list-style-type: decimal; 
-    padding-left: 2em; 
-    padding-right: 2em; 
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* Distribute list items evenly */
-    align-items: flex-start;
-    gap: 0.3em;
+    font-size: 1.2em;
+    font-weight: 600;
+    margin-top: 2vh;
 }
 
 .Home__subtitle-explainBox{
@@ -325,6 +288,11 @@
     margin-bottom: 5vh;
     position: relative;
     overflow: hidden;
+}
+
+.Home__introBox-Describe-Detail-image{
+    width: 105%;
+    transform: scale(1.05);
 }
 
 .Home__introBox-Describe-Detail{
