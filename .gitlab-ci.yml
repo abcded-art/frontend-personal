@@ -1,5 +1,9 @@
 stages:
-  - build
+  - build-image      #1)도커 이미지 빌드
+  - test-image       #2) 빌드한 이미지 테스트
+  - push-image       #3) gitlab container registry에 저장
+  - save-image-S3    #4) S3에 tar파일로 이미지 저장(백업용)
+  - update-manifest  #5) deployment yaml 파일 수정(이미지 변경)
 
 variables:
   CUSTOM_REGISTRY: "$CUSTOM_REGISTRY"
@@ -8,9 +12,14 @@ variables:
   CUSTOM_IMAGE_NAME: "$CUSTOM_IMAGE_NAME"
   GITLAB_USERNAME: "$GITLAB_USERNAME"
   PRIVATE_ACCESS_TOKEN: "$PRIVATE_ACCESS_TOKEN"
+  AWS_ACCESS_KEY_ID: "$AWS_ACCESS_KEY_ID"
+  AWS_SECRET_ACCESS_KEY: "$AWS_SECRET_ACCESS_KEY"
+  AWS_DEFAULT_REGION: "$AWS_DEFAULT_REGION"
+  S3_BUCKET_NAME: "quickcatch-image"
 
-build-and-push:
-  stage: build
+#1) 도커 이미지 빌드
+build-job:
+  stage: build-image
   image: docker:19.03.12
   services:
     - name: docker:19.03.12-dind
@@ -19,25 +28,68 @@ build-and-push:
     - apk update && apk add git bind-tools
     - docker info
     - echo "$CUSTOM_REGISTRY_PASSWORD" | docker login -u "$CUSTOM_REGISTRY_USER" --password-stdin "$CUSTOM_REGISTRY"
+  script:
+    - docker build -t "$CUSTOM_IMAGE_NAME:$CI_PIPELINE_ID" .
+
+#2) 빌드한 이미지 테스트
+test-job:
+  stage: test-image
+  image: docker:19.03.12
+  services:
+    - name: docker:19.03.12-dind
+      alias: docker
+  script:
+    - docker run --rm "$CUSTOM_IMAGE_NAME:$CI_PIPELINE_ID" sh -c "echo 'Run your tests here'"
+
+#3) gitlab container registry에 저장
+push-job:
+  stage: push-image
+  image: docker:19.03.12
+  services:
+    - name: docker:19.03.12-dind
+      alias: docker
+  before_script:
+    - apk update && apk add git bind-tools
+    - docker info
+    - echo "$CUSTOM_REGISTRY_PASSWORD" | docker login -u "$CUSTOM_REGISTRY_USER" --password-stdin "$CUSTOM_REGISTRY"
+  script:
+    - docker tag "$CUSTOM_IMAGE_NAME:$CI_PIPELINE_ID" "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_PIPELINE_ID"
+    - docker push "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_PIPELINE_ID"
+
+#4) S3에 tar파일로 이미지 저장(백업용)
+save-image-S3-job:
+  stage: save-image-S3
+  image: docker:19.03.12
+  before_script:
+    - apk update && apk add --no-cache python3 py3-pip
+    - pip3 install awscli
+    - echo "$CUSTOM_REGISTRY_PASSWORD" | docker login -u "$CUSTOM_REGISTRY_USER" --password-stdin "$CUSTOM_REGISTRY"
+  script:
+    - docker pull "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_PIPELINE_ID"
+    - docker save "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_PIPELINE_ID" -o "$CUSTOM_IMAGE_NAME-$CI_PIPELINE_ID.tar"
+    - aws configure set aws_access_key_id "$AWS_ACCESS_KEY_ID"
+    - aws configure set aws_secret_access_key "$AWS_SECRET_ACCESS_KEY"
+    - aws configure set default.region "$AWS_DEFAULT_REGION"
+    - aws configure set default.output json
+    - aws s3 cp "$CUSTOM_IMAGE_NAME-$CI_PIPELINE_ID.tar" "s3://$S3_BUCKET_NAME/$CUSTOM_IMAGE_NAME-$CI_PIPELINE_ID.tar"
+
+#5) deployment yaml 파일 수정(이미지 변경)
+update-manifest-job:
+  stage: update-manifest
+  image: alpine:latest
+  before_script:
+    - apk update && apk add git
     - git config --global credential.helper store
     - echo "https://${GITLAB_USERNAME}:${PRIVATE_ACCESS_TOKEN}@qkcgitlab.store" > ~/.git-credentials
     - git config --global user.email "gillhwa9@gmail.com"
     - git config --global user.name "gillhwa"
-    - git config --global -l
-    - cat ~/.git-credentials
   script:
-    - docker build -t "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID" .
-    - docker push "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID"
     - git clone "https://qkcgitlab.store/quickcatch/infra.git"
     - cd infra
     - |
-      sed -i "s|image: $CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:.*|image: $CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_JOB_ID|g" qkc-nsp-fro/qkc-app-fro.yaml
+      sed -i "s|image: $CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:.*|image: $CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_PIPELINE_ID|g" qkc-nsp-fro/qkc-app-fro.yaml
     - git add qkc-nsp-fro/qkc-app-fro.yaml
-    - git commit -m "Update image tag to $CUSTOM_IMAGE_NAME:$CI_JOB_ID"
-    - echo "Here is for the git credentials checks"
-    - cat ~/.git-credentials
-    - echo "Here is for the docker login checks"
-    - cat ~/.docker/config.json
+    - git commit -m "Update image tag to $CUSTOM_IMAGE_NAME:$CI_PIPELINE_ID"
     - git remote set-url origin "https://${GITLAB_USERNAME}:${PRIVATE_ACCESS_TOKEN}@qkcgitlab.store/quickcatch/infra.git"
     - git push origin HEAD:main -f
   rules:
