@@ -2,7 +2,7 @@ stages:
   - build-image      #1)도커 이미지 빌드
   - test-image       #2) 빌드한 이미지 테스트
   - push-image       #3) gitlab container registry에 저장
-  - backup-image-S3    #4) S3에 tar파일로 이미지 백업업
+  - backup-image-S3    #4) S3에 tar파일로 이미지 백업
   - update-manifest  #5) deployment yaml 파일 수정(이미지 변경)
 
 variables:
