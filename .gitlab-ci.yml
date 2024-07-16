@@ -1,9 +1,9 @@
 stages:
-  - build-image
-  - test-image
-  - push-image
-  - save-image-S3
-  - update-manifest
+  - build-image      #1)도커 이미지 빌드
+  - test-image       #2) 빌드한 이미지 테스트
+  - push-image       #3) gitlab container registry에 저장
+  - save-image-S3    #4) S3에 tar파일로 이미지 저장(백업용)
+  - update-manifest  #5) deployment yaml 파일 수정(이미지 변경)
 
 variables:
   CUSTOM_REGISTRY: "$CUSTOM_REGISTRY"
@@ -17,6 +17,7 @@ variables:
   AWS_DEFAULT_REGION: "$AWS_DEFAULT_REGION"
   S3_BUCKET_NAME: "quickcatch-image"
 
+#1) 도커 이미지 빌드
 build-job:
   stage: build-image
   image: docker:19.03.12
@@ -30,6 +31,7 @@ build-job:
   script:
     - docker build -t "$CUSTOM_IMAGE_NAME:$CI_PIPELINE_ID" .
 
+#2) 빌드한 이미지 테스트
 test-job:
   stage: test-image
   image: docker:19.03.12
@@ -39,6 +41,7 @@ test-job:
   script:
     - docker run --rm "$CUSTOM_IMAGE_NAME:$CI_PIPELINE_ID" sh -c "echo 'Run your tests here'"
 
+#3) gitlab container registry에 저장
 push-job:
   stage: push-image
   image: docker:19.03.12
@@ -53,6 +56,7 @@ push-job:
     - docker tag "$CUSTOM_IMAGE_NAME:$CI_PIPELINE_ID" "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_PIPELINE_ID"
     - docker push "$CUSTOM_REGISTRY/quickcatch/frontend/$CUSTOM_IMAGE_NAME:$CI_PIPELINE_ID"
 
+#4) S3에 tar파일로 이미지 저장(백업용)
 save-image-S3-job:
   stage: save-image-S3
   image: docker:19.03.12
@@ -69,6 +73,7 @@ save-image-S3-job:
     - aws configure set default.output json
     - aws s3 cp "$CUSTOM_IMAGE_NAME-$CI_PIPELINE_ID.tar" "s3://$S3_BUCKET_NAME/$CUSTOM_IMAGE_NAME-$CI_PIPELINE_ID.tar"
 
+#5) deployment yaml 파일 수정(이미지 변경)
 update-manifest-job:
   stage: update-manifest
   image: alpine:latest
