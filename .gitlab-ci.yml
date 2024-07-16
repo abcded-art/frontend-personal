@@ -58,7 +58,7 @@ push-job:
 
 #4) S3에 tar파일로 이미지 저장(백업용)
 backup-image-S3-job:
-  stage: save-image-S3
+  stage: backup-image-S3
   image: docker:19.03.12
   before_script:
     - apk update && apk add --no-cache python3 py3-pip
