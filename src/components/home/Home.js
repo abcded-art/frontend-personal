@@ -17,7 +17,7 @@ import 'swiper/css/navigation';
 // Import images
 import Home_TVShopping from '../../assets/images/Home_TVShopping.png';
 import Home_LiveProduct from '../../assets/images/Home_LiveProduct.png';
-import Home_AIReview from '../../assets/images/Home_AIReview.png';
+import Home_AIReview from '../../assets/images/Home_AIReview2.png';
 import Home_SearchProduct from '../../assets/images/Home_SearchProduct.png';
 
 import Home_Pro1 from '../../assets/images/Home_Pro1.png';
@@ -134,11 +134,11 @@ function Home() {
                             <div>
                                 <h4 className='Home__introBox-Describe-Subtitle Home__subtitle-explainBox Home__appear-slightly'>라이브 쇼핑 페이지</h4>
                                 <ol className='Home__appear-slightly'>
-                                    <li>검색창을 통해 원하는 상품을 검색할 수 있습니다.</li>
-                                    <li>오늘 방송 뿐만이 아니라 다른 날짜의 방송도 확인할 수 있습니다.</li>
-                                    <li>방송 상품을 확인할 수 있습니다.<br />현재 라이브 방송 중이면 Live 표시가 보입니다.</li>
-                                    <li>원하는 홈쇼핑사를 선택하여 확인할 수 있습니다.</li>
-                                    <li>선택한 날짜 상품 중 방송 상품과 최저가 상품의 차이가 큰 제품을 확인할 수 있습니다.</li>
+                                    <li>검색창을 통해 원하는 상품 정보를 검색할 수 있습니다.</li>
+                                    <li>오늘 날짜 뿐만 아니라 다른 날짜의 방송 상품 리스트도 확인할 수 있습니다.</li>
+                                    <li>현재 라이브 방송 중이면, 이미지 상단에 'Live'가 표시됩니다.</li>
+                                    <li>원하는 홈쇼핑사를 선택하여 조회할 수 있습니다.</li>
+                                    <li>해당 날짜의 방송 상품 중, 인터넷 최저가보다 저렴한 폭이 큰 상위 상품들을 보여줍니다.</li>
                                 </ol>
                             </div>
                         </div>
@@ -148,8 +148,8 @@ function Home() {
                             <div>
                                 <h4 className='Home__introBox-Describe-Subtitle Home__subtitle-explainBox Home__appear-slightly'>상품 상세 페이지</h4>
                                 <ol className='Home__appear-slightly'>
-                                    <li>방송 상품에 대한 상세 정보와 링크를 확인할 수 있습니다.</li>
-                                    <li>방송 상품과 유사 상품을 저가 순서대로 확인할 수 있습니다.</li>
+                                    <li>해당 상품에 대한 상세 정보 및 구매 링크를 제공합니다.</li>
+                                    <li>해당 상품의 인터넷 가격을 최저가 순으로 보여줍니다.</li>
                                 </ol>
                             </div>
 
@@ -169,9 +169,8 @@ function Home() {
                             <div>
                                 <h4 className='Home__introBox-Describe-Subtitle Home__subtitle-explainBox Home__appear-slightly'>상품 리뷰 페이지</h4>
                                 <ol className='Home__appear-slightly'>
-                                    <li>긍정 비율과 부정 비율을 시각화하여 확인할 수 있습니다.</li>
-                                    <li>Amazon Comprehend와 OpenAI로 요약된 인공지능 긍정 리뷰를 확인할 수 있습니다.</li>
-                                    <li>Amazon Comprehend와 OpenAI로 요약된 인공지능 부정 리뷰를 확인할 수 있습니다.</li>
+                                    <li>AWS Comprehend를 활용하여 기존 리뷰들을 긍정/부정 비율로 수치화하여 분석하고, 시각화한 결과를 보여줍니다.</li>
+                                    <li>OPEN AI를 활용하여 긍정/부정 리뷰로 요약하여 제공합니다.</li>
                                 </ol>
                             </div>
 
@@ -185,8 +184,8 @@ function Home() {
                             <div>
                                 <h4 className='Home__introBox-Describe-Subtitle Home__subtitle-explainBox Home__appear-slightly'>상품 검색 페이지</h4>
                                 <ol className='Home__appear-slightly'>
-                                    <li>검색창에 검색 시 관련 상품 목록을 확인할 수 있습니다.</li>
-                                    <li>검색 결과에는 검색 상품을 확인할 수 있습니다.</li>
+                                    <li>검색창에 단어 입력 시, Elastic search에서 가져온 유사 상품명이 출력됩니다.</li>
+                                    <li>검색 결과에는 Elastic search에서 가져온 유사 상품 정보가 제공됩니다.</li>
                                 </ol>
                             </div>
 
