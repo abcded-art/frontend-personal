@@ -7,6 +7,7 @@
     width: 100%;
     min-height: 550vh;
     background-color: #f1eaff;
+    overflow-x: hidden;
 }
 
 .Home__homeIntroLinker{
@@ -91,12 +92,13 @@
 
 .Home__more-info-arrow{
     position: absolute;
-    top: 92vh;
+    top: 90vh;
+    color: rgba(187, 134, 252, 1);
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 3rem;
+    font-size: 5rem;
     animation: floating 3s infinite;
     cursor: pointer;
     transition: transform 0.3s ease-in-out;

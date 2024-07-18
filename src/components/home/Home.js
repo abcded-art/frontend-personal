@@ -136,16 +136,14 @@ function Home() {
                                 <ol className='Home__appear-slightly'>
                                     <li>검색창을 통해 원하는 상품을 검색할 수 있습니다.</li>
                                     <li>오늘 방송 뿐만이 아니라 다른 날짜의 방송도 확인할 수 있습니다.</li>
-                                    <li>방송 상품을 확인할 수 있습니다<br />현재 라이브 방송 중이면 Live 표시가 보입니다.</li>
+                                    <li>방송 상품을 확인할 수 있습니다.<br />현재 라이브 방송 중이면 Live 표시가 보입니다.</li>
                                     <li>원하는 홈쇼핑사를 선택하여 확인할 수 있습니다.</li>
                                     <li>선택한 날짜 상품 중 방송 상품과 최저가 상품의 차이가 큰 제품을 확인할 수 있습니다.</li>
                                 </ol>
                             </div>
-
                         </div>
                     </div>
                     <div className='Home__introBox-Describe'>
-
                         <div className='Home__introBox-Describe-Content'>
                             <div>
                                 <h4 className='Home__introBox-Describe-Subtitle Home__subtitle-explainBox Home__appear-slightly'>상품 상세 페이지</h4>

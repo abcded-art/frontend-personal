@@ -93,10 +93,10 @@ function Main() {
                         <SearchProduct />
                     </div>
                 } />
-                <Route path="*" element={<>
+                <Route path="*" element={<div className='Main__extra'>
                     <h3>없는 페이지에요 :(</h3>
                     <img src={CryingDocker} alt="docker" />
-                </>} />
+                </div>} />
             </Routes>
             <AWSCloudSchoolCooperators show={showWith} onClose={handleClose} />
         </div>
