@@ -50,8 +50,8 @@
     color: inherit;
     font-weight: 800;
     font-size: 0.6em;
-    border-radius: 1em;
-    transition: 1s;
+    border-radius: 10em;
+    transition: 0.5s;
 }
 
 .Home__link-to-tvShopping:hover{
@@ -60,8 +60,8 @@
 }
 
 .Home__link-to-tvShopping.dark:hover{
-    box-shadow: 0px 0px 9px 9px rgba(197, 79, 216, 1);
-    background: rgba(197, 79, 216, 1);
+    box-shadow: 0px 0px 9px 9px rgba(115, 41, 127, 1);
+    background: rgba(115, 41, 127, 1);
 }
 
 .Home__start-bar{

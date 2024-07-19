@@ -3,6 +3,7 @@ import { useNavigate, Link, useLocation } from 'react-router-dom';
 import '../../assets/styles/Header.css';
 import axios from 'axios';
 import quickCatchLogo from '../../assets/images/QuickCatch_Logo_Simple.png';
+import quickCatchLogoDark from '../../assets/images/QuickCatch_Logo_Simple_Dark.png';
 import { FaSun, FaMoon, FaSearch } from 'react-icons/fa';
 import { config } from '../../config.js';
 
@@ -118,7 +119,7 @@ function Header({ showHeader, onWithClick, isDarkMode, toggleDarkMode }) {
         <header className={`Header ${showHeader ? 'visible' : 'hidden'} ${isDarkMode ? 'dark-mode' : ''}`}>
             <div className="mx-auto flex justify-between items-center relative w-full px-8">
                 <Link to='/TVShopping' className="flex items-center">
-                    <img src={quickCatchLogo} alt="Logo" className="w-13 h-9 mr-1" />
+                    <img src={isDarkMode ? quickCatchLogoDark : quickCatchLogo} alt="Logo" className="w-13 h-9 mr-1" />
                 </Link>
 
                 <div className="flex-grow mx-5 relative">
@@ -161,15 +162,29 @@ function Header({ showHeader, onWithClick, isDarkMode, toggleDarkMode }) {
                         </ul>
                     )}
                 </div>
-
                 <nav className="hidden md:flex space-x-4">
-                    <Link to='/' className="text-gray-600 transition-colors hover:text-gray-800">Home</Link>
-                    <Link to='/TVShopping' className="text-gray-600 transition-colors hover:text-gray-800">Shopping</Link>
-                    <div className="text-gray-600 transition-colors hover:text-gray-800 cursor-pointer" onClick={onWithClick}>with</div>
+                    <Link to='/' className="text-black transition-colors hover:text-gray-800 dark:text-[#F1EAFF] dark:hover:text-gray-200">
+                        Home
+                    </Link>
+                    <Link to='/TVShopping' className="text-black transition-colors hover:text-gray-800 dark:text-[#F1EAFF] dark:hover:text-gray-200">
+                        Shopping
+                    </Link>
+                    <div className="text-black transition-colors hover:text-gray-800 dark:text-[#F1EAFF] dark:hover:text-gray-200 cursor-pointer" onClick={onWithClick}>
+                        with
+                    </div>
                     <button onClick={toggleDarkMode}>
                         {isDarkMode ? <FaMoon className="light-dark-icon" /> : <FaSun className="light-dark-icon" />}
                     </button>
                 </nav>
+                
+                {/* <nav className="hidden md:flex space-x-4">
+                    <Link to='/' className="text-black transition-colors hover:text-gray-800 dark:text-[#F1EAFF] dark:hover:text-gray-200">Home</Link>
+                    <Link to='/TVShopping' className="text-black transition-colors hover:text-gray-800 dark:text-[#F1EAFF] dark:hover:text-gray-200">Shopping</Link>
+                    <div className="text-black transition-colors hover:text-gray-800 dark:text-[#F1EAFF] dark:hover:text-gray-200 cursor-pointer" onClick={onWithClick}>with</div>
+                    <button onClick={toggleDarkMode}>
+                        {isDarkMode ? <FaMoon className="light-dark-icon" /> : <FaSun className="light-dark-icon" />}
+                    </button>
+                </nav> */}
             </div>
         </header>
     );

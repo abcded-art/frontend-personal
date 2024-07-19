@@ -112,7 +112,7 @@ function Main() {
                     <img src={CryingDocker} alt="docker" />
                 </div>} />
             </Routes>
-            <AWSCloudSchoolCooperators show={showWith} onClose={handleClose} />
+            <AWSCloudSchoolCooperators show={showWith} onClose={handleClose} isDarkMode={isDarkMode}/>
         </div>
     );
 }

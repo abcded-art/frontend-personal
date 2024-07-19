@@ -108,7 +108,7 @@ function Home({ isDarkMode }) {
                     <img src={isDarkMode ? quickCatchLogoDark : quickCatchLogo} alt='quickCatch_Logo' className='Home__quickcatch-logo' />
                 </div>
                 <div className='Home__link-to-tvShopping-desc'>
-                    <Link to='/TVShopping' className='Home__link-to-tvShopping'>
+                    <Link to='/TVShopping' className={classNames('Home__link-to-tvShopping', { 'dark': isDarkMode})}>
                         <div className='Home__start-bar'>
                             <img src={isDarkMode ? startBarDark : startBarLignt} alt='start-bar' className='Home__start-bar-img' />
                             <div className='Home__start-bar-text'>
@@ -274,15 +274,15 @@ function Home({ isDarkMode }) {
                         <div className={classNames(`Home__vision-explain-box`, { 'dark': isDarkMode })}>
                             <div className='Home__vision-homepage-describe'>
                                 <h4 className='Home__vision-homepage-describe-title'>원하는 상품을</h4>
-                                <p className='Home__vision-homepage-describe-detail'>사용자가 원하는 상품명과 홈쇼핑사로 상품을 조회할 수 있습니다.</p>
+                                <p className='Home__vision-homepage-describe-detail'>원하는 상품명 및 홈쇼핑사로 상품을 조회 할 수 있습니다.</p>
                             </div>
                             <div className='Home__vision-homepage-describe'>
                                 <h4 className='Home__vision-homepage-describe-title'>빠르게</h4>
-                                <p className='Home__vision-homepage-describe-detail'>원하는 상품의 온라인 가격 비교와 리뷰 요약을 제공하여, 사용자의 검색 시간을 단축시켜 줍니다.</p>
+                                <p className='Home__vision-homepage-describe-detail'>해당 상품의 온라인 가격 비교와 리뷰 요약을 제공하여, 사용자의 검색 시간을 단축시켜 줍니다.</p>
                             </div>
                             <div className='Home__vision-homepage-describe'>
                                 <h4 className='Home__vision-homepage-describe-title'>저렴하게</h4>
-                                <p className='Home__vision-homepage-describe-detail'>날짜별 할인율이 높은 상위 상품들을 보여줍니다.</p>
+                                <p className='Home__vision-homepage-describe-detail'>인터넷 최저가보다 저렴한 상위 상품 정보를 제공합니다.</p>
                             </div>
                             <div className='Home__vision-homepage-describe'>
                                 <h4 className='Home__vision-homepage-describe-title'>비교</h4>

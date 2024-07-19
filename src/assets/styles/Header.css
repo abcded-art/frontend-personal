@@ -58,40 +58,6 @@
   transition: background 1s ease, color 1s ease;
 }
 
-/* Styles for the shopping cart and search icons */
-.linkToHome,
-.linkToTVShopping,
-.linkToSearch,
-.withAWSCloudSchool {
-  font-size: 1.5em;
-  color: inherit;
-  transition: color 1s ease;
-  margin-right: 1em;
-}
-
-.linkToHome,
-.linkToTVShopping:hover,
-.linkToSearch:hover,
-.withAWSCloudSchool:hover {
-  color: #5a5a5a;
-}
-
-/* Dark mode specific styles for the icons */
-.Header.dark-mode .linkToHome,
-.Header.dark-mode .linkToTVShopping,
-.Header.dark-mode .linkToSearch,
-.Header.dark-mode .withAWSCloudSchool {
-  color: #F1EAFF;
-  transition: color 1s ease;
-}
-
-.Header.dark-mode .linkToHome:hover,
-.Header.dark-mode .linkToTVShopping:hover,
-.Header.dark-mode .linkToSearch:hover,
-.Header.dark-mode .withAWSCloudSchool:hover {
-  color: #e388fc;
-}
-
 body {
   transition: background 1s ease, color 1s ease;
 }

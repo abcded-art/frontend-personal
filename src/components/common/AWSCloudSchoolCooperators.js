@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import '../../assets/styles/AWSCloudSchoolCooperators.css';
 import { Link } from 'react-router-dom';
+import classNames from 'classnames';
 
-function AWSCloudSchoolCooperators({ show, onClose }) {
+function AWSCloudSchoolCooperators({ show, onClose, isDarkMode }) {
     const [error, setError] = useState('');
 
     const handleClose = () => {
@@ -21,7 +22,7 @@ function AWSCloudSchoolCooperators({ show, onClose }) {
         unmountOnExit
         >
             <div className="cloudSchoolCooperatorsContainer" onClick={handleClose}>
-                <div className="with-box" onClick={(e) => e.stopPropagation()}>
+                <div className={classNames("with-box", {'dark': isDarkMode})} onClick={(e) => e.stopPropagation()}>
                     <button className="with-close-button" onClick={handleClose}>X</button>
                     <form className="alert-form">
                         <div className='schoolTeamLogo'>
