@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { useEffect } from 'react';
 import '../../assets/styles/HomeIntro.css'
-import video from "../../assets/images/qck-hero-image.mp4";
+import video from "../../assets/images/qck-hero-video.mp4";
 import videoPoster from "../../assets/images/qck-hero-image.gif";
 
 import { CSSTransition } from 'react-transition-group';

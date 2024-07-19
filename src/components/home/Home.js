@@ -4,6 +4,7 @@ import '../../assets/styles/Home.css'
 import { Link } from 'react-router-dom';
 import { RiArrowDownWideFill } from "react-icons/ri";
 import HomeIntro from './HomeIntro';
+import classNames from 'classnames';
 
 // Swiper: core version + navigation, pagination modules:
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -29,15 +30,16 @@ import Home_Comp1 from '../../assets/images/Home_Comp1.png';
 import Home_Comp2 from '../../assets/images/Home_Comp2.png';
 
 import mainBackground from '../../assets/images/Home2.png';
-import mainBackground_dark from '../../assets/images/Home-dark2.png';
+import mainBackground_dark from '../../assets/images/Home-dark1.png';
 import quickCatchLogo from '../../assets/images/quickcatch_logo.png';
+import quickCatchLogoDark from '../../assets/images/quickcatch_logo_Dark.png';
 import startBarLignt from '../../assets/images/Home-light-start-bar.png';
 import startBarDark from '../../assets/images/Home-dark-start-bar.png';
 
 const Home_Products = [Home_Pro1, Home_Pro2, Home_Pro3, Home_Pro4];
 const Home_Comparisons = [Home_Comp1, Home_Comp2];
 
-function Home() {
+function Home({ isDarkMode }) {
     const [showIntro, setShowIntro] = useState(false);
 
     useEffect(() => {
@@ -99,16 +101,16 @@ function Home() {
     };
 
     return (
-        <div className='Home__homeContainer'>
+        <div className={classNames('Home__homeContainer', { 'dark': isDarkMode })}>
             {showIntro && <HomeIntro show={showIntro} onClose={handleIntroClose} onNeverShowAgain={handleNeverShowAgain} className='Home__homeIntroLinker' />}
             <div className='Home__background-Image-Wrapper'>
                 <div className='Home__quickcatch-logo-wrapper'>
-                    <img src={quickCatchLogo} alt='quickCatch_Logo' className='Home__quickcatch-logo' />
+                    <img src={isDarkMode ? quickCatchLogoDark : quickCatchLogo} alt='quickCatch_Logo' className='Home__quickcatch-logo' />
                 </div>
                 <div className='Home__link-to-tvShopping-desc'>
                     <Link to='/TVShopping' className='Home__link-to-tvShopping'>
                         <div className='Home__start-bar'>
-                            <img src={startBarLignt} alt='start-bar' className='Home__start-bar-img' />
+                            <img src={isDarkMode ? startBarDark : startBarLignt} alt='start-bar' className='Home__start-bar-img' />
                             <div className='Home__start-bar-text'>
                                 쇼핑하러 가기
                             </div>
@@ -118,12 +120,12 @@ function Home() {
                 <div className='Home__more-info-arrow' onClick={scrollToNextSection}>
                     <RiArrowDownWideFill />
                 </div>
-                <img src={mainBackground} alt='Home__main-background' className='Home__main-background-img' />
+                <img src={isDarkMode ? mainBackground_dark : mainBackground} alt='Home__main-background' className='Home__main-background-img' />
             </div>
 
 
             <div className='Home__contents'>
-                <h3 className='Home__box-Title Home__introBox-Title Home__appear-slightly'>Quick Catch 활용 방법</h3>
+                <h3 className='Home__box-Title Home__introBox-Title Home__appear-slightly'>QuickCatch 활용 방법</h3>
                 <div className='Home__introBox'>
                     <div className='Home__introBox-Describe'>
 
@@ -132,7 +134,7 @@ function Home() {
                                 <img src={Home_TVShopping} alt='Shopping page usage' className='Home__introBox-Describe-Detail-image Home__appear-slightly' />
                             </div>
                             <div>
-                                <h4 className='Home__introBox-Describe-Subtitle Home__subtitle-explainBox Home__appear-slightly'>라이브 쇼핑 페이지</h4>
+                                <h4 className='Home__introBox-Describe-Subtitle Home__subtitle-explainBox Home__appear-slightly'>메인 페이지</h4>
                                 <ol className='Home__appear-slightly'>
                                     <li>검색창을 통해 원하는 상품 정보를 검색할 수 있습니다.</li>
                                     <li>오늘 날짜 뿐만 아니라 다른 날짜의 방송 상품 리스트도 확인할 수 있습니다.</li>
@@ -169,7 +171,7 @@ function Home() {
                             <div>
                                 <h4 className='Home__introBox-Describe-Subtitle Home__subtitle-explainBox Home__appear-slightly'>상품 리뷰 페이지</h4>
                                 <ol className='Home__appear-slightly'>
-                                    <li>AWS Comprehend를 활용하여 기존 리뷰들을 긍정/부정 비율로 수치화하여 분석하고, 시각화한 결과를 보여줍니다.</li>
+                                    <li>Amazon Comprehend를 활용하여 기존 리뷰들을 긍정/부정 비율로 수치화하여 분석하고, 시각화한 결과를 보여줍니다.</li>
                                     <li>OPEN AI를 활용하여 긍정/부정 리뷰로 요약하여 제공합니다.</li>
                                 </ol>
                             </div>
@@ -184,8 +186,8 @@ function Home() {
                             <div>
                                 <h4 className='Home__introBox-Describe-Subtitle Home__subtitle-explainBox Home__appear-slightly'>상품 검색 페이지</h4>
                                 <ol className='Home__appear-slightly'>
-                                    <li>검색창에 단어 입력 시, Elastic search에서 가져온 유사 상품명이 출력됩니다.</li>
-                                    <li>검색 결과에는 Elastic search에서 가져온 유사 상품 정보가 제공됩니다.</li>
+                                    <li>검색창에 단어 입력 시, Elasticsearch의 형태소 분석을 통한 유사 상품이 출력됩니다.</li>
+                                    <li>검색 결과에는 Elasticsearch에서 가져온 유사 상품 정보가 제공됩니다.</li>
                                 </ol>
                             </div>
 
@@ -269,25 +271,25 @@ function Home() {
                         Quick Catch 비전
                     </h3>
                     <div className='Home__vision-box Home__appear-slightly'>
-                        <div className='Home__vision-explain-box'>
+                        <div className={classNames(`Home__vision-explain-box`, { 'dark': isDarkMode })}>
                             <div className='Home__vision-homepage-describe'>
                                 <h4 className='Home__vision-homepage-describe-title'>원하는 상품을</h4>
-                                <p className='Home__vision-homepage-describe-detail'>사용자가 원하는 제품을 찾거나, 홈쇼핑사의 제품을 찾습니다.</p>
+                                <p className='Home__vision-homepage-describe-detail'>사용자가 원하는 상품명과 홈쇼핑사로 상품을 조회할 수 있습니다.</p>
                             </div>
                             <div className='Home__vision-homepage-describe'>
                                 <h4 className='Home__vision-homepage-describe-title'>빠르게</h4>
-                                <p className='Home__vision-homepage-describe-detail'>원하는 제품을 찾았을 때, 비교 상품을 빠르게 확인할 수 있습니다.</p>
+                                <p className='Home__vision-homepage-describe-detail'>원하는 상품의 온라인 가격 비교와 리뷰 요약을 제공하여, 사용자의 검색 시간을 단축시켜 줍니다.</p>
                             </div>
                             <div className='Home__vision-homepage-describe'>
                                 <h4 className='Home__vision-homepage-describe-title'>저렴하게</h4>
-                                <p className='Home__vision-homepage-describe-detail'>비교 상품을 저렴한 가격부터 보여줍니다.</p>
+                                <p className='Home__vision-homepage-describe-detail'>날짜별 할인율이 높은 상위 상품들을 보여줍니다.</p>
                             </div>
                             <div className='Home__vision-homepage-describe'>
                                 <h4 className='Home__vision-homepage-describe-title'>비교</h4>
-                                <p className='Home__vision-homepage-describe-detail'>홈쇼핑 제품과 비교 상품 중 어떤 상품이 더 합리적인 가격인지 비교할 수 있습니다.</p>
+                                <p className='Home__vision-homepage-describe-detail'>홈쇼핑 상품을 온라인 최저가와 비교하여, 합리적인 선택을 도와줍니다.</p>
                             </div>
                         </div>
-                        <div className='Home__vision-image-box'>
+                        <div className={classNames('Home__vision-image-box', { 'dark': isDarkMode })}>
                             <div className='Home__vision-image-wrapper'>
                                 <img src={Home_Comparisons[1]} alt='' className='Home__vision-image' />
                             </div>
@@ -302,30 +304,29 @@ function Home() {
                     <div className='Home__team-box Home__appear-slightly'>
                         <div className='Home__team-classMate'>
                             <div className='Home__team-classMate-name'>이민호<span className='Home__team-classMate-specific'>(팀장)</span></div>
-                            <ol className='Home__team-classMate-detail'>
+                            <ol className={classNames('Home__team-classMate-detail', { 'dark': isDarkMode })}>
                                 <li>PL(project leader_ 아키텍처 설계)</li>
                                 <li>Architect</li>
                                 <li>EFK Observability</li>
-                                <li>기능 개발</li>
-                                <li>- 검색 </li>
-                                <li>- 리뷰 요약 </li>
-                                <li>- Crawler</li>
+                                <li>Insight 도출</li>
                             </ol>
                         </div>
                         <div className='Home__team-classMate'>
                             <div className='Home__team-classMate-name'>유성우<span className='Home__team-classMate-specific'>(부팀장)</span></div>
-                            <ol className='Home__team-classMate-detail'>
+                            <ol className={classNames('Home__team-classMate-detail', { 'dark': isDarkMode })}>
                                 <li>PE (project engineer_ 실제 구현) </li>
-                                <li>DB </li>
-                                <li>Crawler Cronjob </li>
-                                <li>Frontend-검색 </li>
-                                <li>Cloud Migration </li>
-                                <li>인트로 영상 제작 </li>
+                                <li>DB 총괄</li>
+                                <li>Crawler Cronjob</li>
+                                <li>Frontend-검색</li>
+                                <li>Cloud Migration</li>
+                                <li>DB Backup Strategy</li>
+                                <li>시연영상 편집</li>
                             </ol>
                         </div>
                         <div className='Home__team-classMate'>
                             <div className='Home__team-classMate-name'>이길화</div>
-                            <ol className='Home__team-classMate-detail'>
+                            <ol className={classNames('Home__team-classMate-detail', { 'dark': isDarkMode })}>
+                                <li>PM (project manager_ 아키텍처 설계) </li>
                                 <li>Backend 총괄 </li>
                                 <li>Crawler 전처리 </li>
                                 <li>GitLab 구축</li>
@@ -337,7 +338,7 @@ function Home() {
                         </div>
                         <div className='Home__team-classMate'>
                             <div className='Home__team-classMate-name'>한규민</div>
-                            <ol className='Home__team-classMate-detail'>
+                            <ol className={classNames('Home__team-classMate-detail', { 'dark': isDarkMode })}>
                                 <li>PE (project engineer_ 실제 구현)</li>
                                 <li>Frontend 총괄 </li>
                                 <li>UI / UX </li>

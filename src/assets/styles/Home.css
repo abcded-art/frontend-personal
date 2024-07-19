@@ -10,6 +10,10 @@
     overflow-x: hidden;
 }
 
+.Home__homeContainer.dark{
+    background-color: rgba(41, 14, 46, 1);
+}
+
 .Home__homeIntroLinker{
     transition: 1s;
 }
@@ -21,7 +25,7 @@
 }
 
 .Home__quickcatch-logo-wrapper{
-    top: 38vh;
+    top: 42vh;
     text-align: center;
     width: 100%;
     height: 25vh;
@@ -55,6 +59,11 @@
     background: rgba(220, 191, 255, 1);
 }
 
+.Home__link-to-tvShopping.dark:hover{
+    box-shadow: 0px 0px 9px 9px rgba(197, 79, 216, 1);
+    background: rgba(197, 79, 216, 1);
+}
+
 .Home__start-bar{
     width: 45vh;
     height: 12vh;
@@ -81,7 +90,7 @@
 
 .Home__quickcatch-logo{
     position: relative;
-    height: 100%;
+    height: 70%;
 }
 
 .Home__main-background-img{
@@ -375,6 +384,10 @@
     background-color:rgba(220, 191, 255, 1);
 }
 
+.Home__vision-explain-box.dark{
+    background-color:rgba(76, 27, 83, 1);
+}
+
 .Home__vision-homepage-describe-title{
     font-family: 'NanumSquareNeoHeavy';
     font-weight: 700;
@@ -392,6 +405,10 @@
     justify-content: center;
     align-items: center;
     background-color:rgba(246, 224, 246, 0.816);
+}
+
+.Home__vision-image-box.dark{
+    background-color: rgba(115, 41, 127, 0.816);
 }
 
 .Home__vision-image-wrapper{
@@ -453,6 +470,10 @@
     background-color: rgba(220, 191, 255, 0.5);
     border-radius: 0.7em;
     padding: 0.5em;
+}
+
+.Home__team-classMate-detail.dark{
+    background-color: rgba(76, 27, 83, 0.5);
 }
 
 .Home__team-classMate-detail li {

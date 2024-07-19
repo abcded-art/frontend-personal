@@ -8,11 +8,20 @@ import { config } from '../../config.js';
 
 const { frontendAddr } = config;
 
-function Header({ showHeader, onWithClick }) {
-    const [isDarkMode, setIsDarkMode] = useState(() => {
-        const savedMode = localStorage.getItem('darkMode');
-        return savedMode ? JSON.parse(savedMode) : false;
-    });
+function Header({ showHeader, onWithClick, isDarkMode, toggleDarkMode }) {
+    // const [isDarkMode, setIsDarkMode] = useState(() => {
+    //     const savedMode = localStorage.getItem('darkMode');
+    //     return savedMode ? JSON.parse(savedMode) : false;
+    // });
+
+    // const toggleDarkMode = () => {
+    //     setIsDarkMode((prevMode) => {
+    //         const newMode = !prevMode;
+    //         localStorage.setItem('darkMode', JSON.stringify(newMode));
+    //         return newMode;
+    //     });
+    //     document.body.classList.toggle('dark-mode', !isDarkMode);
+    // };
 
     const [searchQuery, setSearchQuery] = useState('');
     const [suggestions, setSuggestions] = useState(null);
@@ -20,17 +29,7 @@ function Header({ showHeader, onWithClick }) {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const toggleDarkMode = () => {
-        setIsDarkMode((prevMode) => {
-            const newMode = !prevMode;
-            localStorage.setItem('darkMode', JSON.stringify(newMode));
-            return newMode;
-        });
-        document.body.classList.toggle('dark-mode', !isDarkMode);
-    };
-
     const handleSearchSubmit = () => {
-        // if (e) e.preventDefault();
         setSuggestions([]);
         navigate(`/search?q=${searchQuery}`);
     };

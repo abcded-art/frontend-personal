@@ -27,6 +27,20 @@ function Main() {
     const [showHeader, setShowHeader] = useState(false);
     const [showWith, setShowWith] = useState(false);
 
+    const [isDarkMode, setIsDarkMode] = useState(() => {
+        const savedMode = localStorage.getItem('darkMode');
+        return savedMode ? JSON.parse(savedMode) : false;
+    });
+
+    const toggleDarkMode = () => {
+        setIsDarkMode((prevMode) => {
+            const newMode = !prevMode;
+            localStorage.setItem('darkMode', JSON.stringify(newMode));
+            document.body.classList.toggle('dark-mode', newMode);
+            return newMode;
+        });
+    };
+
     const handleMiddleDateChange = (date) => {
         setSelectedDate(date);
     };
@@ -70,11 +84,11 @@ function Main() {
 
     return (
         <div className='mainContainer'>
-            <Header showHeader={showHeader} onWithClick={handleWithClick} className='headerContainer'/>
+            <Header showHeader={showHeader} onWithClick={handleWithClick} isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} className='headerContainer'/>
             <Routes>
                 <Route path="/" element={
                     <div className='mainPage'>
-                        <Home />
+                        <Home isDarkMode={isDarkMode}/>
                     </div>
                 } />
                 <Route path="/TVShopping" element={
