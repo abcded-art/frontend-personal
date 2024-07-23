@@ -97,7 +97,7 @@ function Main() {
                         <Calendar onMiddleDateChange={handleMiddleDateChange} className='calendar'/>
                         <HotProduct selectedDate={selectedDate} />
                         <div className='contentContainer'>
-                            <TVShopping selectedDate={selectedDate} onScrollToCurrentHour={scrollToCurrentHour} selectedMalls={selectedMalls} />
+                            <TVShopping selectedDate={selectedDate} onScrollToCurrentHour={scrollToCurrentHour} selectedMalls={selectedMalls} isDarkMode={isDarkMode}/>
                         </div>
                     </div>
                 } />

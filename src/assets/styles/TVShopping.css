@@ -33,11 +33,11 @@
     font-size: 2em;
     font-weight: 600;
     margin-bottom: 1em;
-    background-color: rgba(197,79,216, 0.15);
+    background-color: rgba(197, 79, 216, 0.15);
 }
 
 .hourLabel.dark-mode {
-    background-color: rgba(197,79,216, 0.85);
+    background-color: rgba(197, 79, 216, 0.55);
 }
 
 .hourContent{
@@ -148,6 +148,10 @@
     border-radius: 1em;
     top: -7.3em;
     left: 0em;
+}
+
+.productReviewExplain.dark{
+    background-color: rgba(55,55,55,0.9);
 }
 
 .productReviewExplain::after {

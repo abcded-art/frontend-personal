@@ -10,20 +10,6 @@ import { config } from '../../config.js';
 const { frontendAddr } = config;
 
 function Header({ showHeader, onWithClick, isDarkMode, toggleDarkMode }) {
-    // const [isDarkMode, setIsDarkMode] = useState(() => {
-    //     const savedMode = localStorage.getItem('darkMode');
-    //     return savedMode ? JSON.parse(savedMode) : false;
-    // });
-
-    // const toggleDarkMode = () => {
-    //     setIsDarkMode((prevMode) => {
-    //         const newMode = !prevMode;
-    //         localStorage.setItem('darkMode', JSON.stringify(newMode));
-    //         return newMode;
-    //     });
-    //     document.body.classList.toggle('dark-mode', !isDarkMode);
-    // };
-
     const [searchQuery, setSearchQuery] = useState('');
     const [suggestions, setSuggestions] = useState(null);
     const [inputFocused, setInputFocused] = useState(false);
@@ -60,13 +46,14 @@ function Header({ showHeader, onWithClick, isDarkMode, toggleDarkMode }) {
 
     const handleClickOutside = (event) => {
         if (!event.target.closest('.Header_input') && !event.target.closest('.suggestions-list')) {
-            setSuggestions([]);
             setInputFocused(false);
-            // setSearchQuery('');
+            setSuggestions([]);
+            
         }
     };
 
     const handleSuggestionClick = (id) => {
+        setInputFocused(true);
         if (id) {
             navigate(`/product/${id}`);
         }
@@ -82,9 +69,9 @@ function Header({ showHeader, onWithClick, isDarkMode, toggleDarkMode }) {
 
     useEffect(() => {
         if (isDarkMode) {
-            document.body.classList.add('dark-mode');
+            document.documentElement.classList.add('dark');
         } else {
-            document.body.classList.remove('dark-mode');
+            document.documentElement.classList.remove('dark');
         }
     }, [isDarkMode]);
 
@@ -93,7 +80,8 @@ function Header({ showHeader, onWithClick, isDarkMode, toggleDarkMode }) {
     }, [location]);
 
     useEffect(() => {
-        if (searchQuery.length >= 1) {
+        if (inputFocused && searchQuery.length >= 1) {
+            fetchSuggestions(searchQuery);
             const timer = setTimeout(() => {
                 fetchSuggestions(searchQuery);
             }, 200);
@@ -101,6 +89,7 @@ function Header({ showHeader, onWithClick, isDarkMode, toggleDarkMode }) {
             return () => {
                 clearTimeout(timer);
             };
+            
         } else if (searchQuery.length === 0 && inputFocused) {
             setSuggestions([{ name: '상품을 검색하세요', id: null }]);
         } else {
@@ -125,11 +114,11 @@ function Header({ showHeader, onWithClick, isDarkMode, toggleDarkMode }) {
                 <div className="flex-grow mx-5 relative">
                     <div className="relative">
                         <FaSearch
-                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer"
+                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer bg-transparent"
                             onClick={() => {
                                 console.log("쿼리문의 결과이다: ",searchQuery);
                                 if (searchQuery.trim() === '') {
-                                    setSuggestions([{ name: '상품을 검색하세요', id: null }]);
+                                    setSuggestions([{ name: '상품을 검색하세요', id: null}]);
                                 } else {
                                     handleSearchSubmit();
                                 }
@@ -138,7 +127,9 @@ function Header({ showHeader, onWithClick, isDarkMode, toggleDarkMode }) {
                         <input
                             type="text"
                             placeholder="Search..."
-                            className="w-full pl-10 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 Header_input"
+                            className="w-full pl-10 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 Header_input  bg-neutral-100/80
+                            border border-gray-300 dark:bg-neutral-900/80 transition duration-300 
+                            "
                             value={searchQuery}
                             onChange={(e) =>{ 
                                 setSearchQuery(e.target.value);
@@ -154,7 +145,11 @@ function Header({ showHeader, onWithClick, isDarkMode, toggleDarkMode }) {
                                 <li
                                     key={index}
                                     onClick={suggestion.id ? () => handleSuggestionClick(suggestion.id) : null}
-                                    className="p-2.5 text-left flex items-center cursor-pointer hover:bg-gray-100"
+                                    className="
+                                    p-2.5 text-left flex items-center cursor-pointer px-4 
+                                    bg-neutral-100/80 hover:bg-neutral-200/95
+                                    dark:bg-neutral-700/80 dark:hover:bg-neutral-900/95
+                                    "
                                 >
                                     {suggestion.name}
                                 </li>
@@ -163,28 +158,25 @@ function Header({ showHeader, onWithClick, isDarkMode, toggleDarkMode }) {
                     )}
                 </div>
                 <nav className="hidden md:flex space-x-4">
-                    <Link to='/' className="text-black transition-colors hover:text-gray-800 dark:text-[#F1EAFF] dark:hover:text-gray-200">
+                    <Link to='/' className="text-black transition-colors hover:text-gray-800
+                    light-dark-mode
+                    ">
                         Home
                     </Link>
-                    <Link to='/TVShopping' className="text-black transition-colors hover:text-gray-800 dark:text-[#F1EAFF] dark:hover:text-gray-200">
+                    <Link to='/TVShopping' className="text-black transition-colors hover:text-gray-800
+                    light-dark-mode
+                    ">
                         Shopping
                     </Link>
-                    <div className="text-black transition-colors hover:text-gray-800 dark:text-[#F1EAFF] dark:hover:text-gray-200 cursor-pointer" onClick={onWithClick}>
+                    <div className="text-black transition-colors hover:text-gray-800 cursor-pointer
+                     light-dark-mode
+                    " onClick={onWithClick}>
                         with
                     </div>
                     <button onClick={toggleDarkMode}>
                         {isDarkMode ? <FaMoon className="light-dark-icon" /> : <FaSun className="light-dark-icon" />}
                     </button>
                 </nav>
-                
-                {/* <nav className="hidden md:flex space-x-4">
-                    <Link to='/' className="text-black transition-colors hover:text-gray-800 dark:text-[#F1EAFF] dark:hover:text-gray-200">Home</Link>
-                    <Link to='/TVShopping' className="text-black transition-colors hover:text-gray-800 dark:text-[#F1EAFF] dark:hover:text-gray-200">Shopping</Link>
-                    <div className="text-black transition-colors hover:text-gray-800 dark:text-[#F1EAFF] dark:hover:text-gray-200 cursor-pointer" onClick={onWithClick}>with</div>
-                    <button onClick={toggleDarkMode}>
-                        {isDarkMode ? <FaMoon className="light-dark-icon" /> : <FaSun className="light-dark-icon" />}
-                    </button>
-                </nav> */}
             </div>
         </header>
     );

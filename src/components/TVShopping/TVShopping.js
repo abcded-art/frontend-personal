@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { BiBell } from "react-icons/bi";
 import { GiTalk } from "react-icons/gi";
 import '../../assets/styles/TVShopping.css';
+import classNames from 'classnames';
 import SetAlert from './SetAlert';
 import { FaArrowUp, FaArrowDown, FaEquals } from 'react-icons/fa';
 import cjonstyleImage from '../../assets/images/Malls/CJOnStyle.png';
@@ -21,7 +22,7 @@ const mallImages = {
     lotteimall: lotteImage,
 };
 
-const ProductItem = React.memo(({ product, isBeforeLive, showAlert, dateStr, today, similarProducts }) => {
+const ProductItem = React.memo(({ product, isBeforeLive, showAlert, dateStr, today, similarProducts, isDarkMode }) => {
     const [productReviewExplainVisible, setProductReviewExplainVisible] = useState(false);
 
     const productPrice = product.p_price ? parseInt(product.p_price.replace(/,/g, ''), 10) : null;
@@ -55,7 +56,7 @@ const ProductItem = React.memo(({ product, isBeforeLive, showAlert, dateStr, tod
                     )} */}
                     <div />
                     <div className='divForAlertAlign'>
-                        <div className={`productReviewExplain ${productReviewExplainVisible ? 'visible' : ''}`}>
+                        <div className={classNames(`productReviewExplain ${productReviewExplainVisible ? 'visible' : ''}`, { 'dark': isDarkMode })}>
                             본 상품은 인공지능 리뷰 분석이 된 상품입니다.
                             상품 상세 페이지에서 자세한 내용을 확인 할 수 있습니다.
                         </div>
@@ -146,7 +147,7 @@ const ProductItem = React.memo(({ product, isBeforeLive, showAlert, dateStr, tod
     );
 });
 
-function TVShopping({ selectedDate, onScrollToCurrentHour, selectedMalls }) {
+function TVShopping({ selectedDate, onScrollToCurrentHour, selectedMalls, isDarkMode }) {
     const [liveData, setLiveData] = useState({});
     const [loading, setLoading] = useState(true);
     const [showAlert, setShowAlert] = useState(false);
@@ -160,13 +161,6 @@ function TVShopping({ selectedDate, onScrollToCurrentHour, selectedMalls }) {
     // const backendAddr = process.env.REACT_APP_BACKEND_ADDR;
     // // Use this address when you seperate address and port.
     // // const backendPort = process.env.REACT_APP_BACKEND_PORT;
-
-    const [isDarkMode, setIsDarkMode] = useState(false);
-
-    const toggleDarkMode = () => {
-        setIsDarkMode(prevMode => !prevMode);
-        document.body.classList.toggle('dark-mode', !isDarkMode);
-    };
 
     const fetchData = useCallback(async () => {
         setLoading(true);
@@ -272,13 +266,14 @@ function TVShopping({ selectedDate, onScrollToCurrentHour, selectedMalls }) {
                                 dateStr={dateStr}
                                 today={today}
                                 similarProducts={similarProducts}
+                                isDarkMode={isDarkMode}
                             />
                         );
                     })}
                 </div>
             </div>
         ));
-    }, [liveData, dateStr, today, selectedMalls]);
+    }, [liveData, dateStr, today, selectedMalls, isDarkMode]);
 
     if (loading) {
         return <div className='loadingMessage'>{dateStr}<br />데이터 로딩중...</div>;
