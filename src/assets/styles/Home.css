@@ -8,6 +8,7 @@
     min-height: 550vh;
     background-color: #f1eaff;
     overflow-x: hidden;
+    overflow-y: hidden;
 }
 
 .Home__homeContainer.dark{
