@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { BiBell } from "react-icons/bi";
+// import { BiBell } from "react-icons/bi"; 알람 기능 사용할 때 키기
 import { GiTalk } from "react-icons/gi";
 import '../../assets/styles/TVShopping.css';
 import classNames from 'classnames';
 import SetAlert from './SetAlert';
-import { FaArrowUp, FaArrowDown, FaEquals } from 'react-icons/fa';
 import cjonstyleImage from '../../assets/images/Malls/CJOnStyle.png';
 import hyundaiImage from '../../assets/images/Malls/Hyundai.png';
 import gsshopImage from '../../assets/images/Malls/GSShop.png';

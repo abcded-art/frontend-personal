@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { useNavigate, Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 
 // Routing 요소 출력을 위해 Components 임포트
 import TVShopping from './TVShopping/TVShopping.js';
@@ -7,7 +7,6 @@ import Calendar from './TVShopping/Calendar.js';
 import MallsMenu from './TVShopping/MallsMenu.js';
 import HotProduct from './TVShopping/HotProduct.js';
 import Home from './home/Home.js';
-import HomeIntro from './home/HomeIntro.js';
 import LiveProduct from './product/LiveProducts.js';
 import SearchProduct from './product/SearchProduct.js';
 import AWSCloudSchoolCooperators from './common/AWSCloudSchoolCooperators.js';
