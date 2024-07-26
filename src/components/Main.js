@@ -10,6 +10,7 @@ import Home from './home/Home.js';
 import LiveProduct from './product/LiveProducts.js';
 import SearchProduct from './product/SearchProduct.js';
 import AWSCloudSchoolCooperators from './common/AWSCloudSchoolCooperators.js';
+import WarningMessage from './common/WarningMessage.js';
 import Header from './common/Header.js';
 
 // 이미지 임포트
@@ -25,6 +26,7 @@ function Main() {
     const [selectedMalls, setSelectedMalls] = useState(["cjonstyle", "gsshop", "hmall", "lotteimall"]);
     const [showHeader, setShowHeader] = useState(false);
     const [showWith, setShowWith] = useState(false);
+    const [showWarning, setShowWarning] = useState(false);
 
     const [isDarkMode, setIsDarkMode] = useState(() => {
         const savedMode = localStorage.getItem('darkMode');
@@ -42,6 +44,18 @@ function Main() {
 
     const handleMiddleDateChange = (date) => {
         setSelectedDate(date);
+        const today = new Date();
+        today.setHours(0,0,0,0);
+        console.log("date: ", date);
+        console.log("today: ", today);
+        if(date < today) {
+            console.log("나는 참이다");
+            setShowWarning(true);
+        }
+        else{
+            setShowWarning(false);
+        }
+        
     };
 
     const scrollToCurrentHour = useCallback(() => {
@@ -80,6 +94,10 @@ function Main() {
     const handleClose = () => {
       setShowWith(false);
     };
+  
+    const handleWarningClose = () => {
+        setShowWarning(false);
+    };
 
     return (
         <div className='mainContainer'>
@@ -112,6 +130,7 @@ function Main() {
                 </div>} />
             </Routes>
             <AWSCloudSchoolCooperators show={showWith} onClose={handleClose} isDarkMode={isDarkMode}/>
+            <WarningMessage show={showWarning} onClose={handleWarningClose} isDarkMode={isDarkMode}/>
         </div>
     );
 }
