@@ -293,6 +293,30 @@
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
+    padding-bottom: 1em;
+}
+
+.warningInfo{
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    padding-bottom: 1em;
+}
+
+.warningInfoIcon{
+    color: rgba(197, 79, 216, 1);
+    font-size: 2em;
+}
+
+.warningInfoDetail{
+    padding-left: 1em;
+    padding-right: 1em;
+    font-size: 1em;
+    font-size: 1.1em;
+    font-weight: 600;
 }
 
 .firstReviewInfo,

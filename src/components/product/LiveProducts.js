@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import { IoInformationCircleOutline } from "react-icons/io5";
+import { IoInformationCircleOutline, IoWarning } from "react-icons/io5";
 import axios from 'axios';
 import '../../assets/styles/LiveProducts.css';
 import LiveVideo from './lives/LiveVideo.js';
@@ -29,6 +29,7 @@ function LiveProduct() {
     const [review, setReview] = useState(null);
     const [displayedProducts, setDisplayedProducts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [warningInfoVisible, setWarningInfoVisible] = useState(false);
     const [firstDetailVisible, setFirstDetailVisible] = useState(false);
     const [secondDetailVisible, setSecondDetailVisible] = useState(false);
 
@@ -96,6 +97,16 @@ function LiveProduct() {
     }, [id]);
 
     useEffect(() => {
+        let warningDetailTimeout;
+        if (warningInfoVisible) {
+            warningDetailTimeout = setTimeout(() => {
+                setWarningInfoVisible(false);
+            }, 3500);
+        }
+        return () => clearTimeout(warningDetailTimeout);
+    }, [warningInfoVisible]);
+    
+    useEffect(() => {
         let firstDetailTimeout;
         if (firstDetailVisible) {
             firstDetailTimeout = setTimeout(() => {
@@ -115,6 +126,9 @@ function LiveProduct() {
         return () => clearTimeout(secondDetailTimeout);
     }, [secondDetailVisible]);
 
+    const toggleWarningDetail = () => {
+        setWarningInfoVisible(!warningInfoVisible);
+    };
     const toggleFirstDetail = () => {
         setFirstDetailVisible(!firstDetailVisible);
     };
@@ -169,6 +183,12 @@ function LiveProduct() {
                 </div>
                 <div className="relatedProducts">
                     <h4 className='priceCompare'>가격 비교</h4>
+                    <div className='warningInfo'>
+                        <IoWarning className='warningInfoIcon'/>  
+                        <div className={`warningInfoDetail`}>
+                            방송이 지난 상품의 가격비교는 제공되지 않을 수 있습니다.
+                        </div>
+                    </div>
                     <div className='productBucket'>
                         {displayedProducts.length > 0 ? (
                             displayedProducts.map((prod, idx) => (
