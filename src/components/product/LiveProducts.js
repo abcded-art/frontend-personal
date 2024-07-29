@@ -228,6 +228,9 @@ function LiveProduct({ isDarkMode }) {
                                 </div>
                                 <IoInformationCircleOutline className='firstReviewInfo' onClick={toggleFirstDetail} />
                             </div>
+                            <div className='LiveProducts__describe_p_n'>
+                                본 상품 리뷰는 <span className='LiveProducts__positive'>{review.average_positive}%</span>의 긍정 비율, <span className='LiveProducts__negative'>{review.average_negative}%</span>의 부정 비율을 보입니다.
+                            </div>
                             <div className="reviewBar">
                                 <div className="positive" style={{ width: `${review.average_positive}%` }}><span className="tooltiptext">{review.average_positive}%</span></div>
                                 <div className="neutral" style={{ width: `${review.average_neutral}%` }}><span className="tooltiptext">{review.average_neutral}%</span></div>

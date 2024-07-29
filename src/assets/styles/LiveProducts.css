@@ -346,6 +346,22 @@
 
 /* 리뷰바 스타일링*/
 
+.LiveProducts__describe_p_n{
+    font-size:1.2em;
+}
+
+.LiveProducts__positive {
+    font-weight: 800;
+    font-size: 1.9em;
+    color: rgba(34, 136, 238, 0.8);
+}
+
+.LiveProducts__negative {
+    font-weight: 800;
+    font-size: 1.9em;
+    color: rgba(212, 31, 31, 0.8);
+}
+
 .reviewBar {
     display: flex;
     width: 80%;
@@ -413,6 +429,7 @@
     visibility: visible;
     color: rgba(30,30,30,0.9);
 }
+
 
 /* 리뷰 요약 스타일링 */
 .reviewSummary{
