@@ -11,7 +11,7 @@ const { frontendAddr } = config;
 
 const useQuery = () => new URLSearchParams(useLocation().search);
 
-function SearchProduct() {
+function SearchProduct({ isDarkMode }) {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -49,6 +49,14 @@ function SearchProduct() {
         fetchSearchProduct();
     }, [searchQuery]);
 
+    useEffect(() => {
+        if (isDarkMode) {
+            document.body.classList.add('dark-mode');
+        } else{
+            document.body.classList.remove('dark-mode');
+        }
+    });
+
     if (loading) {
         return <div>로딩중 입니다.</div>;
     }
@@ -73,7 +81,7 @@ function SearchProduct() {
         return days < 0 ? `${Math.abs(days)}일 뒤 방송 예정` : `${days}일 경과`;
     }
     return (
-        <div className='SearchProduct__searchMain'>
+        <div className={`SearchProduct__searchMain ${isDarkMode ? 'dark-mode' : ''}`}>
             {data && data.length > 0 ? (
                 <div className='SearchProduct__product-box'>
                     <div className='SearchProduct__product-title-wrapper'>

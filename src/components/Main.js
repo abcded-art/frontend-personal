@@ -42,6 +42,14 @@ function Main() {
         });
     };
 
+    useEffect(() => {
+        document.body.classList.toggle('dark-mode', isDarkMode);
+    }, [isDarkMode]);
+
+    useEffect(() => {
+        document.body.classList.toggle('dark-mode', isDarkMode);
+    }, [location.pathname]);
+
     const handleMiddleDateChange = (date) => {
         setSelectedDate(date);
         const today = new Date();
@@ -100,7 +108,7 @@ function Main() {
     };
 
     return (
-        <div className='mainContainer'>
+        <div className={`mainContainer ${isDarkMode ? 'dark-mode' : ''}`}>
             <Header showHeader={showHeader} onWithClick={handleWithClick} isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} className='headerContainer'/>
             <Routes>
                 <Route path="/" element={
@@ -118,10 +126,10 @@ function Main() {
                         </div>
                     </div>
                 } />
-                <Route path="/product/:id" element={<LiveProduct />} />
+                <Route path="/product/:id" element={<LiveProduct isDarkMode={isDarkMode}/>} />
                 <Route path="/search" element={
                     <div className='searchContainer'>
-                        <SearchProduct />
+                        <SearchProduct isDarkMode={isDarkMode}/>
                     </div>
                 } />
                 <Route path="*" element={<div className='Main__extra'>

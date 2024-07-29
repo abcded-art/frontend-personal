@@ -22,7 +22,7 @@ const mallImages = {
     lotteimall: lotteImage,
 };
 
-function LiveProduct() {
+function LiveProduct({ isDarkMode }) {
     const { id } = useParams();
     const [product, setProduct] = useState(null);
     const [similarProducts, setSimilarProducts] = useState([]);
@@ -97,6 +97,14 @@ function LiveProduct() {
     }, [id]);
 
     useEffect(() => {
+        if (isDarkMode) {
+            document.body.classList.add('dark-mode');
+        } else{
+            document.body.classList.remove('dark-mode');
+        }
+    }, [isDarkMode]);
+
+    useEffect(() => {
         let warningDetailTimeout;
         if (warningInfoVisible) {
             warningDetailTimeout = setTimeout(() => {
@@ -156,7 +164,7 @@ function LiveProduct() {
 
     return (
         <>
-            <div className='products'>
+            <div className={`products ${isDarkMode ? 'dark-mode' : ''}`}>
                 <div className="mainLiveProducts">
                     <div className="liveVideoFrame">
                         {product.now_live_yn === "Y" ? (
@@ -192,7 +200,7 @@ function LiveProduct() {
                     <div className='productBucket'>
                         {displayedProducts.length > 0 ? (
                             displayedProducts.map((prod, idx) => (
-                                <Link to={prod.redirect_url} className='similarProduct' key={idx} target='_blank' rel="noopener noreferrer">
+                                <Link to={prod.redirect_url} className='similarProduct' key={idx} target='_self' rel="noopener noreferrer">
                                     <div className='similarProductComponent'>
                                         <img src={prod.image_url} alt={prod.product_name} className="relatedProductImage" />
                                         <div className='relatedProductName'>{prod.seller}</div>
