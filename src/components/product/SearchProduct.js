@@ -99,7 +99,7 @@ function SearchProduct({ isDarkMode }) {
 
                                 return (
                                     <li key={index} className='SearchProduct__product-item'>
-                                        <Link to={productUrl} target="_blank" className='SearchProduct__product-link'>
+                                        <Link to={productUrl} target="_self" className='SearchProduct__product-link'>
                                             <div className='SearchProduct__product-image-wrapper'>
                                                 <img src={product_img} alt={name} className='SearchProduct__product-image' />
                                             </div>

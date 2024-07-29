@@ -200,7 +200,7 @@ function LiveProduct({ isDarkMode }) {
                     <div className='productBucket'>
                         {displayedProducts.length > 0 ? (
                             displayedProducts.map((prod, idx) => (
-                                <Link to={prod.redirect_url} className='similarProduct' key={idx} target='_self' rel="noopener noreferrer">
+                                <Link to={prod.redirect_url} className='similarProduct' key={idx} target='_blank' rel="noopener noreferrer">
                                     <div className='similarProductComponent'>
                                         <img src={prod.image_url} alt={prod.product_name} className="relatedProductImage" />
                                         <div className='relatedProductName'>{prod.seller}</div>
@@ -229,9 +229,9 @@ function LiveProduct({ isDarkMode }) {
                                 <IoInformationCircleOutline className='firstReviewInfo' onClick={toggleFirstDetail} />
                             </div>
                             <div className="reviewBar">
-                                <div className="positive" style={{ width: `${review.average_positive}%` }}><span className="tooltiptext">{review.average_positive}</span></div>
-                                <div className="neutral" style={{ width: `${review.average_neutral}%` }}><span className="tooltiptext">{review.average_neutral}</span></div>
-                                <div className="negative" style={{ width: `${review.average_negative}%` }}><span className="tooltiptext">{review.average_negative}</span></div>
+                                <div className="positive" style={{ width: `${review.average_positive}%` }}><span className="tooltiptext">{review.average_positive}%</span></div>
+                                <div className="neutral" style={{ width: `${review.average_neutral}%` }}><span className="tooltiptext">{review.average_neutral}%</span></div>
+                                <div className="negative" style={{ width: `${review.average_negative}%` }}><span className="tooltiptext">{review.average_negative}%</span></div>
                             </div>
 
                             <div className='reviewInfo'>

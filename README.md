@@ -1,3 +1,9 @@
+# 본 소스 코드의 용도
+
+본 소스 코드는 AWS Cloud School Final Project Team 4 Quick Catch의 프론트엔드 소스 코드입니다.
+
+소스 코드는 팀원들의 포트폴리오 작성 및 개인 AWS 계정에 생성할 목적으로 생성했습니다.
+
 # Docker ENV 이름
 
 ### 이미지 빌드 시 다음과 같은 환경 변수를 지정해 주세요.

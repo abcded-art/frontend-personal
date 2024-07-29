@@ -4,7 +4,7 @@ import '../../assets/styles/Calendar.css';
 function Calendar({ onMiddleDateChange }) {
     const today = new Date();
     today.setDate(today.getDate() - 3);
-    const [currentStartDate, setCurrentStartDate] = useState(new Date(today));
+    const [currentStartDate, setCurrentStartDate] = useState(new Date(2024, 5, 29, 23, 5));
     const [dateElements, setDateElements] = useState([]);
 
     const updateDates = (startDate) => {

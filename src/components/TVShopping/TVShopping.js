@@ -279,7 +279,7 @@ function TVShopping({ selectedDate, onScrollToCurrentHour, selectedMalls, isDark
     }
 
     return (
-        <div className='Main'>
+        <div className={`Main ${isDarkMode ? 'dark-mode' : ''}`}>
             <div className='mallsContainer'>
                 {Object.keys(liveData).length === 0 || selectedMalls.length === 0 ? (
                     <div className='emptyMessage'>상품이 없습니다</div>
