@@ -162,12 +162,24 @@ function LiveProduct({ isDarkMode }) {
     const liveVideoUrl = liveVideoUrls[product.site_name];
     console.log(review);
 
+    const isBroadcastToday = (broadcastDate) => {
+        const today = new Date();
+        const broadcast = new Date(
+            `${broadcastDate.slice(0, 4)}-${broadcastDate.slice(4, 6)}-${broadcastDate.slice(6, 8)}`
+        );
+        return (
+            broadcast.getDate() === today.getDate() &&
+            broadcast.getMonth() === today.getMonth() &&
+            broadcast.getFullYear() === today.getFullYear()
+        );
+    };
+
     return (
         <>
             <div className={`products ${isDarkMode ? 'dark-mode' : ''}`}>
                 <div className="mainLiveProducts">
                     <div className="liveVideoFrame">
-                        {product.now_live_yn === "Y" ? (
+                        {product.now_live_yn === "Y" && isBroadcastToday(product.broadcast_date) ? (
                             <LiveVideo src={liveVideoUrl} className="liveVideo" />
                         ) : (
                             <img src={product.img_url} alt={product.p_name} className="productImage" />

@@ -23,7 +23,7 @@ function Header({ showHeader, onWithClick, isDarkMode, toggleDarkMode }) {
 
     const fetchSuggestions = async (query) => {
         try {
-            const response = await axios.post(`${frontendAddr}/api/search`, { query });
+            const response = await axios.post(`${frontendAddr}:5005/api/search`, { query });
             const fetchedSuggestions = response.data.hits.hits.map(hit => ({
                 name: hit._source.name,
                 id: hit._source.product_id
